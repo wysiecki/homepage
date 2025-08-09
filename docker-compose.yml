@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  homepage:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: wysiecki-homepage
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    networks:
+      - homepage-network
+    # volumes:
+    #   # For development: uncomment to enable live reload of static files
+    #   - ./index.html:/usr/share/nginx/html/index.html:ro
+    #   - ./script.js:/usr/share/nginx/html/script.js:ro
+    #   - ./dist:/usr/share/nginx/html/dist:ro
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    labels:
+      - "com.wysiecki.homepage.description=Martin von Wysiecki's Portfolio Homepage"
+      - "com.wysiecki.homepage.version=1.0.0"
+
+  # Optional: Development container with hot-reload
+  homepage-dev:
+    image: node:18-alpine
+    container_name: wysiecki-homepage-dev
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: npm run dev
+    ports:
+      - "3000:3000"
+    networks:
+      - homepage-network
+    profiles:
+      - dev
+    restart: unless-stopped
+
+networks:
+  homepage-network:
+    driver: bridge
+    name: homepage-network
