@@ -279,20 +279,61 @@ projectFilters.forEach(filter => {
     });
 });
 
-// 3D Card Flip
+// Project Modal
+const projectModal = document.getElementById('project-modal');
+const modalTitle = document.getElementById('modal-title');
+const modalDescription = document.getElementById('modal-description');
+const modalDetails = document.getElementById('modal-details');
+const modalCloseBtn = document.getElementById('modal-close-btn');
+
+function openModal(title, description, details) {
+    modalTitle.textContent = title;
+    modalDescription.textContent = description;
+    modalDetails.innerHTML = '';
+    details.forEach(detail => {
+        const li = document.createElement('li');
+        li.textContent = detail;
+        modalDetails.appendChild(li);
+    });
+    projectModal.classList.remove('hidden');
+    projectModal.classList.add('flex');
+}
+
+function closeModal() {
+    projectModal.classList.add('hidden');
+    projectModal.classList.remove('flex');
+}
+
+modalCloseBtn.addEventListener('click', closeModal);
+projectModal.addEventListener('click', (e) => {
+    if (e.target === projectModal) {
+        closeModal();
+    }
+});
+
+// 3D Card Flip & Modal Trigger
 projectCards.forEach(card => {
     const inner = card.querySelector('.card-inner');
+    const viewProjectBtn = card.querySelector('.btn-primary');
     let isFlipped = false;
-    
+
     card.addEventListener('click', (e) => {
         if (!e.target.closest('button')) {
             isFlipped = !isFlipped;
-            if (isFlipped) {
-                inner.style.transform = 'rotateY(180deg)';
-            } else {
-                inner.style.transform = 'rotateY(0deg)';
-            }
+            inner.style.transform = isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
         }
+    });
+
+    viewProjectBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent card flip
+        const cardFront = card.querySelector('.card-front');
+        const cardBack = card.querySelector('.card-back');
+
+        const title = cardFront.querySelector('h3').textContent;
+        const description = cardFront.querySelector('p').textContent;
+        const details = Array.from(cardBack.querySelectorAll('li')).map(li => li.textContent);
+
+        openModal(title, description, details);
     });
 });
 
@@ -347,3 +388,43 @@ window.addEventListener('scroll', () => {
         // Scroll-based animations here
     });
 }, { passive: true });
+
+// Particle.js Background
+async function loadParticles(theme) {
+    const color = theme === 'dark' ? '#ffffff' : '#000000';
+
+    await tsParticles.load("particles-js", {
+        preset: "stars",
+        background: {
+            color: {
+                value: 'transparent'
+            }
+        },
+        particles: {
+            color: {
+                value: color
+            },
+            links: {
+                color: {
+                    value: color
+                }
+            }
+        }
+    });
+}
+
+// Load particles on initial load
+const currentTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+loadParticles(currentTheme);
+
+// Reload particles on theme change
+const themeObserver = new MutationObserver((mutations) => {
+    mutations.forEach(mutation => {
+        if (mutation.attributeName === 'class') {
+            const newTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+            loadParticles(newTheme);
+        }
+    });
+});
+
+themeObserver.observe(document.documentElement, { attributes: true });
