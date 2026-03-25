@@ -194,15 +194,16 @@
 
   /* ── Form inputs ── */
   .form-input {
-    @apply w-full px-0 py-3 bg-transparent border-0 border-b
+    @apply w-full px-4 py-3 rounded-cyber
            text-on-surface font-body placeholder-on-surface/30
-           focus:outline-none transition-colors duration-200;
-    border-color: rgba(72, 69, 83, 0.15);
+           focus:outline-none transition-all duration-200;
+    background: rgba(19, 19, 19, 0.5);
+    border: 1px solid rgba(72, 69, 83, 0.3);
   }
 
   .form-input:focus {
-    @apply border-primary;
-    box-shadow: 0 1px 0 0 #cabeff;
+    border-color: rgba(202, 190, 255, 0.5);
+    box-shadow: 0 0 0 3px rgba(105, 81, 208, 0.15);
   }
 
   /* ── Stat number ── */

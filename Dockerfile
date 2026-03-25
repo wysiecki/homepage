@@ -37,6 +37,7 @@ COPY 404.html /usr/share/nginx/html/
 COPY datenschutz.html /usr/share/nginx/html/
 COPY script.js /usr/share/nginx/html/
 COPY shared.js /usr/share/nginx/html/
+COPY logo.png /usr/share/nginx/html/
 
 # Copy built CSS from builder stage
 COPY --from=builder /app/dist/output.css /usr/share/nginx/html/dist/
