@@ -4,16 +4,11 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: wysiecki-homepage
-    ports:
-      - "8080:80"
+    expose:
+      - "80"
     restart: unless-stopped
     depends_on:
       - api
-    # volumes:
-    #   # For development: uncomment to enable live reload of static files
-    #   - ./index.html:/usr/share/nginx/html/index.html:ro
-    #   - ./script.js:/usr/share/nginx/html/script.js:ro
-    #   - ./dist:/usr/share/nginx/html/dist:ro
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80/"]
       interval: 30s
@@ -21,8 +16,12 @@ services:
       retries: 3
       start_period: 10s
     labels:
-      - "com.wysiecki.homepage.description=Martin von Wysiecki's Portfolio Homepage"
-      - "com.wysiecki.homepage.version=1.0.0"
+      - "traefik.enable=true"
+      - "traefik.http.routers.homepage.tls=true"
+      - "traefik.http.routers.homepage.entrypoints=websecure"
+      - "traefik.http.routers.homepage.tls.certresolver=cloudflare"
+      - "traefik.http.routers.homepage.rule=Host(`wysiecki.de`) || Host(`www.wysiecki.de`)"
+      - "traefik.http.services.homepage.loadbalancer.server.port=80"
 
   api:
     build:
@@ -47,15 +46,7 @@ services:
       retries: 3
       start_period: 10s
 
-  # Optional: Development container with hot-reload
-  homepage-dev:
-    image: node:22-alpine
-    container_name: wysiecki-homepage-dev
-    working_dir: /app
-    volumes:
-      - .:/app
-    command: npm run dev
-    ports:
-      - "3001:3000"
-    profiles:
-      - dev
+networks:
+  default:
+    external: true
+    name: mvw-net
