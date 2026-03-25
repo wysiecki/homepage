@@ -1,5 +1,5 @@
 # Build stage for Tailwind CSS
-FROM node:18-alpine AS builder
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
@@ -9,15 +9,20 @@ COPY package*.json ./
 # Install dependencies
 RUN npm ci
 
-# Copy source files
+# Copy source files and content for Tailwind to scan
 COPY tailwind.config.js ./
 COPY src ./src
+COPY index.html ./
+COPY impressum.html ./
+COPY 404.html ./
+COPY datenschutz.html ./
+COPY script.js ./
 
 # Build CSS
-RUN mkdir -p dist && npx tailwindcss -i ./src/input.css -o ./dist/output.css --minify
+RUN npm run build
 
 # Production stage with Nginx
-FROM nginx:alpine
+FROM nginx:1.27-alpine
 
 # Remove default nginx config
 RUN rm -rf /etc/nginx/conf.d/*
@@ -27,7 +32,11 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy static files
 COPY index.html /usr/share/nginx/html/
+COPY impressum.html /usr/share/nginx/html/
+COPY 404.html /usr/share/nginx/html/
+COPY datenschutz.html /usr/share/nginx/html/
 COPY script.js /usr/share/nginx/html/
+COPY shared.js /usr/share/nginx/html/
 
 # Copy built CSS from builder stage
 COPY --from=builder /app/dist/output.css /usr/share/nginx/html/dist/

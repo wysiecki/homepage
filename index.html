@@ -1,450 +1,616 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Martin von Wysiecki - Full Stack Developer</title>
-    <link href="./dist/output.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-</head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-['Inter'] overflow-x-hidden">
-    
-    
+<!doctype html>
+<html lang="en" class="scroll-smooth dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Martin von Wysiecki — Full-Stack Developer &amp; Tech Solutions</title>
+    <meta
+      name="description"
+      content="Martin von Wysiecki — Full-Stack Developer &amp; Tech Solutions. Building scalable web applications, mobile apps, and database solutions for startups and enterprises worldwide."
+    />
+    <link href="./dist/output.css?v=4" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <noscript
+      ><style>
+        .reveal {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style></noscript
+    >
+  </head>
+  <body class="grain">
     <!-- Navigation -->
     <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex justify-between items-center">
-                <a href="#" class="text-2xl font-bold gradient-text">MW</a>
-                
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#home" class="nav-link hover:text-blue-500 transition-colors">Home</a>
-                    <a href="#about" class="nav-link hover:text-blue-500 transition-colors">About</a>
-                    <a href="#skills" class="nav-link hover:text-blue-500 transition-colors">Skills</a>
-                    <a href="#projects" class="nav-link hover:text-blue-500 transition-colors">Projects</a>
-                    <a href="#contact" class="nav-link hover:text-blue-500 transition-colors">Contact</a>
-                    <button id="theme-toggle" class="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                        <svg class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path>
-                        </svg>
-                        <svg class="w-5 h-5 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-                        </svg>
-                    </button>
-                </div>
-                
-                <button id="mobile-menu-btn" class="md:hidden p-2">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </nav>
-    
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 z-40 bg-white dark:bg-gray-900 transform translate-x-full transition-transform duration-300 md:hidden">
-        <div class="flex flex-col items-center justify-center h-full space-y-8">
-            <a href="#home" class="text-2xl hover:text-blue-500 transition-colors mobile-menu-link">Home</a>
-            <a href="#about" class="text-2xl hover:text-blue-500 transition-colors mobile-menu-link">About</a>
-            <a href="#skills" class="text-2xl hover:text-blue-500 transition-colors mobile-menu-link">Skills</a>
-            <a href="#projects" class="text-2xl hover:text-blue-500 transition-colors mobile-menu-link">Projects</a>
-            <a href="#contact" class="text-2xl hover:text-blue-500 transition-colors mobile-menu-link">Contact</a>
-        </div>
-    </div>
-    
-    <!-- Hero Section -->
-    <section id="home" class="min-h-screen flex items-center justify-center relative z-10">
-        <div class="container mx-auto px-6 text-center">
-            <div class="space-y-6">
-                <h1 class="text-5xl md:text-7xl font-bold animate-fade-in-down">
-                    Hi, I'm <span class="gradient-text">Martin von Wysiecki</span>
-                </h1>
-                <div class="text-2xl md:text-3xl text-gray-600 dark:text-gray-400">
-                    <span id="typewriter-text"></span>
-                    <span class="animate-blink">|</span>
-                </div>
-                <p class="text-lg md:text-xl max-w-2xl mx-auto text-gray-600 dark:text-gray-400 animate-fade-in-up animation-delay-600">
-                    Passionate Full Stack Developer with 10+ years of experience building innovative digital solutions
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-600">
-                    <a href="#projects" class="btn-primary">View My Work</a>
-                    <a href="#contact" class="px-6 py-3 border-2 border-blue-500 text-blue-500 rounded-lg font-semibold hover:bg-blue-500 hover:text-white transition-all duration-300">Get In Touch</a>
-                </div>
-            </div>
-            
-            <!-- Floating Tech Icons -->
-            <div class="absolute inset-0 pointer-events-none">
-                <div class="tech-icon absolute top-20 left-10 animate-float">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="w-12 h-12 opacity-20">
-                </div>
-                <div class="tech-icon absolute top-40 right-20 animate-float animation-delay-200">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" class="w-12 h-12 opacity-20">
-                </div>
-                <div class="tech-icon absolute bottom-20 left-20 animate-float animation-delay-400">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" class="w-12 h-12 opacity-20">
-                </div>
-                <div class="tech-icon absolute bottom-40 right-10 animate-float animation-delay-600">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="w-12 h-12 opacity-20">
-                </div>
-            </div>
-        </div>
-        
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 py-5">
+        <div class="flex justify-between items-center">
+          <a href="#" class="font-mono text-sm tracking-widest text-on-surface uppercase"
+            >MW<span class="text-primary">_</span></a
+          >
+
+          <div class="hidden md:flex items-center gap-10">
+            <a href="#home" class="nav-link" data-nav>Home</a>
+            <a href="#services" class="nav-link" data-nav>Expertise</a>
+            <a href="#about" class="nav-link" data-nav>About</a>
+            <a href="#work" class="nav-link" data-nav>Work</a>
+            <a href="#contact" class="nav-link" data-nav>Contact</a>
+            <a href="#contact" class="btn-primary text-xs py-2.5 px-6">Let's Talk</a>
+          </div>
+
+          <button
+            id="mobile-menu-btn"
+            class="md:hidden p-2 cursor-pointer text-on-surface"
+            aria-label="Open menu"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
             </svg>
+          </button>
         </div>
-    </section>
-    
-    <!-- About Section -->
-    <section id="about" class="py-20 relative z-10">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 gradient-text">About Me</h2>
-            
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="space-y-6">
-                    <p class="text-lg text-gray-600 dark:text-gray-400">
-                        With over a decade of experience in software development, I specialize in creating robust, scalable applications that solve real-world problems.
-                    </p>
-                    <p class="text-lg text-gray-600 dark:text-gray-400">
-                        My journey in tech has taken me through various roles and technologies, from building mobile apps with Swift and React Native to architecting complex backend systems with Node.js and Python.
-                    </p>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="glass-effect p-4 rounded-lg">
-                            <div class="text-3xl font-bold text-blue-500">10+</div>
-                            <div class="text-gray-600 dark:text-gray-400">Years Experience</div>
-                        </div>
-                        <div class="glass-effect p-4 rounded-lg">
-                            <div class="text-3xl font-bold text-purple-500">50+</div>
-                            <div class="text-gray-600 dark:text-gray-400">Projects Completed</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Timeline -->
-                <div class="relative">
-                    <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 to-purple-500"></div>
-                    <div class="space-y-8">
-                        <div class="timeline-item relative pl-10">
-                            <div class="absolute left-0 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                                <div class="w-3 h-3 bg-white rounded-full"></div>
-                            </div>
-                            <div class="glass-effect p-4 rounded-lg">
-                                <h3 class="font-bold text-lg">Senior Full Stack Developer</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">2020 - Present</p>
-                                <p class="mt-2 text-gray-600 dark:text-gray-400">Leading development of enterprise applications</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item relative pl-10">
-                            <div class="absolute left-0 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
-                                <div class="w-3 h-3 bg-white rounded-full"></div>
-                            </div>
-                            <div class="glass-effect p-4 rounded-lg">
-                                <h3 class="font-bold text-lg">Mobile App Developer</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">2018 - 2020</p>
-                                <p class="mt-2 text-gray-600 dark:text-gray-400">Specialized in iOS and React Native development</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item relative pl-10">
-                            <div class="absolute left-0 w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center">
-                                <div class="w-3 h-3 bg-white rounded-full"></div>
-                            </div>
-                            <div class="glass-effect p-4 rounded-lg">
-                                <h3 class="font-bold text-lg">Web Developer</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">2014 - 2018</p>
-                                <p class="mt-2 text-gray-600 dark:text-gray-400">Built responsive web applications</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Skills Section -->
-    <section id="skills" class="py-20 relative z-10">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 gradient-text">Technical Skills</h2>
-            
-            <!-- Interactive Terminal -->
-            <div class="max-w-4xl mx-auto mb-12">
-                <div class="glass-effect rounded-lg overflow-hidden">
-                    <div class="bg-gray-800 px-4 py-2 flex items-center space-x-2">
-                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-                        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
-                        <span class="ml-4 text-sm text-gray-400 font-['JetBrains_Mono']">skills.js</span>
-                    </div>
-                    <div class="p-6 bg-gray-900 font-['JetBrains_Mono'] text-sm">
-                        <pre><code id="code-display" class="text-green-400"></code></pre>
-                        <div class="mt-2">
-                            <span class="text-gray-400">$</span>
-                            <input type="text" id="terminal-input" class="bg-transparent text-green-400 outline-none ml-2" placeholder="Type 'help' for commands...">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Skills Grid -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div class="skill-card glass-effect p-6 rounded-lg text-center card-hover">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="w-16 h-16 mx-auto mb-4">
-                    <h3 class="font-semibold">JavaScript</h3>
-                    <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                        <div class="skill-bar h-full bg-gradient-to-r from-blue-500 to-purple-500" data-skill="95"></div>
-                    </div>
-                </div>
-                <div class="skill-card glass-effect p-6 rounded-lg text-center card-hover">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript" class="w-16 h-16 mx-auto mb-4">
-                    <h3 class="font-semibold">TypeScript</h3>
-                    <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                        <div class="skill-bar h-full bg-gradient-to-r from-blue-500 to-purple-500" data-skill="90"></div>
-                    </div>
-                </div>
-                <div class="skill-card glass-effect p-6 rounded-lg text-center card-hover">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" class="w-16 h-16 mx-auto mb-4">
-                    <h3 class="font-semibold">React</h3>
-                    <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                        <div class="skill-bar h-full bg-gradient-to-r from-blue-500 to-purple-500" data-skill="92"></div>
-                    </div>
-                </div>
-                <div class="skill-card glass-effect p-6 rounded-lg text-center card-hover">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" class="w-16 h-16 mx-auto mb-4">
-                    <h3 class="font-semibold">Node.js</h3>
-                    <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                        <div class="skill-bar h-full bg-gradient-to-r from-blue-500 to-purple-500" data-skill="88"></div>
-                    </div>
-                </div>
-                <div class="skill-card glass-effect p-6 rounded-lg text-center card-hover">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="w-16 h-16 mx-auto mb-4">
-                    <h3 class="font-semibold">Python</h3>
-                    <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                        <div class="skill-bar h-full bg-gradient-to-r from-blue-500 to-purple-500" data-skill="85"></div>
-                    </div>
-                </div>
-                <div class="skill-card glass-effect p-6 rounded-lg text-center card-hover">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg" alt="Swift" class="w-16 h-16 mx-auto mb-4">
-                    <h3 class="font-semibold">Swift</h3>
-                    <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                        <div class="skill-bar h-full bg-gradient-to-r from-blue-500 to-purple-500" data-skill="80"></div>
-                    </div>
-                </div>
-                <div class="skill-card glass-effect p-6 rounded-lg text-center card-hover">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP" class="w-16 h-16 mx-auto mb-4">
-                    <h3 class="font-semibold">PHP</h3>
-                    <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                        <div class="skill-bar h-full bg-gradient-to-r from-blue-500 to-purple-500" data-skill="75"></div>
-                    </div>
-                </div>
-                <div class="skill-card glass-effect p-6 rounded-lg text-center card-hover">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" class="w-16 h-16 mx-auto mb-4">
-                    <h3 class="font-semibold">MySQL</h3>
-                    <div class="mt-2 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                        <div class="skill-bar h-full bg-gradient-to-r from-blue-500 to-purple-500" data-skill="82"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Projects Section -->
-    <section id="projects" class="py-20 relative z-10">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 gradient-text">Featured Projects</h2>
-            
-            <!-- Project Filters -->
-            <div class="flex flex-wrap justify-center gap-4 mb-12">
-                <button class="project-filter active px-4 py-2 rounded-lg bg-blue-500 text-white" data-filter="all">All</button>
-                <button class="project-filter px-4 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" data-filter="web">Web</button>
-                <button class="project-filter px-4 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" data-filter="mobile">Mobile</button>
-                <button class="project-filter px-4 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors" data-filter="backend">Backend</button>
-            </div>
-            
-            <!-- Projects Grid -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="project-card perspective-1000" data-category="web">
-                    <div class="card-inner relative preserve-3d transition-transform duration-700 hover:rotate-y-180">
-                        <div class="card-front absolute inset-0 backface-hidden">
-                            <div class="glass-effect rounded-lg overflow-hidden h-full">
-                                <div class="h-48 bg-gradient-to-br from-blue-400 to-purple-600"></div>
-                                <div class="p-6">
-                                    <h3 class="text-xl font-bold mb-2">E-Commerce Platform</h3>
-                                    <p class="text-gray-600 dark:text-gray-400 mb-4">Full-stack e-commerce solution with React and Node.js</p>
-                                    <div class="flex flex-wrap gap-2">
-                                        <span class="text-xs px-2 py-1 bg-blue-100 dark:bg-blue-900 rounded">React</span>
-                                        <span class="text-xs px-2 py-1 bg-green-100 dark:bg-green-900 rounded">Node.js</span>
-                                        <span class="text-xs px-2 py-1 bg-purple-100 dark:bg-purple-900 rounded">MongoDB</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-back absolute inset-0 rotate-y-180 backface-hidden">
-                            <div class="glass-effect rounded-lg p-6 h-full flex flex-col justify-center">
-                                <h3 class="text-xl font-bold mb-4">Project Details</h3>
-                                <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                                    <li>• 50,000+ active users</li>
-                                    <li>• Real-time inventory management</li>
-                                    <li>• Integrated payment gateway</li>
-                                    <li>• Admin dashboard with analytics</li>
-                                </ul>
-                                <button class="mt-4 btn-primary text-sm">View Project</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-card perspective-1000" data-category="mobile">
-                    <div class="card-inner relative preserve-3d transition-transform duration-700 hover:rotate-y-180">
-                        <div class="card-front absolute inset-0 backface-hidden">
-                            <div class="glass-effect rounded-lg overflow-hidden h-full">
-                                <div class="h-48 bg-gradient-to-br from-green-400 to-blue-600"></div>
-                                <div class="p-6">
-                                    <h3 class="text-xl font-bold mb-2">Fitness Tracking App</h3>
-                                    <p class="text-gray-600 dark:text-gray-400 mb-4">iOS app for personal fitness tracking and coaching</p>
-                                    <div class="flex flex-wrap gap-2">
-                                        <span class="text-xs px-2 py-1 bg-orange-100 dark:bg-orange-900 rounded">Swift</span>
-                                        <span class="text-xs px-2 py-1 bg-blue-100 dark:bg-blue-900 rounded">SwiftUI</span>
-                                        <span class="text-xs px-2 py-1 bg-red-100 dark:bg-red-900 rounded">Firebase</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-back absolute inset-0 rotate-y-180 backface-hidden">
-                            <div class="glass-effect rounded-lg p-6 h-full flex flex-col justify-center">
-                                <h3 class="text-xl font-bold mb-4">Project Details</h3>
-                                <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                                    <li>• 4.8★ App Store rating</li>
-                                    <li>• HealthKit integration</li>
-                                    <li>• AI-powered workout recommendations</li>
-                                    <li>• Social features for motivation</li>
-                                </ul>
-                                <button class="mt-4 btn-primary text-sm">View Project</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-card perspective-1000" data-category="backend">
-                    <div class="card-inner relative preserve-3d transition-transform duration-700 hover:rotate-y-180">
-                        <div class="card-front absolute inset-0 backface-hidden">
-                            <div class="glass-effect rounded-lg overflow-hidden h-full">
-                                <div class="h-48 bg-gradient-to-br from-purple-400 to-pink-600"></div>
-                                <div class="p-6">
-                                    <h3 class="text-xl font-bold mb-2">API Gateway Service</h3>
-                                    <p class="text-gray-600 dark:text-gray-400 mb-4">Microservices architecture with Python and Docker</p>
-                                    <div class="flex flex-wrap gap-2">
-                                        <span class="text-xs px-2 py-1 bg-yellow-100 dark:bg-yellow-900 rounded">Python</span>
-                                        <span class="text-xs px-2 py-1 bg-blue-100 dark:bg-blue-900 rounded">Docker</span>
-                                        <span class="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded">K8s</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-back absolute inset-0 rotate-y-180 backface-hidden">
-                            <div class="glass-effect rounded-lg p-6 h-full flex flex-col justify-center">
-                                <h3 class="text-xl font-bold mb-4">Project Details</h3>
-                                <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                                    <li>• 1M+ requests/day</li>
-                                    <li>• 99.9% uptime SLA</li>
-                                    <li>• Auto-scaling infrastructure</li>
-                                    <li>• Real-time monitoring dashboard</li>
-                                </ul>
-                                <button class="mt-4 btn-primary text-sm">View Project</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Contact Section -->
-    <section id="contact" class="py-20 relative z-10">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 gradient-text">Get In Touch</h2>
-            
-            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
-                <div class="space-y-6">
-                    <h3 class="text-2xl font-bold">Let's Work Together</h3>
-                    <p class="text-gray-600 dark:text-gray-400">
-                        I'm always interested in hearing about new projects and opportunities. Whether you have a question or just want to say hi, feel free to reach out!
-                    </p>
-                    
-                    <div class="space-y-4">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                                <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Email</p>
-                                <a href="mailto:contact@wysiecki.de" class="text-blue-500 hover:underline">contact@wysiecki.de</a>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
-                                <svg class="w-6 h-6 text-purple-500" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">GitHub</p>
-                                <a href="https://github.com/martinwysiecki" class="text-blue-500 hover:underline">github.com/martinwysiecki</a>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                                <svg class="w-6 h-6 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">LinkedIn</p>
-                                <a href="https://linkedin.com/in/martinwysiecki" class="text-blue-500 hover:underline">linkedin.com/in/martinwysiecki</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Contact Form -->
-                <form id="contact-form" class="space-y-4">
-                    <div>
-                        <input type="text" id="name" name="name" placeholder="Your Name" required
-                            class="w-full px-4 py-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-blue-500 transition-colors">
-                    </div>
-                    <div>
-                        <input type="email" id="email" name="email" placeholder="Your Email" required
-                            class="w-full px-4 py-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-blue-500 transition-colors">
-                    </div>
-                    <div>
-                        <textarea id="message" name="message" rows="5" placeholder="Your Message" required
-                            class="w-full px-4 py-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-blue-500 transition-colors resize-none"></textarea>
-                    </div>
-                    <button type="submit" class="w-full btn-primary">Send Message</button>
-                </form>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Footer -->
-    <footer class="py-8 bg-gray-100 dark:bg-gray-800 relative z-10">
-        <div class="container mx-auto px-6 text-center">
-            <p class="text-gray-600 dark:text-gray-400">
-                © 2024 Martin von Wysiecki. All rights reserved.
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div
+      id="mobile-menu"
+      class="fixed inset-0 z-40 bg-surface-base transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:hidden"
+    >
+      <div class="flex flex-col items-center justify-center h-full gap-10">
+        <a
+          href="#home"
+          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
+          >Home</a
+        >
+        <a
+          href="#services"
+          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
+          >Expertise</a
+        >
+        <a
+          href="#about"
+          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
+          >About</a
+        >
+        <a
+          href="#work"
+          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
+          >Work</a
+        >
+        <a
+          href="#contact"
+          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
+          >Contact</a
+        >
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ HERO ═══════════════════════════════════════ -->
+    <section id="home" class="min-h-dvh flex flex-col justify-center relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full pt-24">
+        <div class="max-w-4xl">
+          <p
+            class="font-mono text-sm tracking-wider text-primary/60 mb-6 hero-reveal"
+            style="--delay: 0ms"
+          >
+            // FULL_STACK_DEVELOPER
+          </p>
+          <h1
+            class="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95] mb-8 hero-reveal"
+            style="--delay: 100ms"
+          >
+            Full-Stack<br />
+            <span class="text-primary">Developer</span><br />&amp; Tech Solutions
+          </h1>
+          <div class="flex items-center gap-3 mb-8 hero-reveal" style="--delay: 200ms">
+            <span class="status-beacon"></span>
+            <p class="font-mono text-sm tracking-wide text-on-surface/50">
+              <span id="typewriter-text"></span><span class="animate-blink text-primary">|</span>
             </p>
-            <div class="mt-4 flex justify-center space-x-6">
-                <a href="/impressum" class="text-gray-600 dark:text-gray-400 hover:text-blue-500 transition-colors">Impressum</a>
-                <a href="/datenschutz" class="text-gray-600 dark:text-gray-400 hover:text-blue-500 transition-colors">Datenschutz</a>
-            </div>
+          </div>
+          <p
+            class="text-lg md:text-xl leading-relaxed text-on-surface/50 max-w-xl mb-10 hero-reveal text-balance"
+            style="--delay: 300ms"
+          >
+            Building scalable web applications, mobile apps, and database solutions for startups and
+            enterprises worldwide.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 hero-reveal" style="--delay: 400ms">
+            <a href="#work" class="btn-primary">View Selected Work</a>
+            <a href="#contact" class="btn-ghost">Get In Touch</a>
+          </div>
         </div>
+      </div>
+
+      <!-- Decorative glass code snippets (lg only) -->
+      <div class="hidden lg:block absolute top-1/2 -translate-y-1/2 right-8 xl:right-16 max-w-xs">
+        <div class="glass p-5 mb-4 opacity-40">
+          <pre
+            class="font-mono text-xs leading-relaxed text-primary/70"
+          ><code>const buildSolution = async
+  (requirements) => {
+  const tech = ['React',
+    'Node.js', 'Python'];
+  return scalableApp.deploy();
+};</code></pre>
+        </div>
+        <div class="glass p-5 opacity-25 ml-8">
+          <pre class="font-mono text-xs leading-relaxed text-secondary/60"><code>deploy(architect)
+  .then(innovate)
+  .catch(debug);</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════ EXPERTISE ═══════════════════════════════════ -->
+    <section id="services" class="section bg-surface-low">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="reveal mb-16">
+          <p class="section-label">Services &amp; Expertise</p>
+          <h2 class="section-heading">
+            What I<br />
+            <span class="text-primary">build</span>
+          </h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 reveal stagger">
+          <!-- Web Applications -->
+          <div class="card p-8 group">
+            <div
+              class="w-12 h-12 flex items-center justify-center mb-6 rounded-cyber bg-primary-container/10"
+            >
+              <svg
+                class="w-6 h-6 text-primary"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25z"
+                />
+              </svg>
+            </div>
+            <h3
+              class="font-display text-xl font-semibold mb-3 group-hover:text-primary transition-colors"
+            >
+              Web Applications
+            </h3>
+            <p class="text-on-surface/50 text-sm leading-relaxed mb-5">
+              Custom web applications built with React, Node.js, and modern frameworks. Scalable,
+              secure, and user-focused solutions.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tag">React</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">PHP</span>
+              <span class="tag">TypeScript</span>
+            </div>
+          </div>
+
+          <!-- Scalable Architecture -->
+          <div class="card p-8 group">
+            <div
+              class="w-12 h-12 flex items-center justify-center mb-6 rounded-cyber bg-secondary-container/10"
+            >
+              <svg
+                class="w-6 h-6 text-secondary"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125v-3.75m16.5 3.75v3.75c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125v-3.75"
+                />
+              </svg>
+            </div>
+            <h3
+              class="font-display text-xl font-semibold mb-3 group-hover:text-secondary transition-colors"
+            >
+              Database Solutions
+            </h3>
+            <p class="text-on-surface/50 text-sm leading-relaxed mb-5">
+              Database architecture, optimization, and integration with MySQL and MariaDB. Robust
+              data management for enterprise applications.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tag">MySQL</span>
+              <span class="tag">MariaDB</span>
+              <span class="tag">Python</span>
+              <span class="tag">API Design</span>
+            </div>
+          </div>
+
+          <!-- Mobile Development -->
+          <div class="card p-8 group">
+            <div
+              class="w-12 h-12 flex items-center justify-center mb-6 rounded-cyber bg-tertiary-container/10"
+            >
+              <svg
+                class="w-6 h-6 text-tertiary"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"
+                />
+              </svg>
+            </div>
+            <h3
+              class="font-display text-xl font-semibold mb-3 group-hover:text-tertiary transition-colors"
+            >
+              Mobile Development
+            </h3>
+            <p class="text-on-surface/50 text-sm leading-relaxed mb-5">
+              Native iOS applications with Swift and cross-platform solutions. Performance-optimized
+              apps for modern mobile experiences.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="tag">Swift</span>
+              <span class="tag">iOS</span>
+              <span class="tag">React Native</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ ABOUT ═══════════════════════════════════════ -->
+    <section id="about" class="section">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          <!-- Left: Content -->
+          <div class="reveal">
+            <p class="section-label">Beyond the Screen</p>
+            <h2 class="section-heading mb-8">
+              A decade of crafting<br />
+              <span class="text-primary">digital experiences</span>
+            </h2>
+            <div class="space-y-5 text-on-surface/50 leading-relaxed">
+              <p>
+                CEO and Full-Stack Developer with expertise in modern web technologies, mobile
+                development, and database architecture.
+              </p>
+              <p>
+                From building pharmaceutical web applications to community-driven knowledge
+                platforms, I deliver scalable solutions for startups and enterprises worldwide.
+              </p>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-3 gap-8 mt-12">
+              <div>
+                <div class="stat-number">10+</div>
+                <p class="font-mono text-xs uppercase tracking-[0.2em] text-on-surface/40 mt-2">
+                  Years
+                </p>
+              </div>
+              <div>
+                <div class="stat-number">50+</div>
+                <p class="font-mono text-xs uppercase tracking-[0.2em] text-on-surface/40 mt-2">
+                  Projects
+                </p>
+              </div>
+              <div>
+                <div class="stat-number">100%</div>
+                <p class="font-mono text-xs uppercase tracking-[0.2em] text-on-surface/40 mt-2">
+                  Satisfaction
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Decorative tech visualization -->
+          <div class="reveal">
+            <div class="glass p-8 relative overflow-hidden">
+              <!-- Decorative geometric layers -->
+              <div
+                class="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-primary-container/20 to-transparent rounded-full blur-3xl"
+              ></div>
+              <div
+                class="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-secondary-container/15 to-transparent rounded-full blur-2xl"
+              ></div>
+
+              <!-- Terminal display -->
+              <div class="relative">
+                <div class="flex items-center gap-2 mb-4">
+                  <div class="w-2.5 h-2.5 rounded-full bg-[#ff5f57]"></div>
+                  <div class="w-2.5 h-2.5 rounded-full bg-[#febc2e]"></div>
+                  <div class="w-2.5 h-2.5 rounded-full bg-[#28c840]"></div>
+                  <span class="ml-3 font-mono text-xs text-on-surface/30">wysiecki ~ profile</span>
+                </div>
+                <pre
+                  class="font-mono text-xs leading-relaxed"
+                ><code class="text-on-surface/60"><span class="text-primary">const</span> martin = {
+  <span class="text-secondary">role</span>: <span class="text-tertiary">'CEO &amp; Full-Stack Developer'</span>,
+  <span class="text-secondary">frontend</span>: [<span class="text-tertiary">'React'</span>, <span class="text-tertiary">'JS'</span>, <span class="text-tertiary">'TS'</span>, <span class="text-tertiary">'CSS3'</span>],
+  <span class="text-secondary">backend</span>:  [<span class="text-tertiary">'Node.js'</span>, <span class="text-tertiary">'Python'</span>,
+             <span class="text-tertiary">'PHP'</span>, <span class="text-tertiary">'API Design'</span>],
+  <span class="text-secondary">mobile</span>:   [<span class="text-tertiary">'Swift'</span>, <span class="text-tertiary">'iOS'</span>],
+  <span class="text-secondary">database</span>: [<span class="text-tertiary">'MySQL'</span>, <span class="text-tertiary">'MariaDB'</span>],
+  <span class="text-secondary">location</span>: <span class="text-tertiary">'Mannheim, Germany'</span>
+};</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════ WORK ═══════════════════════════════════════ -->
+    <section id="work" class="section bg-surface-low">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="reveal mb-16">
+          <p class="section-label">Featured Deployments</p>
+          <h2 class="section-heading">
+            Selected<br />
+            <span class="text-primary">projects</span>
+          </h2>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto reveal stagger">
+          <a
+            href="https://mspharm.eu"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="card overflow-hidden group"
+          >
+            <div
+              class="aspect-[4/3] relative bg-gradient-to-br from-primary-container/30 to-surface-high"
+            >
+              <div class="absolute inset-0 flex items-center justify-center">
+                <span class="font-display text-7xl font-bold text-primary/10">01</span>
+              </div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-surface-container to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              ></div>
+            </div>
+            <div class="p-6">
+              <h3
+                class="font-display text-xl font-semibold mb-2 group-hover:text-primary transition-colors"
+              >
+                MSPharm.eu
+              </h3>
+              <p class="text-on-surface/50 text-sm leading-relaxed mb-4">
+                Pharmaceutical industry web application with complex data management and regulatory
+                compliance features.
+              </p>
+              <div class="flex flex-wrap gap-2">
+                <span class="tag">PHP</span>
+                <span class="tag">MySQL</span>
+                <span class="tag">JavaScript</span>
+              </div>
+            </div>
+          </a>
+
+          <a
+            href="https://waidwiki.de"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="card overflow-hidden group"
+          >
+            <div
+              class="aspect-[4/3] relative bg-gradient-to-br from-secondary-container/20 to-surface-high"
+            >
+              <div class="absolute inset-0 flex items-center justify-center">
+                <span class="font-display text-7xl font-bold text-secondary/10">02</span>
+              </div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-surface-container to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              ></div>
+            </div>
+            <div class="p-6">
+              <h3
+                class="font-display text-xl font-semibold mb-2 group-hover:text-secondary transition-colors"
+              >
+                WaidWiki.de
+              </h3>
+              <p class="text-on-surface/50 text-sm leading-relaxed mb-4">
+                Community-driven knowledge platform with advanced search capabilities and
+                user-generated content management.
+              </p>
+              <div class="flex flex-wrap gap-2">
+                <span class="tag">React</span>
+                <span class="tag">Node.js</span>
+                <span class="tag">MariaDB</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════ CTA ═══════════════════════════════════ -->
+    <section class="py-32 md:py-40 relative overflow-hidden">
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-surface-base via-primary-container/5 to-surface-base"
+      ></div>
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center relative reveal">
+        <h2
+          class="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.95] mb-6"
+        >
+          LET'S BUILD<br />SOMETHING<br /><span class="text-primary">AMAZING</span>
+        </h2>
+        <p class="text-on-surface/50 text-lg md:text-xl max-w-lg mx-auto mb-10">
+          Have a project in mind? Let's make it happen.
+        </p>
+        <a href="#contact" class="btn-primary text-base px-10 py-4">Start a Conversation</a>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════ CONTACT ═══════════════════════════════════ -->
+    <section id="contact" class="section bg-surface-low">
+      <div class="max-w-2xl mx-auto px-6 lg:px-8">
+        <div class="text-center reveal mb-12">
+          <p class="section-label">Contact</p>
+          <h2 class="section-heading">Get in <span class="text-primary">touch</span></h2>
+          <p class="text-on-surface/50 mt-4 max-w-md mx-auto">
+            Ready to discuss your next project? Let's talk about how we can bring your ideas to
+            life.
+          </p>
+          <div class="flex flex-wrap justify-center gap-8 mt-8 text-sm">
+            <a
+              href="mailto:info@wysiecki.de"
+              class="text-primary hover:text-primary/80 transition-colors"
+              >info@wysiecki.de</a
+            >
+            <span class="text-on-surface/30">+49 621 43 71 26 61</span>
+            <span class="text-on-surface/30">Mannheim, Germany</span>
+          </div>
+        </div>
+
+        <form id="contact-form" class="space-y-8 reveal">
+          <div>
+            <label
+              for="name"
+              class="font-mono text-xs uppercase tracking-[0.2em] text-on-surface/40 mb-2 block"
+              >Name</label
+            >
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              autocomplete="name"
+              class="form-input"
+            />
+          </div>
+          <div>
+            <label
+              for="email"
+              class="font-mono text-xs uppercase tracking-[0.2em] text-on-surface/40 mb-2 block"
+              >Email</label
+            >
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              autocomplete="email"
+              class="form-input"
+            />
+          </div>
+          <div>
+            <label
+              for="message"
+              class="font-mono text-xs uppercase tracking-[0.2em] text-on-surface/40 mb-2 block"
+              >Message</label
+            >
+            <textarea
+              id="message"
+              name="message"
+              rows="4"
+              required
+              class="form-input resize-none"
+            ></textarea>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn-primary w-full sm:w-auto">Send Message</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════ FOOTER ═══════════════════════════════════ -->
+    <footer class="py-10" style="border-top: 1px solid rgba(72, 69, 83, 0.15)">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+          <div class="flex items-center gap-8">
+            <span class="font-mono text-sm tracking-widest text-on-surface uppercase"
+              >MW<span class="text-primary">_</span></span
+            >
+            <div class="flex gap-5">
+              <a
+                href="mailto:info@wysiecki.de"
+                class="text-on-surface/40 hover:text-primary transition-colors"
+                aria-label="Email"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://github.com/wysiecki"
+                class="text-on-surface/40 hover:text-primary transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+              >
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/martin-von-wysiecki-08a657b/"
+                class="text-on-surface/40 hover:text-primary transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+              >
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="flex items-center gap-6">
+            <p class="font-mono text-xs text-on-surface/30 tracking-wide">
+              &copy; <span class="footer-year"></span> Martin von Wysiecki
+            </p>
+            <a
+              href="/impressum.html"
+              class="font-mono text-xs text-on-surface/30 hover:text-primary transition-colors cursor-pointer tracking-wide"
+              >Impressum</a
+            >
+            <a
+              href="/datenschutz.html"
+              class="font-mono text-xs text-on-surface/30 hover:text-primary transition-colors cursor-pointer tracking-wide"
+              >Datenschutz</a
+            >
+          </div>
+        </div>
+      </div>
     </footer>
-    
-    <script src="./script.js"></script>
-</body>
+
+    <script src="./script.js?v=4"></script>
+  </body>
 </html>
