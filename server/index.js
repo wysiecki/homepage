@@ -12,6 +12,7 @@ const SMTP_USER = process.env.SMTP_USER || '';
 const SMTP_PASS = process.env.SMTP_PASS || '';
 const MAIL_TO = process.env.MAIL_TO || 'info@wysiecki.de';
 const MAIL_FROM = process.env.MAIL_FROM || SMTP_USER;
+const TURNSTILE_SECRET = process.env.TURNSTILE_SECRET || '';
 
 let transporter = null;
 
@@ -32,6 +33,7 @@ function getTransporter() {
 
 app.post('/api/contact', async (req, res) => {
   const { name, email, message } = req.body;
+  const turnstileToken = req.body['cf-turnstile-response'];
 
   if (!name || !email || !message) {
     return res.status(400).json({ error: 'All fields are required.' });
@@ -39,6 +41,32 @@ app.post('/api/contact', async (req, res) => {
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return res.status(400).json({ error: 'Invalid email address.' });
+  }
+
+  // Verify Cloudflare Turnstile token
+  if (TURNSTILE_SECRET) {
+    if (!turnstileToken) {
+      return res.status(400).json({ error: 'Captcha verification required.' });
+    }
+    try {
+      const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          secret: TURNSTILE_SECRET,
+          response: turnstileToken,
+          remoteip: req.headers['x-real-ip'] || req.ip,
+        }),
+      });
+      const result = await verifyRes.json();
+      if (!result.success) {
+        console.warn('[CONTACT] Turnstile verification failed:', result['error-codes']);
+        return res.status(403).json({ error: 'Captcha verification failed. Please try again.' });
+      }
+    } catch (err) {
+      console.error('[CONTACT] Turnstile verification error:', err.message);
+      return res.status(500).json({ error: 'Captcha verification error. Please try again.' });
+    }
   }
 
   const mailer = getTransporter();

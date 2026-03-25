@@ -192,10 +192,21 @@ document.getElementById('contact-form').addEventListener('submit', async (e) => 
   btn.textContent = 'Sending...';
   btn.disabled = true;
 
+  const turnstileResponse = form.querySelector('[name="cf-turnstile-response"]')?.value;
+  if (!turnstileResponse) {
+    btn.textContent = 'Please complete the captcha';
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }, FORM_RESET_MS);
+    return;
+  }
+
   const data = {
     name: form.querySelector('#name').value,
     email: form.querySelector('#email').value,
     message: form.querySelector('#message').value,
+    'cf-turnstile-response': turnstileResponse,
   };
 
   try {
@@ -213,6 +224,7 @@ document.getElementById('contact-form').addEventListener('submit', async (e) => 
 
     btn.textContent = 'Sent!';
     form.reset();
+    if (window.turnstile) turnstile.reset();
   } catch (err) {
     const isNetwork = err instanceof TypeError;
     btn.textContent = isNetwork
