@@ -182,6 +182,38 @@ function typeWriter() {
 
 typeWriter();
 
+// ── Turnstile captcha ─────────────────────────────────────────
+let turnstileSiteKey = '';
+
+(async () => {
+  try {
+    const res = await fetch('/api/config');
+    const config = await res.json();
+    turnstileSiteKey = config.turnstileSiteKey || '';
+    if (!turnstileSiteKey) return;
+
+    // Wait for Turnstile script to load (async defer)
+    const waitForTurnstile = () =>
+      new Promise((resolve) => {
+        if (window.turnstile) return resolve();
+        const check = setInterval(() => {
+          if (window.turnstile) {
+            clearInterval(check);
+            resolve();
+          }
+        }, 100);
+      });
+
+    await waitForTurnstile();
+    turnstile.render('#turnstile-container', {
+      sitekey: turnstileSiteKey,
+      theme: 'auto',
+    });
+  } catch {
+    /* config unavailable — server still enforces verification */
+  }
+})();
+
 // ── Contact form ───────────────────────────────────────────────
 document.getElementById('contact-form').addEventListener('submit', async (e) => {
   e.preventDefault();

@@ -34,6 +34,7 @@ services:
       - MAIL_TO=${MAIL_TO:-info@wysiecki.de}
       - MAIL_FROM=${MAIL_FROM:-}
       - TURNSTILE_SECRET=${TURNSTILE_SECRET:-}
+      - TURNSTILE_SITE_KEY=${TURNSTILE_SITE_KEY:-}
     expose:
       - "3000"
     healthcheck:

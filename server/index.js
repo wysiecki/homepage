@@ -13,6 +13,7 @@ const SMTP_PASS = process.env.SMTP_PASS || '';
 const MAIL_TO = process.env.MAIL_TO || 'info@wysiecki.de';
 const MAIL_FROM = process.env.MAIL_FROM || SMTP_USER;
 const TURNSTILE_SECRET = process.env.TURNSTILE_SECRET || '';
+const TURNSTILE_SITE_KEY = process.env.TURNSTILE_SITE_KEY || '';
 
 let transporter = null;
 
@@ -96,6 +97,10 @@ app.post('/api/contact', async (req, res) => {
     console.error('[CONTACT] Send failed:', err.message);
     res.status(500).json({ error: 'Failed to send message. Please try again later.' });
   }
+});
+
+app.get('/api/config', (_req, res) => {
+  res.json({ turnstileSiteKey: TURNSTILE_SITE_KEY });
 });
 
 app.get('/api/health', (_req, res) => {
