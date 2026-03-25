@@ -14,6 +14,8 @@ COPY tailwind.config.js ./
 COPY src ./src
 COPY index.html ./
 COPY impressum.html ./
+COPY 404.html ./
+COPY datenschutz.html ./
 COPY script.js ./
 
 # Build CSS
@@ -31,7 +33,10 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 # Copy static files
 COPY index.html /usr/share/nginx/html/
 COPY impressum.html /usr/share/nginx/html/
+COPY 404.html /usr/share/nginx/html/
+COPY datenschutz.html /usr/share/nginx/html/
 COPY script.js /usr/share/nginx/html/
+COPY shared.js /usr/share/nginx/html/
 
 # Copy built CSS from builder stage
 COPY --from=builder /app/dist/output.css /usr/share/nginx/html/dist/

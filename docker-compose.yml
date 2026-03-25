@@ -9,6 +9,20 @@ services:
     restart: unless-stopped
     depends_on:
       - api
+    # volumes:
+    #   # For development: uncomment to enable live reload of static files
+    #   - ./index.html:/usr/share/nginx/html/index.html:ro
+    #   - ./script.js:/usr/share/nginx/html/script.js:ro
+    #   - ./dist:/usr/share/nginx/html/dist:ro
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    labels:
+      - "com.wysiecki.homepage.description=Martin von Wysiecki's Portfolio Homepage"
+      - "com.wysiecki.homepage.version=1.0.0"
 
   api:
     build:
@@ -26,20 +40,12 @@ services:
       - MAIL_FROM=${MAIL_FROM:-}
     expose:
       - "3000"
-    # volumes:
-    #   # For development: uncomment to enable live reload of static files
-    #   - ./index.html:/usr/share/nginx/html/index.html:ro
-    #   - ./script.js:/usr/share/nginx/html/script.js:ro
-    #   - ./dist:/usr/share/nginx/html/dist:ro
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80/"]
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 10s
-    labels:
-      - "com.wysiecki.homepage.description=Martin von Wysiecki's Portfolio Homepage"
-      - "com.wysiecki.homepage.version=1.0.0"
 
   # Optional: Development container with hot-reload
   homepage-dev:
@@ -50,6 +56,6 @@ services:
       - .:/app
     command: npm run dev
     ports:
-      - "3000:3000"
+      - "3001:3000"
     profiles:
       - dev

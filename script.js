@@ -1,3 +1,20 @@
+// ── Footer year ───────────────────────────────────────────────
+document.querySelectorAll('.footer-year').forEach((el) => {
+  el.textContent = new Date().getFullYear();
+});
+
+// ── Constants ─────────────────────────────────────────────────
+const NAVBAR_SCROLL_THRESHOLD = 60;
+const SECTION_OFFSET = 120;
+const REVEAL_FALLBACK_MS = 3000;
+const TYPEWRITER_TYPE_MS = 80;
+const TYPEWRITER_DELETE_MS = 40;
+const TYPEWRITER_PAUSE_MS = 2200;
+const TYPEWRITER_GAP_MS = 400;
+const FORM_RESET_MS = 3000;
+
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 // ── Navbar ─────────────────────────────────────────────────────
 const navbar = document.getElementById('navbar');
 
@@ -5,7 +22,7 @@ function onScroll() {
   const y = window.scrollY;
 
   // Background
-  if (y > 60) {
+  if (y > NAVBAR_SCROLL_THRESHOLD) {
     navbar.classList.add('bg-surface-base/90', 'backdrop-blur-md');
   } else {
     navbar.classList.remove('bg-surface-base/90', 'backdrop-blur-md');
@@ -15,7 +32,7 @@ function onScroll() {
   const sections = document.querySelectorAll('section[id]');
   let current = '';
   sections.forEach((section) => {
-    if (y >= section.offsetTop - 120) {
+    if (y >= section.offsetTop - SECTION_OFFSET) {
       current = section.id;
     }
   });
@@ -63,6 +80,13 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
 // ── Hero stagger reveal ────────────────────────────────────────
 function revealHero() {
   const items = document.querySelectorAll('.hero-reveal');
+  if (prefersReducedMotion) {
+    items.forEach((el) => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+    return;
+  }
   items.forEach((el) => {
     const delay = parseInt(el.style.getPropertyValue('--delay') || '0');
     setTimeout(() => {
@@ -74,37 +98,45 @@ function revealHero() {
 
 // Set initial state
 document.querySelectorAll('.hero-reveal').forEach((el) => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(30px)';
-  el.style.transition =
-    'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
+  if (prefersReducedMotion) {
+    el.style.opacity = '1';
+  } else {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition =
+      'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)';
+  }
 });
 
 window.addEventListener('load', revealHero);
 
 // ── Intersection Observer for reveals ──────────────────────────
-requestAnimationFrame(() => {
-  const revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-          revealObserver.unobserve(entry.target);
-        }
+if (prefersReducedMotion) {
+  document.querySelectorAll('.reveal').forEach((el) => el.classList.add('revealed'));
+} else {
+  requestAnimationFrame(() => {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.01 }
+    );
+
+    document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+
+    // Safety fallback — force-reveal if observer never fires
+    setTimeout(() => {
+      document.querySelectorAll('.reveal:not(.revealed)').forEach((el) => {
+        el.classList.add('revealed');
       });
-    },
-    { threshold: 0.01 }
-  );
-
-  document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
-
-  // Safety fallback — force-reveal if observer never fires
-  setTimeout(() => {
-    document.querySelectorAll('.reveal:not(.revealed)').forEach((el) => {
-      el.classList.add('revealed');
-    });
-  }, 3000);
-});
+    }, REVEAL_FALLBACK_MS);
+  });
+}
 
 // ── Typewriter ─────────────────────────────────────────────────
 const typewriterEl = document.getElementById('typewriter-text');
@@ -134,18 +166,18 @@ function typeWriter() {
     setTimeout(() => {
       deleting = true;
       typeWriter();
-    }, 2200);
+    }, TYPEWRITER_PAUSE_MS);
     return;
   }
 
   if (deleting && charIdx === 0) {
     deleting = false;
     phraseIdx = (phraseIdx + 1) % phrases.length;
-    setTimeout(typeWriter, 400);
+    setTimeout(typeWriter, TYPEWRITER_GAP_MS);
     return;
   }
 
-  setTimeout(typeWriter, deleting ? 40 : 80);
+  setTimeout(typeWriter, deleting ? TYPEWRITER_DELETE_MS : TYPEWRITER_TYPE_MS);
 }
 
 typeWriter();
@@ -173,20 +205,21 @@ document.getElementById('contact-form').addEventListener('submit', async (e) => 
       body: JSON.stringify(data),
     });
 
+    const body = await res.json().catch(() => ({}));
+
     if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.error || 'Something went wrong.');
+      throw new Error(body.error || 'Something went wrong.');
     }
 
     btn.textContent = 'Sent!';
     form.reset();
   } catch (err) {
-    btn.textContent = 'Error — try again';
+    btn.textContent = err.message || 'Error — try again';
     console.error('[Contact]', err.message);
   }
 
   setTimeout(() => {
     btn.textContent = originalText;
     btn.disabled = false;
-  }, 3000);
+  }, FORM_RESET_MS);
 });

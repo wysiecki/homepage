@@ -48,9 +48,11 @@ app.post('/api/contact', async (req, res) => {
     return res.json({ ok: true, note: 'SMTP not configured, message logged.' });
   }
 
+  const safeName = name.replace(/[\r\n"]/g, '');
+
   try {
     await mailer.sendMail({
-      from: `"${name}" <${MAIL_FROM}>`,
+      from: `"${safeName}" <${MAIL_FROM}>`,
       replyTo: email,
       to: MAIL_TO,
       subject: `Contact form: ${name}`,
