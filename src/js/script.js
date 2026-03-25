@@ -206,7 +206,13 @@ typeWriter();
       }, 100);
     });
 
-    turnstile.render('#turnstile-container', { sitekey: siteKey, theme: 'auto' });
+    turnstile.render('#turnstile-container', {
+      sitekey: siteKey,
+      theme: 'auto',
+      callback: (token) => console.log('[Turnstile] Verified, token received'),
+      'error-callback': () => console.error('[Turnstile] Challenge error'),
+      'expired-callback': () => console.warn('[Turnstile] Token expired'),
+    });
   } catch (err) {
     console.error('[Turnstile]', err.message || err);
   }
