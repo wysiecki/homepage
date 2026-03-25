@@ -2,7 +2,8 @@
 .github
 .claude
 node_modules
-dist
+doc
+scripts
 *.md
 *.log
 .DS_Store

@@ -4,11 +4,11 @@
   "description": "Modern portfolio homepage for Martin von Wysiecki",
   "type": "module",
   "scripts": {
-    "dev": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
-    "build": "mkdir -p dist && npx tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
-    "lint": "eslint *.js",
-    "format": "prettier --write '*.{html,js,css,json}' 'src/**/*.css'",
-    "format:check": "prettier --check '*.{html,js,css,json}' 'src/**/*.css'"
+    "dev": "npx tailwindcss -i ./src/css/input.css -o ./dist/output.css --watch",
+    "build": "mkdir -p dist && npx tailwindcss -i ./src/css/input.css -o ./dist/output.css --minify",
+    "lint": "eslint src/js/*.js",
+    "format": "prettier --write 'src/**/*.{html,js,css}' '*.{js,json}'",
+    "format:check": "prettier --check 'src/**/*.{html,js,css}' '*.{js,json}'"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

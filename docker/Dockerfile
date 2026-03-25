@@ -9,14 +9,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm ci
 
-# Copy source files and content for Tailwind to scan
+# Copy source files for Tailwind to scan
 COPY tailwind.config.js ./
 COPY src ./src
-COPY index.html ./
-COPY impressum.html ./
-COPY 404.html ./
-COPY datenschutz.html ./
-COPY script.js ./
 
 # Build CSS
 RUN npm run build
@@ -28,16 +23,12 @@ FROM nginx:1.27-alpine
 RUN rm -rf /etc/nginx/conf.d/*
 
 # Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy static files
-COPY index.html /usr/share/nginx/html/
-COPY impressum.html /usr/share/nginx/html/
-COPY 404.html /usr/share/nginx/html/
-COPY datenschutz.html /usr/share/nginx/html/
-COPY script.js /usr/share/nginx/html/
-COPY shared.js /usr/share/nginx/html/
-COPY logo.png /usr/share/nginx/html/
+COPY src/pages/ /usr/share/nginx/html/
+COPY src/js/ /usr/share/nginx/html/
+COPY src/assets/ /usr/share/nginx/html/assets/
 
 # Copy built CSS from builder stage
 COPY --from=builder /app/dist/output.css /usr/share/nginx/html/dist/
