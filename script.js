@@ -214,8 +214,11 @@ document.getElementById('contact-form').addEventListener('submit', async (e) => 
     btn.textContent = 'Sent!';
     form.reset();
   } catch (err) {
-    btn.textContent = err.message || 'Error — try again';
-    console.error('[Contact]', err.message);
+    const isNetwork = err instanceof TypeError;
+    btn.textContent = isNetwork
+      ? 'Network error — check connection'
+      : err.message || 'Error — try again';
+    console.error('[Contact]', isNetwork ? 'Network error' : err.message);
   }
 
   setTimeout(() => {
