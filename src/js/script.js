@@ -183,34 +183,32 @@ function typeWriter() {
 typeWriter();
 
 // ── Turnstile captcha ─────────────────────────────────────────
-let turnstileSiteKey = '';
-
 (async () => {
   try {
     const res = await fetch('/api/config');
     const config = await res.json();
-    turnstileSiteKey = config.turnstileSiteKey || '';
-    if (!turnstileSiteKey) return;
+    const siteKey = config.turnstileSiteKey || '';
+    if (!siteKey) return;
 
-    // Wait for Turnstile script to load (async defer)
-    const waitForTurnstile = () =>
-      new Promise((resolve) => {
-        if (window.turnstile) return resolve();
-        const check = setInterval(() => {
-          if (window.turnstile) {
-            clearInterval(check);
-            resolve();
-          }
-        }, 100);
-      });
-
-    await waitForTurnstile();
-    turnstile.render('#turnstile-container', {
-      sitekey: turnstileSiteKey,
-      theme: 'auto',
+    // Wait for Turnstile script to load (async defer), max 10s
+    await new Promise((resolve, reject) => {
+      if (window.turnstile) return resolve();
+      let elapsed = 0;
+      const check = setInterval(() => {
+        elapsed += 100;
+        if (window.turnstile) {
+          clearInterval(check);
+          resolve();
+        } else if (elapsed >= 10000) {
+          clearInterval(check);
+          reject(new Error('Turnstile script failed to load'));
+        }
+      }, 100);
     });
-  } catch {
-    /* config unavailable — server still enforces verification */
+
+    turnstile.render('#turnstile-container', { sitekey: siteKey, theme: 'auto' });
+  } catch (err) {
+    console.error('[Turnstile]', err.message || err);
   }
 })();
 
