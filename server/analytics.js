@@ -253,8 +253,11 @@ function queryData(from, to) {
 
 function initAnalytics(app) {
   // Validate salt configuration
-  if (!SALT || SALT.length < 16) {
-    console.error('[ANALYTICS] ANALYTICS_SALT must be set to a secure random value (16+ chars).');
+  if (!SALT || SALT.length < 32) {
+    console.error('[ANALYTICS] ANALYTICS_SALT must be set to a secure random value (32+ chars).');
+    if (process.env.NODE_ENV === 'production') {
+      process.exit(1);
+    }
     console.error('[ANALYTICS] Analytics module disabled.');
     return;
   }
