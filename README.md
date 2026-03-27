@@ -84,8 +84,9 @@ Set these environment variables before starting the containers:
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `ANALYTICS_TOKEN` | Yes | Secret token to access the dashboard and data API |
-| `ANALYTICS_SALT` | Yes | Random string used for privacy-safe visitor hashing |
+| `ANALYTICS_SALT` | Yes | Random string for visitor hashing. Analytics is disabled if not set. |
 | `ANALYTICS_DB_PATH` | No | SQLite database path (default: `/data/analytics.db`) |
+| `ANALYTICS_RETENTION_DAYS` | No | Auto-delete data older than N days (default: 730 = 2 years) |
 
 ### Accessing the Dashboard
 
@@ -101,7 +102,7 @@ The dashboard shows:
 - **Top pages** — most visited paths
 - **Top referrers** — where your traffic comes from
 - **Browsers / OS / Devices** — doughnut charts
-- **Countries** — geographic breakdown (via Cloudflare `CF-IPCountry` header)
+- **Countries** — geographic breakdown (requires Cloudflare proxy, see note below)
 
 ### Data API
 
@@ -119,6 +120,12 @@ Returns aggregated data: summary, viewsOverTime, topPages, topReferrers, browser
 1. A lightweight tracker (`tracker.js`, ~30 lines) sends a single `POST /api/analytics/pageview` beacon on each page load
 2. The server stores pageviews in SQLite with: path, referrer, screen size, browser, OS, country, and a daily visitor hash
 3. **Privacy**: unique visitors are counted via `SHA-256(IP + date + salt)` — the hash rotates daily and cannot be reversed. Raw IPs are never stored. `Do Not Track` is respected.
+4. **Rate limiting**: the pageview endpoint is limited to 10 requests/minute per IP to prevent abuse.
+5. **Data retention**: records older than `ANALYTICS_RETENTION_DAYS` (default: 2 years) are automatically deleted daily.
+
+### Country Detection
+
+Country data comes from Cloudflare's `CF-IPCountry` header, which is only available when traffic passes through Cloudflare's proxy (orange-cloud DNS records). If you're not using Cloudflare or your DNS records are gray-clouded, country will show as "unknown". No server-side GeoIP library is used.
 
 ### Data Persistence
 
@@ -137,8 +144,9 @@ Analytics data is stored in a Docker named volume (`analytics-data`). It survive
 | `TURNSTILE_SECRET` | API | Cloudflare Turnstile secret key |
 | `TURNSTILE_SITE_KEY` | API | Cloudflare Turnstile site key |
 | `ANALYTICS_TOKEN` | API | Dashboard access token |
-| `ANALYTICS_SALT` | API | Visitor hash salt |
+| `ANALYTICS_SALT` | API | Visitor hash salt (required, analytics disabled if unset) |
 | `ANALYTICS_DB_PATH` | API | SQLite path (default: /data/analytics.db) |
+| `ANALYTICS_RETENTION_DAYS` | API | Auto-delete data older than N days (default: 730) |
 
 ## API Endpoints
 

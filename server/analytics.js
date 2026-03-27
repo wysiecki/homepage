@@ -3,9 +3,38 @@ const path = require('path');
 
 const DB_PATH = process.env.ANALYTICS_DB_PATH || '/data/analytics.db';
 const TOKEN = process.env.ANALYTICS_TOKEN || '';
-const SALT = process.env.ANALYTICS_SALT || 'change-me';
+const SALT = process.env.ANALYTICS_SALT || '';
+const RETENTION_DAYS = parseInt(process.env.ANALYTICS_RETENTION_DAYS || '730', 10);
 
 let db;
+
+// --- Simple in-memory rate limiter (no dependency) ---
+
+const rateLimitMap = new Map();
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const RATE_LIMIT_MAX = 10; // max requests per window per IP
+
+function isRateLimited(ip) {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+  if (!entry || now - entry.start > RATE_LIMIT_WINDOW) {
+    rateLimitMap.set(ip, { start: now, count: 1 });
+    return false;
+  }
+  entry.count++;
+  return entry.count > RATE_LIMIT_MAX;
+}
+
+// Periodic cleanup of stale rate limit entries (every 5 minutes)
+setInterval(
+  () => {
+    const now = Date.now();
+    for (const [ip, entry] of rateLimitMap) {
+      if (now - entry.start > RATE_LIMIT_WINDOW) rateLimitMap.delete(ip);
+    }
+  },
+  5 * 60 * 1000
+).unref();
 
 function getDb() {
   if (!db) {
@@ -40,11 +69,16 @@ function getDb() {
 
 function parseBrowser(ua) {
   if (!ua) return 'Other';
-  if (/Edg\//i.test(ua)) return 'Edge';
+  // Order matters: check specific browsers before generic Chrome/Safari
+  if (/Edg(e|A)?\//i.test(ua)) return 'Edge';
   if (/OPR\//i.test(ua) || /Opera/i.test(ua)) return 'Opera';
-  if (/Chrome\//i.test(ua) && !/Chromium/i.test(ua)) return 'Chrome';
+  if (/Brave\//i.test(ua)) return 'Brave';
+  if (/Vivaldi\//i.test(ua)) return 'Vivaldi';
+  if (/SamsungBrowser\//i.test(ua)) return 'Samsung';
   if (/Firefox\//i.test(ua)) return 'Firefox';
+  if (/Chrome\//i.test(ua) && !/Chromium/i.test(ua)) return 'Chrome';
   if (/Safari\//i.test(ua) && !/Chrome/i.test(ua)) return 'Safari';
+  if (/bot|crawl|spider|slurp|Googlebot/i.test(ua)) return 'Bot';
   return 'Other';
 }
 
@@ -87,6 +121,7 @@ function requireToken(req, res, next) {
   if (authHeader === `Bearer ${TOKEN}` || queryToken === TOKEN) {
     return next();
   }
+  console.warn(`[ANALYTICS] Unauthorized access attempt from ${getClientIP(req)} to ${req.path}`);
   return res.status(401).json({ error: 'Unauthorized.' });
 }
 
@@ -217,19 +252,62 @@ function queryData(from, to) {
 // --- Route registration ---
 
 function initAnalytics(app) {
+  // Validate salt configuration
+  if (!SALT) {
+    console.error('[ANALYTICS] ANALYTICS_SALT is not set. Set it to a secure random value.');
+    console.error('[ANALYTICS] Analytics module disabled.');
+    return;
+  }
+
   // Serve static assets (Chart.js)
   const express = require('express');
   app.use('/api/analytics/static', express.static(path.join(__dirname, 'public')));
 
-  // Ingest pageview
+  // Data retention: delete records older than RETENTION_DAYS (runs daily)
+  function cleanupOldData() {
+    try {
+      const d = getDb();
+      const cutoff = daysAgo(RETENTION_DAYS);
+      const result = d.prepare('DELETE FROM pageviews WHERE timestamp < ?').run(cutoff);
+      if (result.changes > 0) {
+        console.log(
+          `[ANALYTICS] Retention cleanup: deleted ${result.changes} records older than ${RETENTION_DAYS} days`
+        );
+      }
+    } catch (err) {
+      console.error('[ANALYTICS] Retention cleanup error:', err.message);
+    }
+  }
+  // Run cleanup on startup and then daily
+  cleanupOldData();
+  setInterval(cleanupOldData, 24 * 60 * 60 * 1000).unref();
+
+  // Ingest pageview (rate-limited)
   app.post('/api/analytics/pageview', (req, res) => {
     try {
+      const ip = getClientIP(req);
+
+      // Rate limiting
+      if (isRateLimited(ip)) {
+        return res.status(429).end();
+      }
+
       const { path: pagePath, referrer, screenWidth, screenHeight } = req.body;
+
+      // Input validation
       if (!pagePath || typeof pagePath !== 'string') {
         return res.status(400).end();
       }
+      if (referrer && typeof referrer !== 'string') {
+        return res.status(400).end();
+      }
+      if (screenWidth && typeof screenWidth !== 'number') {
+        return res.status(400).end();
+      }
+      if (screenHeight && typeof screenHeight !== 'number') {
+        return res.status(400).end();
+      }
 
-      const ip = getClientIP(req);
       const today = todayUTC();
       const hash = crypto
         .createHash('sha256')
@@ -276,7 +354,8 @@ function initAnalytics(app) {
   });
 
   // Dashboard HTML
-  app.get('/api/analytics/dashboard', requireToken, (_req, res) => {
+  app.get('/api/analytics/dashboard', requireToken, (req, res) => {
+    console.log(`[ANALYTICS] Dashboard accessed from ${getClientIP(req)}`);
     try {
       const { generateDashboard } = require('./dashboard');
       res.setHeader(
