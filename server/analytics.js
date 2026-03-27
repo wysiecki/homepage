@@ -253,8 +253,8 @@ function queryData(from, to) {
 
 function initAnalytics(app) {
   // Validate salt configuration
-  if (!SALT) {
-    console.error('[ANALYTICS] ANALYTICS_SALT is not set. Set it to a secure random value.');
+  if (!SALT || SALT.length < 16) {
+    console.error('[ANALYTICS] ANALYTICS_SALT must be set to a secure random value (16+ chars).');
     console.error('[ANALYTICS] Analytics module disabled.');
     return;
   }
@@ -273,6 +273,8 @@ function initAnalytics(app) {
         console.log(
           `[ANALYTICS] Retention cleanup: deleted ${result.changes} records older than ${RETENTION_DAYS} days`
         );
+        // Reclaim disk space after bulk deletes
+        d.exec('VACUUM');
       }
     } catch (err) {
       console.error('[ANALYTICS] Retention cleanup error:', err.message);
@@ -295,16 +297,16 @@ function initAnalytics(app) {
       const { path: pagePath, referrer, screenWidth, screenHeight } = req.body;
 
       // Input validation
-      if (!pagePath || typeof pagePath !== 'string') {
+      if (!pagePath || typeof pagePath !== 'string' || pagePath.length > 500) {
         return res.status(400).end();
       }
-      if (referrer && typeof referrer !== 'string') {
+      if (referrer && (typeof referrer !== 'string' || referrer.length > 2000)) {
         return res.status(400).end();
       }
-      if (screenWidth && typeof screenWidth !== 'number') {
+      if (screenWidth && (typeof screenWidth !== 'number' || screenWidth <= 0)) {
         return res.status(400).end();
       }
-      if (screenHeight && typeof screenHeight !== 'number') {
+      if (screenHeight && (typeof screenHeight !== 'number' || screenHeight <= 0)) {
         return res.status(400).end();
       }
 
@@ -314,7 +316,7 @@ function initAnalytics(app) {
         .update(ip + today + SALT)
         .digest('hex');
 
-      const ua = req.headers['user-agent'] || '';
+      const ua = (req.headers['user-agent'] || '').slice(0, 500);
       const country = req.headers['cf-ipcountry'] || 'unknown';
 
       const d = getDb();
