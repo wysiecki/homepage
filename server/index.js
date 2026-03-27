@@ -1,8 +1,17 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
+const { initAnalytics } = require('./analytics');
 
 const app = express();
 app.use(express.json());
+
+// Default CSP for API responses (dashboard overrides this per-route)
+app.use((req, res, next) => {
+  if (!res.headersSent) {
+    res.setHeader('Content-Security-Policy', "default-src 'none'; connect-src 'self';");
+  }
+  next();
+});
 
 const PORT = process.env.PORT || 3000;
 
@@ -114,6 +123,8 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 }
+
+initAnalytics(app);
 
 app.listen(PORT, () => {
   console.log(`API listening on :${PORT}`);
