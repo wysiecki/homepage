@@ -19,6 +19,11 @@ export default [
         IntersectionObserver: 'readonly',
         requestAnimationFrame: 'readonly',
         fetch: 'readonly',
+        navigator: 'readonly',
+        location: 'readonly',
+        screen: 'readonly',
+        URL: 'readonly',
+        Blob: 'readonly',
       },
     },
     rules: {

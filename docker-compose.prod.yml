@@ -35,6 +35,11 @@ services:
       - MAIL_FROM=${MAIL_FROM:-}
       - TURNSTILE_SECRET=${TURNSTILE_SECRET:-}
       - TURNSTILE_SITE_KEY=${TURNSTILE_SITE_KEY:-}
+      - ANALYTICS_TOKEN=${ANALYTICS_TOKEN:-}
+      - ANALYTICS_SALT=${ANALYTICS_SALT:-change-me}
+      - ANALYTICS_DB_PATH=/data/analytics.db
+    volumes:
+      - analytics-data:/data
     expose:
       - "3000"
     healthcheck:
@@ -43,6 +48,9 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
+
+volumes:
+  analytics-data:
 
 networks:
   default:
