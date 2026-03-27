@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth dark">
+  <head>
+    <!-- PARTIAL:head -->
+    <title>AI Radar — Live AI News, Research &amp; Trends | wysiecki.de</title>
+    <meta
+      name="description"
+      content="Stay updated with the latest AI news, research papers, tutorials, and trending open-source projects. Curated from HackerNews, Dev.to, arXiv, and GitHub."
+    />
+    <link rel="canonical" href="https://wysiecki.de/ai/" />
+    <meta property="og:title" content="AI Radar — Live AI News &amp; Trends" />
+    <meta
+      property="og:description"
+      content="Live AI news hub: trending stories, tutorials, research papers, and open-source projects."
+    />
+    <meta property="og:url" content="https://wysiecki.de/ai/" />
+    <meta property="og:type" content="website" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "AI Radar",
+        "description": "Live AI news aggregator with trending stories, tutorials, research papers, and open-source projects",
+        "url": "https://wysiecki.de/ai/",
+        "applicationCategory": "NewsApplication",
+        "author": {
+          "@type": "Person",
+          "name": "Martin von Wysiecki"
+        }
+      }
+    </script>
+  </head>
+  <body class="grain">
+    <!-- PARTIAL:nav -->
+
+    <main class="pt-32 pb-24">
+      <div class="max-w-6xl mx-auto px-6 lg:px-8">
+        <!-- Header -->
+        <div class="reveal mb-10">
+          <p class="section-label">AI Radar</p>
+          <h1 class="section-heading mb-3">
+            Live AI<br />
+            <span class="text-primary">News &amp; Trends</span>
+          </h1>
+          <p class="text-on-surface/50 text-lg max-w-xl">
+            Real-time AI content from HackerNews, Dev.to, arXiv, and GitHub. Updated every visit.
+          </p>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="reveal mb-8">
+          <div class="flex flex-wrap gap-2 border-b border-outline-variant/20 pb-px" role="tablist">
+            <button class="ai-tab active" role="tab" aria-selected="true" data-tab="trending">
+              Trending
+            </button>
+            <button class="ai-tab" role="tab" aria-selected="false" data-tab="tutorials">
+              Tutorials
+            </button>
+            <button class="ai-tab" role="tab" aria-selected="false" data-tab="research">
+              Research
+            </button>
+            <button class="ai-tab" role="tab" aria-selected="false" data-tab="opensource">
+              Open Source
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab Content Panels -->
+
+        <!-- Trending (HackerNews) -->
+        <div id="panel-trending" class="ai-panel active" role="tabpanel">
+          <div id="trending-content" class="space-y-4">
+            <!-- Skeleton loaders -->
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+          </div>
+        </div>
+
+        <!-- Tutorials (Dev.to) -->
+        <div id="panel-tutorials" class="ai-panel" role="tabpanel" hidden>
+          <div id="tutorials-content" class="space-y-4">
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+          </div>
+        </div>
+
+        <!-- Research (arXiv via proxy) -->
+        <div id="panel-research" class="ai-panel" role="tabpanel" hidden>
+          <div id="research-content" class="space-y-4">
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+          </div>
+        </div>
+
+        <!-- Open Source (GitHub) -->
+        <div id="panel-opensource" class="ai-panel" role="tabpanel" hidden>
+          <div id="opensource-content" class="space-y-4">
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+          </div>
+        </div>
+
+        <!-- Error state (hidden by default) -->
+        <div id="ai-error" class="hidden mt-8 card p-8 text-center">
+          <p class="text-on-surface/50 mb-4">Failed to load content. Please try again later.</p>
+          <button id="ai-retry" class="btn-ghost text-sm">Retry</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- PARTIAL:footer -->
+    <script src="/shared.js"></script>
+    <script src="/ai-radar.js"></script>
+  </body>
+</html>

@@ -1,6 +1,7 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
 const { initAnalytics } = require('./analytics');
+const blogRoutes = require('./blog-routes');
 
 const app = express();
 app.use(express.json());
@@ -13,7 +14,7 @@ app.use((req, res, next) => {
   next();
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8002;
 
 const SMTP_HOST = process.env.SMTP_HOST || '';
 const SMTP_PORT = parseInt(process.env.SMTP_PORT || '587', 10);
@@ -107,6 +108,67 @@ app.post('/api/contact', async (req, res) => {
     res.status(500).json({ error: 'Failed to send message. Please try again later.' });
   }
 });
+
+// ── AI Feed proxy (arXiv XML → JSON) ──────────────────────────
+const aiFeedCache = {};
+const AI_FEED_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+app.get('/api/ai-feed', async (req, res) => {
+  const source = req.query.source;
+  if (source !== 'arxiv') {
+    return res.status(400).json({ error: 'Supported sources: arxiv' });
+  }
+
+  // Check cache
+  if (aiFeedCache[source] && Date.now() - aiFeedCache[source].ts < AI_FEED_CACHE_TTL) {
+    return res.json(aiFeedCache[source].data);
+  }
+
+  try {
+    const arxivRes = await fetch(
+      'https://export.arxiv.org/api/query?search_query=cat:cs.AI+OR+cat:cs.LG&sortBy=submittedDate&sortOrder=descending&max_results=15'
+    );
+    const xml = await arxivRes.text();
+
+    // Simple XML extraction (no dependency needed)
+    const items = [];
+    const entryRegex = /<entry>([\s\S]*?)<\/entry>/g;
+    let match;
+    while ((match = entryRegex.exec(xml)) !== null) {
+      const entry = match[1];
+      const get = (tag) => {
+        const m = entry.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`));
+        return m ? m[1].replace(/\s+/g, ' ').trim() : '';
+      };
+      const id = get('id');
+      const pdfMatch = entry.match(/href="([^"]*)"[^>]*title="pdf"/);
+
+      items.push({
+        title: get('title'),
+        url: id.replace('http://', 'https://'),
+        pdfUrl: pdfMatch ? pdfMatch[1].replace('http://', 'https://') : '',
+        source: 'arXiv',
+        date: get('published'),
+        authors: (entry.match(/<name>([^<]*)<\/name>/g) || [])
+          .map((n) => n.replace(/<\/?name>/g, ''))
+          .slice(0, 3),
+        summary: get('summary').substring(0, 200) + '...',
+        categories: (entry.match(/term="([^"]*)"/g) || [])
+          .map((c) => c.replace(/term="|"/g, ''))
+          .slice(0, 3),
+      });
+    }
+
+    aiFeedCache[source] = { data: items, ts: Date.now() };
+    res.json(items);
+  } catch (err) {
+    console.error('[AI-FEED] arXiv fetch failed:', err.message);
+    res.status(502).json({ error: 'Failed to fetch from arXiv' });
+  }
+});
+
+// ── Blog API ────────────────────────────────────────────────────
+app.use('/api/blog', blogRoutes);
 
 app.get('/api/config', (_req, res) => {
   res.json({ turnstileSiteKey: TURNSTILE_SITE_KEY });

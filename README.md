@@ -11,12 +11,7 @@ export ANALYTICS_SALT="random-string-for-visitor-hashing"
 
 # Build and start
 docker compose build && docker compose up -d
-
-# Verify
-curl http://localhost:8080/health
 ```
-
-The site is available at `http://localhost:8080`.
 
 ## Development
 
@@ -24,12 +19,20 @@ The site is available at `http://localhost:8080`.
 # Install dependencies
 npm install
 
-# Start Tailwind CSS watcher (rebuilds dist/output.css on changes)
-npm run dev
+# Build site (partials + blog + CSS) and serve locally
+npm run build
+cd build && python3 -m http.server 3004
+```
 
-# Serve locally (in a second terminal)
-python3 -m http.server 8000
+Site is available at `http://localhost:3004`.
 
+To run the API server locally (contact form, analytics, blog):
+
+```bash
+cd server && npm install && PORT=8002 node index.js
+```
+
+```bash
 # Lint & format
 npm run lint
 npm run format
@@ -42,6 +45,13 @@ docker compose --profile dev up
 ```
 
 This starts nginx (port 80) + Tailwind watcher. For live reload, uncomment the volume mounts in `docker-compose.yml`.
+
+### Local Dev Ports
+
+| Port | Service | Description |
+|------|---------|-------------|
+| 3004 | Static server | Python HTTP server serving `build/` directory |
+| 8002 | Express API | Contact form, analytics, blog API (`server/index.js`) |
 
 ## Project Structure
 
@@ -162,11 +172,11 @@ Analytics data is stored in a Docker named volume (`analytics-data`). It survive
 ## Health Check
 
 ```bash
-# nginx health
-curl http://localhost:8080/health
+# Local dev — static server health
+curl http://localhost:3004/health
 
-# API health
-curl http://localhost:8080/api/health
+# Local dev — API health
+curl http://localhost:8002/api/health
 ```
 
 ## Production Deployment

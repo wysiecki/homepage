@@ -1,0 +1,69 @@
+---
+title: "30 Years in IT: 5 Architecture Decisions I'd Make Differently"
+slug: architecture-decisions
+date: 2026-03-28
+description: "After three decades of building enterprise software, here are the architecture decisions I'd change if I could go back — and what I'd do instead."
+tags: [architecture, career, lessons-learned]
+---
+
+After 30+ years of building software — from early client-server systems to modern cloud architectures — I've accumulated a fair number of scars. Some from technologies that didn't pan out. Others from decisions that seemed right at the time but aged poorly.
+
+Here are five architecture decisions I'd make differently if I could rewind the clock.
+
+## 1. I Would Have Embraced Event-Driven Architecture Sooner
+
+For years, I built systems with synchronous, request-response patterns everywhere. Service A calls Service B, which calls Service C, and if any of them is slow or down, the whole chain breaks.
+
+The turning point came when I worked on a pharmaceutical data processing system that needed to handle regulatory submissions. The synchronous approach created a brittle pipeline where a single slow downstream service could cascade failures across the entire system.
+
+**What I'd do instead:** Start with events and message queues from day one. Not everything needs to be async, but having an event backbone gives you resilience, auditability, and the ability to add new consumers without touching existing code.
+
+**The lesson:** Synchronous communication is the default, but it shouldn't be. Default to async, and opt into synchronous only when you need an immediate response.
+
+## 2. I Would Have Invested in Observability Before It Was Cool
+
+In the early 2000s, "monitoring" meant checking if the server was up and maybe watching CPU usage. Logs were something you grepped through when things broke.
+
+I remember a production incident where a subtle data corruption bug took three weeks to track down because we had no structured logging, no distributed tracing, and no way to correlate events across services. Three weeks of customer impact because we couldn't see what our system was doing.
+
+**What I'd do instead:** Treat observability as a first-class architectural concern. Structured logging from day one. Distributed tracing across service boundaries. Business-level metrics, not just infrastructure metrics.
+
+**The lesson:** You can't fix what you can't see. And by the time you realize you need observability, you're already in the middle of an incident.
+
+## 3. I Would Have Fought Harder Against Premature Microservices
+
+Around 2015, microservices became the answer to every question. I watched (and sometimes participated in) projects that split monoliths into dozens of services before they had the team, tooling, or operational maturity to manage them.
+
+One project I consulted on had 23 microservices managed by a team of four developers. They spent more time debugging inter-service communication, managing deployments, and dealing with distributed transactions than building features.
+
+**What I'd do instead:** Start with a well-structured monolith. Extract services only when you have a clear operational reason — independent scaling, independent deployment cadence, or team autonomy boundaries. Not because "microservices are best practice."
+
+**The lesson:** Microservices are an organizational scaling pattern, not a technical one. If your team fits in one room, you probably don't need them.
+
+## 4. I Would Have Taken Database Design More Seriously From the Start
+
+Early in my career, I treated the database as a dumb storage layer. Throw data in, pull data out. Schema design was an afterthought, and normalization was something I'd "fix later."
+
+"Later" never came. I've seen systems where a single poorly designed table became the bottleneck for the entire application. Where missing indexes turned a 50ms query into a 30-second nightmare. Where a lack of referential integrity led to orphaned records that corrupted business reports for months before anyone noticed.
+
+**What I'd do instead:** Invest time in proper data modeling upfront. Understand your query patterns before designing schemas. Use constraints and referential integrity — they're not optional, they're your safety net.
+
+**The lesson:** Your application code will be rewritten multiple times. Your data will outlive all of it. Design your data model as if it's the most important architecture decision you'll make — because it probably is.
+
+## 5. I Would Have Said "No" More Often
+
+This isn't a technical decision, but it's an architecture decision in disguise. Every feature request that gets a "yes" adds complexity. Every integration adds a dependency. Every "quick hack" becomes permanent infrastructure.
+
+I've seen codebases where the architecture degraded not because of bad technical decisions, but because of an accumulation of "yes." Yes to the one-off export feature. Yes to the custom reporting engine. Yes to supporting that legacy protocol "just for this one client."
+
+**What I'd do instead:** Treat architectural simplicity as a feature. Every addition should justify its complexity cost. The best architecture isn't the one that can do everything — it's the one that does the right things well.
+
+**The lesson:** The hardest word in software architecture is "no." But it's also the most valuable.
+
+## The Meta-Lesson
+
+Looking back, these five decisions share a common theme: **they're all about resisting complexity.** Event-driven architecture reduces coupling complexity. Observability reduces debugging complexity. Avoiding premature microservices reduces operational complexity. Good database design reduces data complexity. Saying "no" reduces feature complexity.
+
+After 30 years, the most important thing I've learned is this: **the goal isn't to build the most sophisticated system. It's to build the simplest system that solves the problem.**
+
+Everything else is ego.

@@ -3,7 +3,6 @@
 .claude
 node_modules
 doc
-scripts
 *.md
 *.log
 .DS_Store

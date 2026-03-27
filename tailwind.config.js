@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/pages/**/*.html', './src/js/**/*.js'],
+  content: ['./src/pages/**/*.html', './src/partials/**/*.html', './src/js/**/*.js'],
   darkMode: 'class',
   theme: {
     extend: {
@@ -18,8 +18,8 @@ module.exports = {
           highest: '#353535',
         },
         primary: {
-          DEFAULT: '#CABEFF',
-          container: '#6951D0',
+          DEFAULT: '#5BA8E0',
+          container: '#2B7CC6',
         },
         secondary: {
           DEFAULT: '#BDF4FF',

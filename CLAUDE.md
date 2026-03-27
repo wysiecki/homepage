@@ -17,19 +17,19 @@ npm run lint          # ESLint on *.js
 npm run format        # Prettier on all source files
 npm run format:check  # Check without writing
 
-# Docker: build + serve at http://localhost:8080
+# Docker: build + serve
 docker compose build && docker compose up -d
 
 # Docker dev mode (nginx + Tailwind watcher)
 # First uncomment volumes in docker-compose.yml
 docker compose --profile dev up
 
-# Local dev: Tailwind watch + static server
-npm run dev
-python3 -m http.server 8000
+# Local dev: build + serve from build/
+npm run build
+cd build && python3 -m http.server 3004
 
-# Health check
-curl http://localhost:8080/health
+# Health check (local dev)
+curl http://localhost:3004/health
 ```
 
 ## Important Configuration Notes
@@ -37,7 +37,7 @@ curl http://localhost:8080/health
 - `dist/output.css` is generated and gitignored — always rebuild CSS after editing HTML/JS/CSS
 - CSP is `script-src 'self'` — no inline scripts allowed, all JS goes in `script.js`
 - nginx `add_header` in nested `location` blocks replaces parent headers (security headers must be re-declared)
-- Port 8080 (configurable in docker-compose.yml), 404 for unknown paths (no SPA fallback)
+- Local dev: port 3004 (static server), API port 8002 (Express). 404 for unknown paths (no SPA fallback)
 - Dark mode: `html.dark` class strategy, persisted via `localStorage` key `theme-v2`
 
 ## Coding Style & Conventions

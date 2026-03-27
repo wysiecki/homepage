@@ -1,0 +1,11 @@
+# Local dev override — maps nginx to host port 3004
+# Usage: docker compose -f docker-compose.yml -f docker-compose.local.yml up -d
+services:
+  homepage:
+    ports:
+      - "3004:80"
+  api:
+    environment:
+      - ANALYTICS_TOKEN=${ANALYTICS_TOKEN:-test-local-key}
+      - ANALYTICS_SALT=${ANALYTICS_SALT:-this-is-a-local-dev-salt-for-testing-only}
+      - BLOG_API_KEY=${BLOG_API_KEY:-test-local-key}

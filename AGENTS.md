@@ -12,7 +12,7 @@
 - `npm install`: install Node dev dependencies (Tailwind).
 - `npm run dev`: watch Tailwind and write `dist/output.css`.
 - `npm run build`: compile and minify CSS for production.
-- `docker-compose up -d`: build and serve via Nginx at `http://localhost:8080`.
+- `docker-compose up -d`: build and serve via Nginx (behind Traefik in production).
 - `docker-compose --profile dev up`: dev mode (Nginx + Tailwind watcher). For live reload, uncomment the volume mounts in `docker-compose.yml` (`index.html`, `script.js`, `dist/`).
 - `docker-compose logs -f homepage`: follow server logs.
 
@@ -25,7 +25,7 @@
 - No unit test framework present. Validate manually:
   - Build CSS (`npm run build`) and confirm styles load.
   - Run via Docker and verify nav highlighting, dark mode toggle, animations, and project filtering.
-  - Health check: `curl http://localhost:8080/health` should return `healthy`.
+  - Health check: `curl http://localhost:3004/health` should return `healthy`.
 - Optional: run a Lighthouse audit; add E2E later (e.g., Playwright) using `data-*` hooks for selectors.
 
 ## Commit & Pull Request Guidelines
@@ -36,4 +36,4 @@
 ## Security & Configuration Tips
 - CSP and security headers are set in `nginx.conf`. Keep scripts in `script.js`; if adding inline scripts/styles, update CSP accordingly.
 - Do not commit generated assets in `dist/`; they are built locally and in the Docker image.
-- Ports can be changed in `docker-compose.yml` (`8080:80`). Set `NGINX_HOST`/`NGINX_PORT` via environment if needed.
+- Local dev ports: 3004 (static server), 8002 (API). See README.md for full port table.

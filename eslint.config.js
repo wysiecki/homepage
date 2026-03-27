@@ -41,6 +41,23 @@ export default [
     },
   },
   {
-    ignores: ['dist/**', 'node_modules/**'],
+    files: ['server/**/*.js', 'scripts/migrate-blog.js'],
+    languageOptions: {
+      sourceType: 'commonjs',
+      globals: {
+        require: 'readonly',
+        module: 'readonly',
+        exports: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        process: 'readonly',
+        Buffer: 'readonly',
+        fetch: 'readonly',
+        URLSearchParams: 'readonly',
+      },
+    },
+  },
+  {
+    ignores: ['dist/**', 'node_modules/**', 'server/node_modules/**'],
   },
 ];

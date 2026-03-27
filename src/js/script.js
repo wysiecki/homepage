@@ -18,28 +18,17 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 // ── Navbar ─────────────────────────────────────────────────────
 const navbar = document.getElementById('navbar');
 
+// Partial includes bg by default (for subpages). Homepage starts transparent.
+navbar.classList.remove('bg-surface-base/90', 'backdrop-blur-md');
+
 function onScroll() {
   const y = window.scrollY;
 
-  // Background
   if (y > NAVBAR_SCROLL_THRESHOLD) {
     navbar.classList.add('bg-surface-base/90', 'backdrop-blur-md');
   } else {
     navbar.classList.remove('bg-surface-base/90', 'backdrop-blur-md');
   }
-
-  // Active section
-  const sections = document.querySelectorAll('section[id]');
-  let current = '';
-  sections.forEach((section) => {
-    if (y >= section.offsetTop - SECTION_OFFSET) {
-      current = section.id;
-    }
-  });
-
-  document.querySelectorAll('[data-nav]').forEach((link) => {
-    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
-  });
 }
 
 window.addEventListener('scroll', onScroll, { passive: true });
@@ -182,41 +171,58 @@ function typeWriter() {
 
 typeWriter();
 
-// ── Turnstile captcha ─────────────────────────────────────────
-(async () => {
-  try {
-    const res = await fetch('/api/config');
-    const config = await res.json();
-    const siteKey = config.turnstileSiteKey || '';
-    if (!siteKey) return;
+// ── Turnstile captcha (lazy-loaded on contact form interaction) ──
+let turnstileLoaded = false;
 
-    // Wait for Turnstile script to load (async defer), max 10s
-    await new Promise((resolve, reject) => {
-      if (window.turnstile) return resolve();
-      let elapsed = 0;
-      const check = setInterval(() => {
-        elapsed += 100;
-        if (window.turnstile) {
-          clearInterval(check);
-          resolve();
-        } else if (elapsed >= 10000) {
-          clearInterval(check);
-          reject(new Error('Turnstile script failed to load'));
-        }
-      }, 100);
-    });
+function loadTurnstile() {
+  if (turnstileLoaded) return;
+  turnstileLoaded = true;
 
-    turnstile.render('#turnstile-container', {
-      sitekey: siteKey,
-      theme: 'auto',
-      callback: (token) => console.log('[Turnstile] Verified, token received'),
-      'error-callback': () => console.error('[Turnstile] Challenge error'),
-      'expired-callback': () => console.warn('[Turnstile] Token expired'),
-    });
-  } catch (err) {
-    console.error('[Turnstile]', err.message || err);
-  }
-})();
+  (async () => {
+    try {
+      const res = await fetch('/api/config');
+      const config = await res.json();
+      const siteKey = config.turnstileSiteKey || '';
+      if (!siteKey) return;
+
+      // Inject the Turnstile script dynamically
+      const script = document.createElement('script');
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+      script.setAttribute('data-cfasync', 'false');
+      document.body.appendChild(script);
+
+      // Wait for Turnstile to load, max 10s
+      await new Promise((resolve, reject) => {
+        let elapsed = 0;
+        const check = setInterval(() => {
+          elapsed += 100;
+          if (window.turnstile) {
+            clearInterval(check);
+            resolve();
+          } else if (elapsed >= 10000) {
+            clearInterval(check);
+            reject(new Error('Turnstile script failed to load'));
+          }
+        }, 100);
+      });
+
+      turnstile.render('#turnstile-container', {
+        sitekey: siteKey,
+        theme: 'auto',
+        callback: (token) => console.log('[Turnstile] Verified, token received'),
+        'error-callback': () => console.error('[Turnstile] Challenge error'),
+        'expired-callback': () => console.warn('[Turnstile] Token expired'),
+      });
+    } catch (err) {
+      console.error('[Turnstile]', err.message || err);
+    }
+  })();
+}
+
+// Load Turnstile when user interacts with the contact form
+const contactForm = document.getElementById('contact-form');
+contactForm.addEventListener('focusin', loadTurnstile, { once: true });
+contactForm.addEventListener('pointerenter', loadTurnstile, { once: true });
 
 // ── Contact form ───────────────────────────────────────────────
 document.getElementById('contact-form').addEventListener('submit', async (e) => {

@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth dark">
+  <head>
+    <!-- PARTIAL:head -->
+    <title>JSON Formatter & Validator — Free Online JSON Beautifier | wysiecki.de</title>
+    <meta
+      name="description"
+      content="Free online JSON formatter, validator, and beautifier. Format, minify, and validate JSON with error detection showing line and column. No signup required."
+    />
+    <link rel="canonical" href="https://wysiecki.de/tools/json-formatter.html" />
+    <meta property="og:title" content="JSON Formatter & Validator — Free Online Tool" />
+    <meta
+      property="og:description"
+      content="Format, validate, and beautify JSON data with syntax highlighting and error detection."
+    />
+    <meta property="og:url" content="https://wysiecki.de/tools/json-formatter.html" />
+    <meta property="og:type" content="website" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "JSON Formatter & Validator",
+        "description": "Free online JSON formatter, validator, and beautifier with error detection.",
+        "url": "https://wysiecki.de/tools/json-formatter.html",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Martin von Wysiecki"
+        }
+      }
+    </script>
+  </head>
+  <body class="grain">
+    <!-- PARTIAL:nav -->
+
+    <main class="pt-32 pb-24">
+      <div class="max-w-5xl mx-auto px-6 lg:px-8">
+        <!-- Breadcrumb -->
+        <nav class="mb-8 reveal">
+          <ol class="flex items-center gap-2 font-mono text-xs text-on-surface/40">
+            <li><a href="/" class="hover:text-primary transition-colors">Home</a></li>
+            <li>/</li>
+            <li><a href="/tools/" class="hover:text-primary transition-colors">Tools</a></li>
+            <li>/</li>
+            <li class="text-primary">JSON Formatter</li>
+          </ol>
+        </nav>
+
+        <!-- Header -->
+        <div class="reveal mb-8">
+          <h1 class="section-heading mb-2">JSON Formatter</h1>
+          <p class="text-on-surface/50">
+            Format, validate, and beautify JSON data. Runs entirely in your browser.
+          </p>
+        </div>
+
+        <!-- Tool UI -->
+        <div class="reveal">
+          <!-- Controls -->
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <button id="btn-format" class="btn-primary text-sm px-5 py-2.5">Format</button>
+            <button id="btn-minify" class="btn-ghost text-sm px-5 py-2.5">Minify</button>
+            <button id="btn-copy" class="btn-ghost text-sm px-5 py-2.5">Copy</button>
+            <button id="btn-clear" class="btn-ghost text-sm px-5 py-2.5">Clear</button>
+            <div class="ml-auto flex items-center gap-2">
+              <label for="indent-size" class="text-xs font-mono text-on-surface/40">Indent</label>
+              <select id="indent-size" class="form-input py-1.5 px-3 w-20 text-sm font-mono">
+                <option value="2">2 sp</option>
+                <option value="4">4 sp</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid lg:grid-cols-2 gap-4">
+            <!-- Input -->
+            <div>
+              <label
+                for="json-input"
+                class="block text-xs font-mono text-on-surface/40 mb-2 uppercase tracking-wider"
+              >
+                Input
+              </label>
+              <textarea
+                id="json-input"
+                class="form-input font-mono text-sm h-80 resize-y"
+                placeholder='Paste your JSON here...\n{\n  "example": "value"\n}'
+                spellcheck="false"
+              ></textarea>
+            </div>
+
+            <!-- Output -->
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <label class="block text-xs font-mono text-on-surface/40 uppercase tracking-wider">
+                  Output
+                </label>
+                <span id="status-indicator" class="text-xs font-mono text-on-surface/30"></span>
+              </div>
+              <div class="relative">
+                <div
+                  id="json-output"
+                  class="form-input font-mono text-sm h-80 overflow-auto whitespace-pre"
+                ></div>
+                <!-- Line numbers overlay -->
+                <div
+                  id="line-numbers"
+                  class="absolute top-0 left-0 w-10 h-80 overflow-hidden pointer-events-none font-mono text-xs text-on-surface/20 leading-[1.625] pt-3 pl-2"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error display -->
+          <div id="error-display" class="mt-4 hidden">
+            <div class="card p-4 border-red-500/30" style="border-color: rgba(239, 68, 68, 0.3)">
+              <div class="flex items-start gap-3">
+                <svg
+                  class="w-5 h-5 text-red-400 mt-0.5 shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                  />
+                </svg>
+                <div>
+                  <p class="text-red-400 font-mono text-sm font-medium" id="error-title">
+                    Invalid JSON
+                  </p>
+                  <p class="text-red-400/70 font-mono text-xs mt-1" id="error-detail"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- How to use section -->
+        <section class="mt-16 reveal">
+          <h2 class="font-display text-2xl font-semibold mb-4">How to Use</h2>
+          <div class="text-on-surface/60 space-y-4 text-sm leading-relaxed">
+            <p>
+              Paste or type your JSON into the input field on the left. The tool validates your JSON
+              in real time and shows any syntax errors with line and column numbers.
+            </p>
+            <ol class="list-decimal list-inside space-y-2 pl-2">
+              <li>
+                <strong class="text-on-surface/80">Format</strong> — Pretty-prints your JSON with
+                the selected indentation (2 or 4 spaces).
+              </li>
+              <li>
+                <strong class="text-on-surface/80">Minify</strong> — Compresses your JSON to a
+                single line by removing all whitespace.
+              </li>
+              <li>
+                <strong class="text-on-surface/80">Copy</strong> — Copies the formatted output to
+                your clipboard.
+              </li>
+              <li>
+                <strong class="text-on-surface/80">Clear</strong> — Resets both input and output
+                fields.
+              </li>
+            </ol>
+            <p>
+              All processing happens client-side in your browser. Your data never leaves your
+              machine.
+            </p>
+          </div>
+        </section>
+
+        <!-- Related tools -->
+        <section class="mt-12 reveal">
+          <h2 class="font-display text-xl font-semibold mb-4">Related Tools</h2>
+          <div class="flex flex-wrap gap-3">
+            <a href="/tools/base64.html" class="tag hover:text-secondary">Base64 Encoder</a>
+            <a href="/tools/jwt-decoder.html" class="tag hover:text-secondary">JWT Decoder</a>
+            <a href="/tools/regex-tester.html" class="tag hover:text-tertiary">Regex Tester</a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- PARTIAL:footer -->
+    <script src="/shared.js"></script>
+    <script src="/tools/json-formatter.js"></script>
+  </body>
+</html>

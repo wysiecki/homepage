@@ -8,13 +8,7 @@
       name="description"
       content="Martin von Wysiecki — Full-Stack Developer &amp; Tech Solutions. Building scalable web applications, mobile apps, and database solutions for startups and enterprises worldwide."
     />
-    <link href="./dist/output.css?v=4" rel="stylesheet" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="./dist/output.css?v=6" rel="stylesheet" />
     <noscript
       ><style>
         .reveal {
@@ -25,80 +19,7 @@
     >
   </head>
   <body class="grain">
-    <!-- Navigation -->
-    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300">
-      <div class="max-w-7xl mx-auto px-6 lg:px-8 py-5">
-        <div class="flex justify-between items-center">
-          <a href="#" class="flex items-center">
-            <img src="./assets/logo.png" alt="Martin von Wysiecki" class="h-8" />
-          </a>
-
-          <div class="hidden md:flex items-center gap-10">
-            <a href="#home" class="nav-link" data-nav>Home</a>
-            <a href="#services" class="nav-link" data-nav>Expertise</a>
-            <a href="#about" class="nav-link" data-nav>About</a>
-            <a href="#work" class="nav-link" data-nav>Work</a>
-            <a href="#contact" class="nav-link" data-nav>Contact</a>
-            <a href="#contact" class="btn-primary text-xs py-2.5 px-6">Let's Talk</a>
-          </div>
-
-          <button
-            id="mobile-menu-btn"
-            class="md:hidden p-2 cursor-pointer text-on-surface"
-            aria-label="Open menu"
-          >
-            <svg
-              class="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                d="M4 6h16M4 12h16M4 18h16"
-              ></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Mobile Menu -->
-    <div
-      id="mobile-menu"
-      class="fixed inset-0 z-40 bg-surface-base transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:hidden"
-    >
-      <div class="flex flex-col items-center justify-center h-full gap-10">
-        <a
-          href="#home"
-          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
-          >Home</a
-        >
-        <a
-          href="#services"
-          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
-          >Expertise</a
-        >
-        <a
-          href="#about"
-          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
-          >About</a
-        >
-        <a
-          href="#work"
-          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
-          >Work</a
-        >
-        <a
-          href="#contact"
-          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
-          >Contact</a
-        >
-      </div>
-    </div>
+    <!-- PARTIAL:nav -->
 
     <!-- ═══════════════════════════════════════ HERO ═══════════════════════════════════════ -->
     <section id="home" class="min-h-dvh flex flex-col justify-center relative overflow-hidden">
@@ -610,12 +531,6 @@
       </div>
     </footer>
 
-    <script
-      data-cfasync="false"
-      src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
-      async
-      defer
-    ></script>
     <script src="./script.js?v=6"></script>
     <script src="./tracker.js"></script>
   </body>
