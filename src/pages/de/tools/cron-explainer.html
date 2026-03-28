@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="de" class="scroll-smooth dark">
+  <head>
+    <!-- PARTIAL:head -->
+    <title>Cron Explainer — Kostenloses Online-Cron-Tool | wysiecki.de</title>
+    <meta
+      name="description"
+      content="Kostenloser Cron-Ausdruck-Erkl&auml;rer und -Generator. Crontab-Ausdr&uuml;cke in verst&auml;ndliche Beschreibungen mit n&auml;chsten Ausf&uuml;hrungszeiten umwandeln."
+    />
+    <link rel="canonical" href="https://wysiecki.de/de/tools/cron-explainer.html" />
+    <meta property="og:title" content="Cron Explainer — Kostenloses Online-Tool" />
+    <meta
+      property="og:description"
+      content="Cron-Ausdr&uuml;cke in Klartext mit n&auml;chsten Ausf&uuml;hrungszeiten umwandeln. Kostenloses Crontab-Tool, keine Registrierung."
+    />
+    <meta property="og:url" content="https://wysiecki.de/de/tools/cron-explainer.html" />
+    <meta property="og:type" content="website" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Cron Expression Explainer",
+        "description": "Kostenloser Cron-Ausdruck-Parser, der verst\u00e4ndliche Beschreibungen generiert und n\u00e4chste Ausf\u00fchrungszeiten berechnet",
+        "url": "https://wysiecki.de/de/tools/cron-explainer.html",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Martin von Wysiecki"
+        }
+      }
+    </script>
+  </head>
+  <body class="grain">
+    <!-- PARTIAL:nav -->
+
+    <main class="pt-32 pb-24">
+      <div class="max-w-5xl mx-auto px-6 lg:px-8">
+        <!-- Breadcrumb -->
+        <nav class="mb-8 reveal">
+          <ol class="flex items-center gap-2 font-mono text-xs text-on-surface/40">
+            <li><a href="/de/" class="hover:text-primary transition-colors">Startseite</a></li>
+            <li>/</li>
+            <li><a href="/de/tools/" class="hover:text-primary transition-colors">Tools</a></li>
+            <li>/</li>
+            <li class="text-primary">Cron Explainer</li>
+          </ol>
+        </nav>
+
+        <!-- Header -->
+        <div class="reveal mb-8">
+          <h1 class="section-heading mb-2">Cron Explainer</h1>
+          <p class="text-on-surface/50">
+            Cron-Ausdr&uuml;cke in verst&auml;ndliche Beschreibungen mit n&auml;chsten geplanten
+            Ausf&uuml;hrungszeiten umwandeln.
+          </p>
+        </div>
+
+        <!-- Tool UI -->
+        <div class="space-y-6 reveal">
+          <!-- Cron input -->
+          <div class="card p-6">
+            <label class="block text-xs font-mono uppercase tracking-wider text-on-surface/50 mb-3"
+              >Cron-Ausdruck</label
+            >
+            <div class="flex gap-3 items-center">
+              <input
+                type="text"
+                id="cron-input"
+                class="form-input font-mono flex-1 text-lg"
+                placeholder="* * * * *"
+                value="0 9 * * 1-5"
+                spellcheck="false"
+                autocomplete="off"
+              />
+            </div>
+
+            <!-- Field labels -->
+            <div class="grid grid-cols-5 gap-2 mt-4 text-center">
+              <div class="text-[10px] font-mono text-on-surface/30 uppercase tracking-wider">
+                Minute
+              </div>
+              <div class="text-[10px] font-mono text-on-surface/30 uppercase tracking-wider">
+                Stunde
+              </div>
+              <div class="text-[10px] font-mono text-on-surface/30 uppercase tracking-wider">
+                Tag (Monat)
+              </div>
+              <div class="text-[10px] font-mono text-on-surface/30 uppercase tracking-wider">
+                Monat
+              </div>
+              <div class="text-[10px] font-mono text-on-surface/30 uppercase tracking-wider">
+                Tag (Woche)
+              </div>
+            </div>
+
+            <!-- Visual field breakdown -->
+            <div class="grid grid-cols-5 gap-2 mt-1" id="cron-fields">
+              <div
+                class="text-center py-2 rounded-cyber font-mono text-sm"
+                style="background: rgba(202, 190, 255, 0.1)"
+                id="cron-field-0"
+              >
+                0
+              </div>
+              <div
+                class="text-center py-2 rounded-cyber font-mono text-sm"
+                style="background: rgba(202, 190, 255, 0.1)"
+                id="cron-field-1"
+              >
+                9
+              </div>
+              <div
+                class="text-center py-2 rounded-cyber font-mono text-sm"
+                style="background: rgba(202, 190, 255, 0.1)"
+                id="cron-field-2"
+              >
+                *
+              </div>
+              <div
+                class="text-center py-2 rounded-cyber font-mono text-sm"
+                style="background: rgba(202, 190, 255, 0.1)"
+                id="cron-field-3"
+              >
+                *
+              </div>
+              <div
+                class="text-center py-2 rounded-cyber font-mono text-sm"
+                style="background: rgba(202, 190, 255, 0.1)"
+                id="cron-field-4"
+              >
+                1-5
+              </div>
+            </div>
+          </div>
+
+          <!-- Presets -->
+          <div class="card p-6">
+            <label class="block text-xs font-mono uppercase tracking-wider text-on-surface/50 mb-3"
+              >H&auml;ufige Vorlagen</label
+            >
+            <div class="flex flex-wrap gap-2">
+              <button
+                class="tag cursor-pointer hover:text-secondary transition-colors"
+                data-cron="* * * * *"
+              >
+                Jede Minute
+              </button>
+              <button
+                class="tag cursor-pointer hover:text-secondary transition-colors"
+                data-cron="0 * * * *"
+              >
+                Jede Stunde
+              </button>
+              <button
+                class="tag cursor-pointer hover:text-secondary transition-colors"
+                data-cron="0 0 * * *"
+              >
+                T&auml;glich um Mitternacht
+              </button>
+              <button
+                class="tag cursor-pointer hover:text-secondary transition-colors"
+                data-cron="0 9 * * 1-5"
+              >
+                Werktags um 9 Uhr
+              </button>
+              <button
+                class="tag cursor-pointer hover:text-secondary transition-colors"
+                data-cron="0 0 * * 0"
+              >
+                W&ouml;chentlich am Sonntag
+              </button>
+              <button
+                class="tag cursor-pointer hover:text-secondary transition-colors"
+                data-cron="0 0 1 * *"
+              >
+                Monatlich am 1.
+              </button>
+              <button
+                class="tag cursor-pointer hover:text-secondary transition-colors"
+                data-cron="*/5 * * * *"
+              >
+                Alle 5 Minuten
+              </button>
+              <button
+                class="tag cursor-pointer hover:text-secondary transition-colors"
+                data-cron="0 */2 * * *"
+              >
+                Alle 2 Stunden
+              </button>
+              <button
+                class="tag cursor-pointer hover:text-secondary transition-colors"
+                data-cron="30 4 1,15 * *"
+              >
+                1. und 15. um 4:30 Uhr
+              </button>
+            </div>
+          </div>
+
+          <!-- Human-readable description -->
+          <div class="card p-6">
+            <label class="block text-xs font-mono uppercase tracking-wider text-on-surface/50 mb-3"
+              >Beschreibung</label
+            >
+            <p id="cron-description" class="text-lg text-on-surface/80 leading-relaxed"></p>
+          </div>
+
+          <!-- Next run times -->
+          <div class="card p-6">
+            <label class="block text-xs font-mono uppercase tracking-wider text-on-surface/50 mb-3"
+              >N&auml;chste 5 geplante Ausf&uuml;hrungen</label
+            >
+            <div id="cron-next-runs" class="space-y-2"></div>
+          </div>
+
+          <!-- Error display -->
+          <div
+            id="cron-error"
+            class="card p-4 border-red-500/30 text-red-400 text-sm font-mono"
+            style="display: none"
+          ></div>
+        </div>
+
+        <!-- How to use section -->
+        <section class="mt-16 reveal">
+          <h2 class="font-display text-2xl font-semibold mb-4">Anleitung</h2>
+          <div class="space-y-4 text-on-surface/60 text-sm leading-relaxed">
+            <p>
+              <strong class="text-on-surface/80">1. Ausdruck eingeben</strong> — Geben Sie einen
+              Standard-5-Feld-Cron-Ausdruck ein (Minute, Stunde, Tag des Monats, Monat, Wochentag).
+            </p>
+            <p>
+              <strong class="text-on-surface/80">2. Oder Vorlage w&auml;hlen</strong> — Klicken Sie
+              auf eine Vorlage, um g&auml;ngige Zeitpl&auml;ne sofort einzuf&uuml;llen.
+            </p>
+            <p>
+              <strong class="text-on-surface/80">3. Beschreibung lesen</strong> — Das Tool
+              &uuml;bersetzt den Ausdruck in Klartext, damit Sie &uuml;berpr&uuml;fen k&ouml;nnen,
+              ob er das Gew&uuml;nschte tut.
+            </p>
+            <p>
+              <strong class="text-on-surface/80">4. Ausf&uuml;hrungszeiten pr&uuml;fen</strong> —
+              Die n&auml;chsten 5 geplanten Ausf&uuml;hrungen werden ab dem aktuellen Datum und der
+              aktuellen Uhrzeit berechnet.
+            </p>
+          </div>
+          <div class="mt-6 card p-4">
+            <p class="text-xs font-mono text-on-surface/40 mb-2">Cron-Feld-Referenz:</p>
+            <pre class="text-xs font-mono text-on-surface/50 leading-relaxed">
+*    *    *    *    *
+|    |    |    |    |
+|    |    |    |    +-- Wochentag    (0-7, So=0 oder 7)
+|    |    |    +------- Monat        (1-12)
+|    |    +------------ Tag im Monat (1-31)
+|    +----------------- Stunde       (0-23)
++---------------------- Minute       (0-59)
+
+Sonderzeichen: * (beliebig) , (Liste) - (Bereich) / (Schritt)</pre
+            >
+          </div>
+        </section>
+
+        <!-- Related tools -->
+        <section class="mt-12 reveal">
+          <h2 class="font-display text-xl font-semibold mb-4">Verwandte Tools</h2>
+          <div class="flex flex-wrap gap-3">
+            <a href="/de/tools/json-formatter.html" class="tag hover:text-secondary"
+              >JSON Formatter</a
+            >
+            <a href="/de/tools/regex-tester.html" class="tag hover:text-secondary">Regex Tester</a>
+            <a href="/de/tools/base64.html" class="tag hover:text-secondary">Base64 Encoder</a>
+            <a href="/de/tools/jwt-decoder.html" class="tag hover:text-secondary">JWT Decoder</a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- PARTIAL:footer -->
+    <script src="/shared.js"></script>
+    <script src="/tools/cron-explainer.js"></script>
+  </body>
+</html>

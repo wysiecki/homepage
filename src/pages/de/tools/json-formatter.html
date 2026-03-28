@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="de" class="scroll-smooth dark">
+  <head>
+    <!-- PARTIAL:head -->
+    <title>JSON Formatter & Validator — Kostenloses Online-JSON-Tool | wysiecki.de</title>
+    <meta
+      name="description"
+      content="Kostenloser Online-JSON-Formatter, -Validator und -Beautifier. JSON formatieren, minimieren und validieren mit Fehlererkennung inkl. Zeile und Spalte. Keine Registrierung erforderlich."
+    />
+    <link rel="canonical" href="https://wysiecki.de/de/tools/json-formatter.html" />
+    <meta property="og:title" content="JSON Formatter & Validator — Kostenloses Online-Tool" />
+    <meta
+      property="og:description"
+      content="JSON-Daten formatieren, validieren und verschönern mit Syntax-Highlighting und Fehlererkennung."
+    />
+    <meta property="og:url" content="https://wysiecki.de/de/tools/json-formatter.html" />
+    <meta property="og:type" content="website" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "JSON Formatter & Validator",
+        "description": "Kostenloser Online-JSON-Formatter, -Validator und -Beautifier mit Fehlererkennung.",
+        "url": "https://wysiecki.de/de/tools/json-formatter.html",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Martin von Wysiecki"
+        }
+      }
+    </script>
+  </head>
+  <body class="grain">
+    <!-- PARTIAL:nav -->
+
+    <main class="pt-32 pb-24">
+      <div class="max-w-5xl mx-auto px-6 lg:px-8">
+        <!-- Breadcrumb -->
+        <nav class="mb-8 reveal">
+          <ol class="flex items-center gap-2 font-mono text-xs text-on-surface/40">
+            <li><a href="/de/" class="hover:text-primary transition-colors">Startseite</a></li>
+            <li>/</li>
+            <li><a href="/de/tools/" class="hover:text-primary transition-colors">Tools</a></li>
+            <li>/</li>
+            <li class="text-primary">JSON Formatter</li>
+          </ol>
+        </nav>
+
+        <!-- Header -->
+        <div class="reveal mb-8">
+          <h1 class="section-heading mb-2">JSON Formatter</h1>
+          <p class="text-on-surface/50">
+            JSON-Daten formatieren, validieren und verschönern. L&auml;uft vollst&auml;ndig in Ihrem
+            Browser.
+          </p>
+        </div>
+
+        <!-- Tool UI -->
+        <div class="reveal">
+          <!-- Controls -->
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <button id="btn-format" class="btn-primary text-sm px-5 py-2.5">Formatieren</button>
+            <button id="btn-minify" class="btn-ghost text-sm px-5 py-2.5">Minimieren</button>
+            <button id="btn-copy" class="btn-ghost text-sm px-5 py-2.5">Kopieren</button>
+            <button id="btn-clear" class="btn-ghost text-sm px-5 py-2.5">Leeren</button>
+            <div class="ml-auto flex items-center gap-2">
+              <label for="indent-size" class="text-xs font-mono text-on-surface/40"
+                >Einr&uuml;ckung</label
+              >
+              <select id="indent-size" class="form-input py-1.5 px-3 w-20 text-sm font-mono">
+                <option value="2">2 Lz</option>
+                <option value="4">4 Lz</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid lg:grid-cols-2 gap-4">
+            <!-- Input -->
+            <div>
+              <label
+                for="json-input"
+                class="block text-xs font-mono text-on-surface/40 mb-2 uppercase tracking-wider"
+              >
+                Eingabe
+              </label>
+              <textarea
+                id="json-input"
+                class="form-input font-mono text-sm h-80 resize-y"
+                placeholder='JSON hier einf&uuml;gen...\n{\n  "beispiel": "wert"\n}'
+                spellcheck="false"
+              ></textarea>
+            </div>
+
+            <!-- Output -->
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <label class="block text-xs font-mono text-on-surface/40 uppercase tracking-wider">
+                  Ausgabe
+                </label>
+                <span id="status-indicator" class="text-xs font-mono text-on-surface/30"></span>
+              </div>
+              <div class="relative">
+                <div
+                  id="json-output"
+                  class="form-input font-mono text-sm h-80 overflow-auto whitespace-pre"
+                ></div>
+                <!-- Line numbers overlay -->
+                <div
+                  id="line-numbers"
+                  class="absolute top-0 left-0 w-10 h-80 overflow-hidden pointer-events-none font-mono text-xs text-on-surface/20 leading-[1.625] pt-3 pl-2"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error display -->
+          <div id="error-display" class="mt-4 hidden">
+            <div class="card p-4 border-red-500/30" style="border-color: rgba(239, 68, 68, 0.3)">
+              <div class="flex items-start gap-3">
+                <svg
+                  class="w-5 h-5 text-red-400 mt-0.5 shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                  />
+                </svg>
+                <div>
+                  <p class="text-red-400 font-mono text-sm font-medium" id="error-title">
+                    Ung&uuml;ltiges JSON
+                  </p>
+                  <p class="text-red-400/70 font-mono text-xs mt-1" id="error-detail"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- How to use section -->
+        <section class="mt-16 reveal">
+          <h2 class="font-display text-2xl font-semibold mb-4">Anleitung</h2>
+          <div class="text-on-surface/60 space-y-4 text-sm leading-relaxed">
+            <p>
+              F&uuml;gen Sie Ihr JSON in das Eingabefeld links ein oder tippen Sie es. Das Tool
+              validiert Ihr JSON in Echtzeit und zeigt Syntaxfehler mit Zeilen- und Spaltennummern
+              an.
+            </p>
+            <ol class="list-decimal list-inside space-y-2 pl-2">
+              <li>
+                <strong class="text-on-surface/80">Formatieren</strong> — Gibt Ihr JSON mit der
+                gew&auml;hlten Einr&uuml;ckung (2 oder 4 Leerzeichen) sch&ouml;n formatiert aus.
+              </li>
+              <li>
+                <strong class="text-on-surface/80">Minimieren</strong> — Komprimiert Ihr JSON auf
+                eine einzige Zeile, indem alle Leerzeichen entfernt werden.
+              </li>
+              <li>
+                <strong class="text-on-surface/80">Kopieren</strong> — Kopiert die formatierte
+                Ausgabe in Ihre Zwischenablage.
+              </li>
+              <li>
+                <strong class="text-on-surface/80">Leeren</strong> — Setzt beide Eingabe- und
+                Ausgabefelder zur&uuml;ck.
+              </li>
+            </ol>
+            <p>
+              Die gesamte Verarbeitung findet clientseitig in Ihrem Browser statt. Ihre Daten
+              verlassen nie Ihren Rechner.
+            </p>
+          </div>
+        </section>
+
+        <!-- Related tools -->
+        <section class="mt-12 reveal">
+          <h2 class="font-display text-xl font-semibold mb-4">Verwandte Tools</h2>
+          <div class="flex flex-wrap gap-3">
+            <a href="/de/tools/base64.html" class="tag hover:text-secondary">Base64 Encoder</a>
+            <a href="/de/tools/jwt-decoder.html" class="tag hover:text-secondary">JWT Decoder</a>
+            <a href="/de/tools/regex-tester.html" class="tag hover:text-tertiary">Regex Tester</a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- PARTIAL:footer -->
+    <script src="/shared.js"></script>
+    <script src="/tools/json-formatter.js"></script>
+  </body>
+</html>

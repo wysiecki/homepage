@@ -1,53 +1,155 @@
 // ── Tech Stack Quiz ──────────────────────────────────────────────
 
-const questions = [
-  {
-    question: 'What type of project are you building?',
-    options: [
-      { label: 'SaaS / Web App', value: 'saas' },
-      { label: 'E-commerce / Marketplace', value: 'ecommerce' },
-      { label: 'Internal Tool / Admin Dashboard', value: 'internal' },
-      { label: 'API / Backend Service', value: 'api' },
-      { label: 'Content Site / Blog / Portfolio', value: 'content' },
-    ],
-  },
-  {
-    question: 'How large is your team?',
-    options: [
-      { label: 'Solo developer', value: 'solo' },
-      { label: 'Small team (2-5)', value: 'small' },
-      { label: 'Medium team (6-15)', value: 'medium' },
-      { label: 'Large / Enterprise (15+)', value: 'large' },
-    ],
-  },
-  {
-    question: 'What matters most for this project?',
-    options: [
-      { label: 'Ship fast — MVP in weeks', value: 'speed' },
-      { label: 'Performance — milliseconds matter', value: 'performance' },
-      { label: 'Scalability — millions of users', value: 'scale' },
-      { label: 'Maintainability — long-term codebase', value: 'maintain' },
-    ],
-  },
-  {
-    question: 'How do you feel about DevOps complexity?',
-    options: [
-      { label: 'Keep it simple — minimal ops', value: 'simple' },
-      { label: 'Some ops is fine — I know Docker', value: 'moderate' },
-      { label: 'Full control — Kubernetes, CI/CD, the works', value: 'full' },
-    ],
-  },
-  {
-    question: "What's your preferred language ecosystem?",
-    options: [
-      { label: 'JavaScript / TypeScript', value: 'js' },
-      { label: 'Python', value: 'python' },
-      { label: 'Go', value: 'go' },
-      { label: 'PHP', value: 'php' },
-      { label: 'No preference — pick the best fit', value: 'any' },
-    ],
-  },
-];
+const quizLang = document.documentElement.lang || 'en';
+
+const questionsByLang = {
+  en: [
+    {
+      question: 'What type of project are you building?',
+      options: [
+        { label: 'SaaS / Web App', value: 'saas' },
+        { label: 'E-commerce / Marketplace', value: 'ecommerce' },
+        { label: 'Internal Tool / Admin Dashboard', value: 'internal' },
+        { label: 'API / Backend Service', value: 'api' },
+        { label: 'Content Site / Blog / Portfolio', value: 'content' },
+      ],
+    },
+    {
+      question: 'How large is your team?',
+      options: [
+        { label: 'Solo developer', value: 'solo' },
+        { label: 'Small team (2-5)', value: 'small' },
+        { label: 'Medium team (6-15)', value: 'medium' },
+        { label: 'Large / Enterprise (15+)', value: 'large' },
+      ],
+    },
+    {
+      question: 'What matters most for this project?',
+      options: [
+        { label: 'Ship fast — MVP in weeks', value: 'speed' },
+        { label: 'Performance — milliseconds matter', value: 'performance' },
+        { label: 'Scalability — millions of users', value: 'scale' },
+        { label: 'Maintainability — long-term codebase', value: 'maintain' },
+      ],
+    },
+    {
+      question: 'How do you feel about DevOps complexity?',
+      options: [
+        { label: 'Keep it simple — minimal ops', value: 'simple' },
+        { label: 'Some ops is fine — I know Docker', value: 'moderate' },
+        { label: 'Full control — Kubernetes, CI/CD, the works', value: 'full' },
+      ],
+    },
+    {
+      question: "What's your preferred language ecosystem?",
+      options: [
+        { label: 'JavaScript / TypeScript', value: 'js' },
+        { label: 'Python', value: 'python' },
+        { label: 'Go', value: 'go' },
+        { label: 'PHP', value: 'php' },
+        { label: 'No preference — pick the best fit', value: 'any' },
+      ],
+    },
+  ],
+  de: [
+    {
+      question: 'Welche Art von Projekt entwickeln Sie?',
+      options: [
+        { label: 'SaaS / Web-App', value: 'saas' },
+        { label: 'E-Commerce / Marktplatz', value: 'ecommerce' },
+        { label: 'Internes Tool / Admin-Dashboard', value: 'internal' },
+        { label: 'API / Backend-Service', value: 'api' },
+        { label: 'Content-Seite / Blog / Portfolio', value: 'content' },
+      ],
+    },
+    {
+      question: 'Wie groß ist Ihr Team?',
+      options: [
+        { label: 'Solo-Entwickler', value: 'solo' },
+        { label: 'Kleines Team (2-5)', value: 'small' },
+        { label: 'Mittleres Team (6-15)', value: 'medium' },
+        { label: 'Groß / Enterprise (15+)', value: 'large' },
+      ],
+    },
+    {
+      question: 'Was ist für dieses Projekt am wichtigsten?',
+      options: [
+        { label: 'Schnell liefern — MVP in Wochen', value: 'speed' },
+        { label: 'Performance — jede Millisekunde zählt', value: 'performance' },
+        { label: 'Skalierbarkeit — Millionen Nutzer', value: 'scale' },
+        { label: 'Wartbarkeit — langfristige Codebasis', value: 'maintain' },
+      ],
+    },
+    {
+      question: 'Wie stehen Sie zu DevOps-Komplexität?',
+      options: [
+        { label: 'Einfach halten — minimaler Betrieb', value: 'simple' },
+        { label: 'Etwas Ops ist okay — ich kenne Docker', value: 'moderate' },
+        { label: 'Volle Kontrolle — Kubernetes, CI/CD, alles', value: 'full' },
+      ],
+    },
+    {
+      question: 'Welches Sprach-Ökosystem bevorzugen Sie?',
+      options: [
+        { label: 'JavaScript / TypeScript', value: 'js' },
+        { label: 'Python', value: 'python' },
+        { label: 'Go', value: 'go' },
+        { label: 'PHP', value: 'php' },
+        { label: 'Keine Präferenz — das Beste wählen', value: 'any' },
+      ],
+    },
+  ],
+  pl: [
+    {
+      question: 'Jaki typ projektu tworzysz?',
+      options: [
+        { label: 'SaaS / Aplikacja webowa', value: 'saas' },
+        { label: 'E-commerce / Marketplace', value: 'ecommerce' },
+        { label: 'Narzędzie wewnętrzne / Panel admina', value: 'internal' },
+        { label: 'API / Serwis backendowy', value: 'api' },
+        { label: 'Strona contentowa / Blog / Portfolio', value: 'content' },
+      ],
+    },
+    {
+      question: 'Jak duży jest Twój zespół?',
+      options: [
+        { label: 'Solo developer', value: 'solo' },
+        { label: 'Mały zespół (2-5)', value: 'small' },
+        { label: 'Średni zespół (6-15)', value: 'medium' },
+        { label: 'Duży / Enterprise (15+)', value: 'large' },
+      ],
+    },
+    {
+      question: 'Co jest najważniejsze w tym projekcie?',
+      options: [
+        { label: 'Szybkie wdrożenie — MVP w tygodnie', value: 'speed' },
+        { label: 'Wydajność — liczy się każda milisekunda', value: 'performance' },
+        { label: 'Skalowalność — miliony użytkowników', value: 'scale' },
+        { label: 'Łatwość utrzymania — długoterminowy kod', value: 'maintain' },
+      ],
+    },
+    {
+      question: 'Jak podchodzisz do złożoności DevOps?',
+      options: [
+        { label: 'Prosto — minimum operacji', value: 'simple' },
+        { label: 'Trochę ops jest ok — znam Dockera', value: 'moderate' },
+        { label: 'Pełna kontrola — Kubernetes, CI/CD, wszystko', value: 'full' },
+      ],
+    },
+    {
+      question: 'Jaki ekosystem języka preferujesz?',
+      options: [
+        { label: 'JavaScript / TypeScript', value: 'js' },
+        { label: 'Python', value: 'python' },
+        { label: 'Go', value: 'go' },
+        { label: 'PHP', value: 'php' },
+        { label: 'Bez preferencji — wybierz najlepszy', value: 'any' },
+      ],
+    },
+  ],
+};
+
+const questions = questionsByLang[quizLang] || questionsByLang.en;
 
 const archetypes = {
   'lean-startup': {
@@ -344,10 +446,16 @@ startBtn.addEventListener('click', () => {
 
 restartBtn.addEventListener('click', restart);
 
+const quizUi = {
+  en: { copied: 'Copied!', share: 'Share Result', got: 'I got' },
+  de: { copied: 'Kopiert!', share: 'Ergebnis teilen', got: 'Mein Ergebnis' },
+  pl: { copied: 'Skopiowano!', share: 'Udostępnij wynik', got: 'Mój wynik' },
+}[quizLang] || { copied: 'Copied!', share: 'Share Result', got: 'I got' };
+
 shareBtn.addEventListener('click', async () => {
   const archetypeKey = resultsEl.dataset.archetype;
   const result = archetypes[archetypeKey];
-  const text = `I got "${result.name}" on the Tech Stack Quiz! ${result.stack.join(', ')}`;
+  const text = `${quizUi.got} "${result.name}" on the Tech Stack Quiz! ${result.stack.join(', ')}`;
   const url = window.location.href;
 
   if (navigator.share) {
@@ -360,8 +468,8 @@ shareBtn.addEventListener('click', async () => {
     // Fallback: copy to clipboard
     try {
       await navigator.clipboard.writeText(`${text}\n${url}`);
-      shareBtn.textContent = 'Copied!';
-      setTimeout(() => (shareBtn.textContent = 'Share Result'), 2000);
+      shareBtn.textContent = quizUi.copied;
+      setTimeout(() => (shareBtn.textContent = quizUi.share), 2000);
     } catch {
       // Clipboard not available
     }

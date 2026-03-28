@@ -40,6 +40,12 @@ const DIRS = {
 
 const SITE_URL = 'https://wysiecki.de';
 
+const LANGUAGES = [
+  { code: 'en', prefix: '', dir: '' },
+  { code: 'de', prefix: '/de', dir: 'de' },
+  { code: 'pl', prefix: '/pl', dir: 'pl' },
+];
+
 // ── Helpers ──────────────────────────────────────────────────────
 
 function loadPartials() {
@@ -54,8 +60,10 @@ function loadPartials() {
   return partials;
 }
 
-function injectPartials(html, partials) {
+function injectPartials(html, partials, lang = '') {
   return html.replace(/<!--\s*PARTIAL:(\S+)\s*-->/g, (_match, name) => {
+    // Try language-specific partial first (e.g., nav-de), then fall back to base
+    if (lang && partials[`${name}-${lang}`]) return partials[`${name}-${lang}`];
     if (partials[name]) return partials[name];
     console.warn(`  Warning: partial "${name}" not found`);
     return _match;
@@ -75,7 +83,7 @@ function copyDirRecursive(src, dest) {
   }
 }
 
-function processPages(srcDir, destDir, partials, skipFiles = []) {
+function processPages(srcDir, destDir, partials, skipFiles = [], lang = '') {
   mkdirSync(destDir, { recursive: true });
   let count = 0;
   for (const entry of readdirSync(srcDir)) {
@@ -83,10 +91,15 @@ function processPages(srcDir, destDir, partials, skipFiles = []) {
     const srcPath = join(srcDir, entry);
     const destPath = join(destDir, entry);
     if (statSync(srcPath).isDirectory()) {
-      count += processPages(srcPath, destPath, partials, skipFiles);
+      count += processPages(srcPath, destPath, partials, skipFiles, lang);
     } else if (extname(entry) === '.html') {
-      const content = readFileSync(srcPath, 'utf-8');
-      writeFileSync(destPath, injectPartials(content, partials));
+      let content = readFileSync(srcPath, 'utf-8');
+      content = injectPartials(content, partials, lang);
+      // Set correct html lang attribute
+      if (lang) {
+        content = content.replace(/(<html\s[^>]*?)lang="[^"]*"/, `$1lang="${lang}"`);
+      }
+      writeFileSync(destPath, content);
       count++;
     } else {
       copyFileSync(srcPath, destPath);
@@ -261,11 +274,12 @@ function generateSitemap(buildDir) {
       const full = join(dir, entry);
       const stat = statSync(full);
       if (stat.isDirectory()) {
-        if (['assets', 'dist', 'tools'].includes(entry) && prefix === '') {
-          // Scan tools separately but skip assets/dist
-          if (entry === 'tools') scan(full, `${prefix}/${entry}`);
+        if (['assets', 'dist'].includes(entry) && prefix === '') continue;
+        if (entry === 'tools' && prefix === '') {
+          scan(full, `${prefix}/${entry}`);
           continue;
         }
+        // Skip scanning de/tools and pl/tools as separate — they'll be scanned via de/ and pl/
         scan(full, `${prefix}/${entry}`);
       } else if (entry === 'index.html') {
         const path = prefix || '';
@@ -282,13 +296,52 @@ function generateSitemap(buildDir) {
   scan(buildDir);
 
   const today = new Date().toISOString().split('T')[0];
+
+  // Build hreflang alternates for each URL
+  function hreflangLinks(loc) {
+    // Determine the base path (strip /de/ or /pl/ prefix)
+    let basePath = loc;
+    for (const lang of LANGUAGES) {
+      if (lang.prefix && loc.startsWith(lang.prefix + '/')) {
+        basePath = loc.slice(lang.prefix.length) || '/';
+        break;
+      }
+    }
+
+    // Only add hreflang if alternates exist
+    const links = [];
+    for (const lang of LANGUAGES) {
+      const altLoc = lang.prefix + basePath;
+      // Check if the alternate URL exists in our URL list
+      if (urls.some((u) => u.loc === altLoc)) {
+        links.push(
+          `    <xhtml:link rel="alternate" hreflang="${lang.code}" href="${SITE_URL}${altLoc}" />`
+        );
+      }
+    }
+    // Add x-default pointing to English
+    if (links.length > 1) {
+      links.push(
+        `    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_URL}${basePath}" />`
+      );
+    }
+    return links;
+  }
+
   const xml = [
     '<?xml version="1.0" encoding="UTF-8"?>',
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-    ...urls.map(
-      (u) =>
-        `  <url>\n    <loc>${SITE_URL}${u.loc}</loc>\n    <lastmod>${today}</lastmod>\n    <priority>${u.priority}</priority>\n  </url>`
-    ),
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+    ...urls.map((u) => {
+      const altLinks = hreflangLinks(u.loc);
+      return [
+        '  <url>',
+        `    <loc>${SITE_URL}${u.loc}</loc>`,
+        `    <lastmod>${today}</lastmod>`,
+        `    <priority>${u.priority}</priority>`,
+        ...altLinks,
+        '  </url>',
+      ].join('\n');
+    }),
     '</urlset>',
     '',
   ].join('\n');
@@ -312,10 +365,29 @@ const partials = loadPartials();
 const partialNames = Object.keys(partials);
 console.log(`Partials: ${partialNames.length ? partialNames.join(', ') : '(none)'}`);
 
-// 2. Process HTML pages (copy + inject partials)
-// Skip post-template.html — it's used by the blog builder, not served directly
-const pageCount = processPages(DIRS.pages, BUILD, partials, ['post-template.html']);
-console.log(`Pages: ${pageCount} processed`);
+// 2. Process HTML pages (copy + inject partials) for all languages
+let totalPageCount = 0;
+
+// English: process src/pages/ excluding de/ and pl/ subdirs
+const enCount = processPages(DIRS.pages, BUILD, partials, ['post-template.html', 'de', 'pl'], '');
+totalPageCount += enCount;
+console.log(`Pages (en): ${enCount} processed`);
+
+// German and Polish: process from src/pages/{lang}/ → build/{lang}/
+for (const lang of LANGUAGES) {
+  if (!lang.dir) continue; // skip English (already done)
+  const langSrc = join(DIRS.pages, lang.dir);
+  if (!existsSync(langSrc)) {
+    console.log(`Pages (${lang.code}): skipped (no src/pages/${lang.dir}/)`);
+    continue;
+  }
+  const langDest = join(BUILD, lang.dir);
+  const count = processPages(langSrc, langDest, partials, ['post-template.html'], lang.code);
+  totalPageCount += count;
+  console.log(`Pages (${lang.code}): ${count} processed`);
+}
+
+console.log(`Pages: ${totalPageCount} total`);
 
 // 3. Build blog (markdown → HTML) — skip if using dynamic blog API
 if (process.env.SKIP_BLOG_BUILD === '1') {

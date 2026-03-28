@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pl" class="scroll-smooth dark">
+  <head>
+    <!-- PARTIAL:head -->
+    <title>Jakiego Tech Stacka powinieneś użyć? — Darmowy quiz | wysiecki.de</title>
+    <meta
+      name="description"
+      content="Odpowiedz na 5 pytań o swój projekt i uzyskaj rekomendację tech stacka od programisty z ponad 30-letnim doświadczeniem."
+    />
+    <link rel="canonical" href="https://wysiecki.de/pl/quiz/" />
+    <meta property="og:title" content="Jakiego Tech Stacka powinieneś użyć? — Quiz" />
+    <meta
+      property="og:description"
+      content="Uzyskaj spersonalizowaną rekomendację tech stacka dopasowaną do potrzeb Twojego projektu."
+    />
+    <meta property="og:url" content="https://wysiecki.de/pl/quiz/" />
+    <meta property="og:type" content="website" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Quiz",
+        "name": "Jakiego Tech Stacka powinieneś użyć?",
+        "description": "Uzyskaj spersonalizowaną rekomendację tech stacka dopasowaną do potrzeb Twojego projektu",
+        "url": "https://wysiecki.de/pl/quiz/",
+        "author": {
+          "@type": "Person",
+          "name": "Martin von Wysiecki"
+        }
+      }
+    </script>
+  </head>
+  <body class="grain">
+    <!-- PARTIAL:nav -->
+
+    <main class="pt-32 pb-24">
+      <div class="max-w-2xl mx-auto px-6 lg:px-8">
+        <!-- Intro (shown before quiz starts) -->
+        <div id="quiz-intro" class="reveal text-center">
+          <p class="section-label">Quiz Tech Stack</p>
+          <h1 class="section-heading mb-6">
+            Jakiego stacka<br />
+            <span class="text-primary">powinieneś użyć?</span>
+          </h1>
+          <p class="text-on-surface/50 text-lg mb-10 max-w-md mx-auto">
+            Odpowiedz na 5 krótkich pytań o swój projekt. Otrzymaj rekomendację opartą na ponad 30
+            latach doświadczenia.
+          </p>
+          <button id="quiz-start" class="btn-primary text-base px-10 py-4">Rozpocznij quiz</button>
+        </div>
+
+        <!-- Quiz Questions (hidden initially) -->
+        <div id="quiz-questions" class="hidden">
+          <!-- Progress bar -->
+          <div class="mb-10">
+            <div class="flex justify-between items-center mb-2">
+              <span class="font-mono text-xs text-on-surface/40">
+                Pytanie <span id="quiz-current">1</span> z <span id="quiz-total">5</span>
+              </span>
+              <span id="quiz-progress-pct" class="font-mono text-xs text-primary">0%</span>
+            </div>
+            <div class="h-1 rounded-full bg-surface-highest overflow-hidden">
+              <div
+                id="quiz-progress-bar"
+                class="h-full rounded-full transition-all duration-500 ease-out"
+                style="width: 0%; background: linear-gradient(135deg, #2b7cc6, #5ba8e0)"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Question container (animated) -->
+          <div id="quiz-question-container" class="card p-8 md:p-10">
+            <h2 id="quiz-question-text" class="font-display text-2xl font-semibold mb-8"></h2>
+            <div id="quiz-options" class="space-y-3"></div>
+          </div>
+        </div>
+
+        <!-- Results (hidden initially) -->
+        <div id="quiz-results" class="hidden">
+          <div class="text-center mb-10">
+            <p class="section-label">Twój wynik</p>
+            <h2 id="result-archetype" class="section-heading mb-2"></h2>
+            <p id="result-subtitle" class="text-on-surface/50 text-lg"></p>
+          </div>
+
+          <div class="card p-8 md:p-10 mb-8">
+            <h3 class="font-display text-xl font-semibold mb-6 text-primary">
+              Rekomendowany stack
+            </h3>
+            <div id="result-stack" class="flex flex-wrap gap-3 mb-8"></div>
+            <div id="result-reasoning" class="text-on-surface/50 leading-relaxed space-y-4"></div>
+          </div>
+
+          <!-- Share & Restart -->
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <button id="quiz-share" class="btn-primary">Udostępnij wynik</button>
+            <button id="quiz-restart" class="btn-ghost">Zagraj ponownie</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- PARTIAL:footer -->
+    <script src="/shared.js"></script>
+    <script src="/quiz.js"></script>
+  </body>
+</html>

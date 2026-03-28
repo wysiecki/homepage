@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="de" class="scroll-smooth dark">
+  <head>
+    <!-- PARTIAL:head -->
+    <title>Base64 Encoder/Decoder — Kostenloses Online-Base64-Tool | wysiecki.de</title>
+    <meta
+      name="description"
+      content="Kostenloser Online-Base64-Encoder und -Decoder mit voller UTF-8-Unterst&uuml;tzung. Text sofort in Base64 kodieren oder Base64-Strings dekodieren. Keine Registrierung erforderlich."
+    />
+    <link rel="canonical" href="https://wysiecki.de/de/tools/base64.html" />
+    <meta property="og:title" content="Base64 Encoder/Decoder — Kostenloses Online-Tool" />
+    <meta
+      property="og:description"
+      content="Base64-Strings mit voller UTF-8-Unterst&uuml;tzung kodieren und dekodieren."
+    />
+    <meta property="og:url" content="https://wysiecki.de/de/tools/base64.html" />
+    <meta property="og:type" content="website" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Base64 Encoder/Decoder",
+        "description": "Kostenloser Online-Base64-Encoder und -Decoder mit voller UTF-8-Unterst\u00fctzung.",
+        "url": "https://wysiecki.de/de/tools/base64.html",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Martin von Wysiecki"
+        }
+      }
+    </script>
+  </head>
+  <body class="grain">
+    <!-- PARTIAL:nav -->
+
+    <main class="pt-32 pb-24">
+      <div class="max-w-5xl mx-auto px-6 lg:px-8">
+        <!-- Breadcrumb -->
+        <nav class="mb-8 reveal">
+          <ol class="flex items-center gap-2 font-mono text-xs text-on-surface/40">
+            <li><a href="/de/" class="hover:text-primary transition-colors">Startseite</a></li>
+            <li>/</li>
+            <li><a href="/de/tools/" class="hover:text-primary transition-colors">Tools</a></li>
+            <li>/</li>
+            <li class="text-primary">Base64 Encoder</li>
+          </ol>
+        </nav>
+
+        <!-- Header -->
+        <div class="reveal mb-8">
+          <h1 class="section-heading mb-2">Base64 Encoder / Decoder</h1>
+          <p class="text-on-surface/50">
+            Base64-Strings mit voller UTF-8-Unterst&uuml;tzung kodieren und dekodieren. L&auml;uft
+            vollst&auml;ndig in Ihrem Browser.
+          </p>
+        </div>
+
+        <!-- Tool UI -->
+        <div class="reveal">
+          <!-- Mode toggle + actions -->
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <div
+              class="flex rounded-cyber overflow-hidden"
+              style="border: 1px solid rgba(72, 69, 83, 0.3)"
+            >
+              <button
+                id="btn-encode"
+                class="px-5 py-2.5 text-sm font-body font-medium tracking-wide transition-all duration-200 bg-primary text-on-primary"
+              >
+                Kodieren
+              </button>
+              <button
+                id="btn-decode"
+                class="px-5 py-2.5 text-sm font-body font-medium tracking-wide transition-all duration-200 text-on-surface/60 hover:text-on-surface"
+              >
+                Dekodieren
+              </button>
+            </div>
+            <button id="btn-copy" class="btn-ghost text-sm px-5 py-2.5">Ergebnis kopieren</button>
+            <button id="btn-clear" class="btn-ghost text-sm px-5 py-2.5">Leeren</button>
+            <div class="ml-auto flex items-center gap-2">
+              <span class="inline-flex items-center gap-1.5 text-xs font-mono text-on-surface/30">
+                <svg
+                  class="w-3.5 h-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
+                  />
+                </svg>
+                UTF-8
+              </span>
+            </div>
+          </div>
+
+          <div class="grid lg:grid-cols-2 gap-4">
+            <!-- Input -->
+            <div>
+              <label
+                for="b64-input"
+                class="block text-xs font-mono text-on-surface/40 mb-2 uppercase tracking-wider"
+                id="input-label"
+              >
+                Texteingabe
+              </label>
+              <textarea
+                id="b64-input"
+                class="form-input font-mono text-sm h-64 resize-y"
+                placeholder="Text zum Kodieren eingeben..."
+                spellcheck="false"
+              ></textarea>
+            </div>
+
+            <!-- Output -->
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <label
+                  class="block text-xs font-mono text-on-surface/40 uppercase tracking-wider"
+                  id="output-label"
+                >
+                  Base64-Ausgabe
+                </label>
+                <span id="char-count" class="text-xs font-mono text-on-surface/30"></span>
+              </div>
+              <textarea
+                id="b64-output"
+                class="form-input font-mono text-sm h-64 resize-y"
+                readonly
+                placeholder="Ergebnis erscheint hier..."
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Error display -->
+          <div id="error-display" class="mt-4 hidden">
+            <div class="card p-4" style="border-color: rgba(239, 68, 68, 0.3)">
+              <div class="flex items-start gap-3">
+                <svg
+                  class="w-5 h-5 text-red-400 mt-0.5 shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+                  />
+                </svg>
+                <p class="text-red-400 font-mono text-sm" id="error-message"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- How to use section -->
+        <section class="mt-16 reveal">
+          <h2 class="font-display text-2xl font-semibold mb-4">Anleitung</h2>
+          <div class="text-on-surface/60 space-y-4 text-sm leading-relaxed">
+            <p>
+              Base64-Kodierung wandelt Bin&auml;rdaten in ein ASCII-Zeichenformat um, das 64 Zeichen
+              verwendet. Sie wird h&auml;ufig genutzt, um Bin&auml;rdaten in textbasierte Formate
+              wie JSON, HTML oder E-Mail einzubetten.
+            </p>
+            <ol class="list-decimal list-inside space-y-2 pl-2">
+              <li>
+                <strong class="text-on-surface/80">Kodieren</strong> — W&auml;hlen Sie den
+                Kodieren-Modus, f&uuml;gen Sie Text ein oder tippen Sie ihn, und das Base64-kodierte
+                Ergebnis erscheint sofort.
+              </li>
+              <li>
+                <strong class="text-on-surface/80">Dekodieren</strong> — Wechseln Sie zum
+                Dekodieren-Modus, f&uuml;gen Sie einen Base64-String ein und sehen Sie die
+                dekodierte Textausgabe.
+              </li>
+              <li>
+                <strong class="text-on-surface/80">Ergebnis kopieren</strong> — Kopiert die Ausgabe
+                mit einem Klick in Ihre Zwischenablage.
+              </li>
+            </ol>
+            <p>
+              Dieses Tool verarbeitet UTF-8-Text korrekt, einschlie&szlig;lich Mehrbyte-Zeichen wie
+              Emojis und nicht-lateinischen Schriften. Die gesamte Verarbeitung findet clientseitig
+              in Ihrem Browser statt.
+            </p>
+          </div>
+        </section>
+
+        <!-- Related tools -->
+        <section class="mt-12 reveal">
+          <h2 class="font-display text-xl font-semibold mb-4">Verwandte Tools</h2>
+          <div class="flex flex-wrap gap-3">
+            <a href="/de/tools/json-formatter.html" class="tag hover:text-primary"
+              >JSON Formatter</a
+            >
+            <a href="/de/tools/jwt-decoder.html" class="tag hover:text-secondary">JWT Decoder</a>
+            <a href="/de/tools/color-converter.html" class="tag hover:text-tertiary">
+              Color Converter
+            </a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- PARTIAL:footer -->
+    <script src="/shared.js"></script>
+    <script src="/tools/base64.js"></script>
+  </body>
+</html>

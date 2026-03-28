@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="pl" class="scroll-smooth dark">
+  <head>
+    <!-- PARTIAL:head -->
+    <title>JWT Decoder — Darmowy dekoder tokenów JWT online | wysiecki.de</title>
+    <meta
+      name="description"
+      content="Dekoduj tokeny JWT natychmiast w przeglądarce. Sprawdź nagłówek, ładunek, podpis, status wygaśnięcia i wyświetl czytelne znaczniki czasu. Żadne dane nie są wysyłane na serwery."
+    />
+    <link rel="canonical" href="https://wysiecki.de/pl/tools/jwt-decoder.html" />
+    <meta property="og:title" content="JWT Decoder — Darmowe narzędzie online" />
+    <meta
+      property="og:description"
+      content="Dekoduj i sprawdzaj tokeny JSON Web Token — nagłówek, ładunek, wygaśnięcie i claims. Działa w całości w przeglądarce."
+    />
+    <meta property="og:url" content="https://wysiecki.de/pl/tools/jwt-decoder.html" />
+    <meta property="og:type" content="website" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "JWT Decoder",
+        "description": "Dekoduj tokeny JSON Web Token, aby sprawdzić nagłówek, ładunek i status wygaśnięcia",
+        "url": "https://wysiecki.de/pl/tools/jwt-decoder.html",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0" },
+        "author": {
+          "@type": "Person",
+          "name": "Martin von Wysiecki"
+        }
+      }
+    </script>
+  </head>
+  <body class="grain">
+    <!-- PARTIAL:nav -->
+
+    <main class="pt-32 pb-24">
+      <div class="max-w-5xl mx-auto px-6 lg:px-8">
+        <!-- Breadcrumb -->
+        <nav class="mb-8 reveal">
+          <ol class="flex items-center gap-2 font-mono text-xs text-on-surface/40">
+            <li><a href="/pl/" class="hover:text-primary transition-colors">Strona główna</a></li>
+            <li>/</li>
+            <li><a href="/pl/tools/" class="hover:text-primary transition-colors">Narzędzia</a></li>
+            <li>/</li>
+            <li class="text-primary">JWT Decoder</li>
+          </ol>
+        </nav>
+
+        <!-- Header -->
+        <div class="reveal mb-8">
+          <h1 class="section-heading mb-2">JWT Decoder</h1>
+          <p class="text-on-surface/50">
+            Wklej token JSON Web Token, aby zdekodować i sprawdzić jego nagłówek, ładunek i podpis.
+            Wszystko działa po stronie klienta.
+          </p>
+        </div>
+
+        <!-- Tool UI -->
+        <div class="space-y-6">
+          <!-- Input -->
+          <div class="card p-6 reveal">
+            <label for="jwt-input" class="block font-display text-sm font-semibold mb-2">
+              Token JWT
+            </label>
+            <textarea
+              id="jwt-input"
+              class="form-input w-full h-32 font-mono text-sm resize-y"
+              placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+              spellcheck="false"
+            ></textarea>
+          </div>
+
+          <!-- Token Status -->
+          <div id="jwt-status" class="card p-4 reveal hidden">
+            <div class="flex items-center gap-3">
+              <span id="jwt-status-icon" class="flex-shrink-0 w-3 h-3 rounded-full"></span>
+              <span id="jwt-status-text" class="font-mono text-sm"></span>
+              <span id="jwt-countdown" class="ml-auto font-mono text-xs text-on-surface/40"></span>
+            </div>
+          </div>
+
+          <!-- Error -->
+          <div id="jwt-error" class="card p-4 border border-red-500/30 reveal hidden">
+            <p class="text-red-400 font-mono text-sm"></p>
+          </div>
+
+          <!-- Decoded sections -->
+          <div class="grid md:grid-cols-2 gap-6">
+            <!-- Header -->
+            <div class="card p-6 reveal">
+              <div class="flex items-center justify-between mb-3">
+                <h2 class="font-display text-sm font-semibold text-primary">Nagłówek</h2>
+                <button
+                  class="jwt-copy-btn btn-ghost text-xs py-1 px-3"
+                  data-section="header"
+                  title="Kopiuj JSON nagłówka"
+                >
+                  Kopiuj
+                </button>
+              </div>
+              <pre
+                id="jwt-header"
+                class="font-mono text-sm text-on-surface/70 whitespace-pre-wrap break-all min-h-[4rem] bg-surface-base/50 rounded-cyber p-3"
+              ></pre>
+            </div>
+
+            <!-- Payload -->
+            <div class="card p-6 reveal">
+              <div class="flex items-center justify-between mb-3">
+                <h2 class="font-display text-sm font-semibold text-secondary">Ładunek</h2>
+                <button
+                  class="jwt-copy-btn btn-ghost text-xs py-1 px-3"
+                  data-section="payload"
+                  title="Kopiuj JSON ładunku"
+                >
+                  Kopiuj
+                </button>
+              </div>
+              <pre
+                id="jwt-payload"
+                class="font-mono text-sm text-on-surface/70 whitespace-pre-wrap break-all min-h-[4rem] bg-surface-base/50 rounded-cyber p-3"
+              ></pre>
+            </div>
+          </div>
+
+          <!-- Signature -->
+          <div class="card p-6 reveal">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="font-display text-sm font-semibold text-tertiary">Podpis</h2>
+              <button
+                class="jwt-copy-btn btn-ghost text-xs py-1 px-3"
+                data-section="signature"
+                title="Kopiuj podpis"
+              >
+                Kopiuj
+              </button>
+            </div>
+            <pre
+              id="jwt-signature"
+              class="font-mono text-sm text-on-surface/70 whitespace-pre-wrap break-all bg-surface-base/50 rounded-cyber p-3"
+            ></pre>
+          </div>
+
+          <!-- Claims Table -->
+          <div id="jwt-claims" class="card p-6 reveal hidden">
+            <h2 class="font-display text-sm font-semibold mb-3">Zarejestrowane claims</h2>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="text-left text-on-surface/40 border-b border-on-surface/10">
+                    <th class="pb-2 pr-4 font-mono">Claim</th>
+                    <th class="pb-2 pr-4">Wartość</th>
+                    <th class="pb-2">Opis</th>
+                  </tr>
+                </thead>
+                <tbody id="jwt-claims-body" class="font-mono"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- How to use section -->
+        <section class="mt-16 reveal">
+          <h2 class="font-display text-2xl font-semibold mb-4">Jak używać</h2>
+          <div class="text-on-surface/60 space-y-3 text-sm leading-relaxed">
+            <p>
+              <strong class="text-on-surface/80">1. Wklej token JWT</strong> w pole wejściowe
+              powyżej. Dekoder akceptuje tokeny w standardowym formacie
+              <code class="font-mono text-primary/80">nagłówek.ładunek.podpis</code>.
+            </p>
+            <p>
+              <strong class="text-on-surface/80">2. Sprawdź zdekodowane dane.</strong> Nagłówek
+              pokazuje algorytm i typ tokena. Ładunek zawiera claims, takie jak wydawca, temat,
+              odbiorca i wygaśnięcie.
+            </p>
+            <p>
+              <strong class="text-on-surface/80">3. Sprawdź ważność tokena.</strong> Jeśli token ma
+              claim <code class="font-mono text-primary/80">exp</code>, dekoder pokazuje, czy jest
+              wygasły, ważny, czy jeszcze nie ważny. Znaczniki czasu są konwertowane na czytelne
+              daty.
+            </p>
+            <p>
+              <strong class="text-on-surface/80">4. Kopiuj poszczególne sekcje</strong> za pomocą
+              przycisków Kopiuj obok każdej zdekodowanej sekcji.
+            </p>
+            <p class="text-on-surface/40 text-xs">
+              To narzędzie nie weryfikuje podpisów JWT — jedynie dekoduje zawartość zakodowaną w
+              Base64url. Żadne dane nie opuszczają Twojej przeglądarki.
+            </p>
+          </div>
+        </section>
+
+        <!-- Related tools -->
+        <section class="mt-12 reveal">
+          <h2 class="font-display text-xl font-semibold mb-4">Powiązane narzędzia</h2>
+          <div class="flex flex-wrap gap-3">
+            <a href="/pl/tools/json-formatter.html" class="tag">JSON Formatter</a>
+            <a href="/pl/tools/base64.html" class="tag">Base64 Encoder</a>
+            <a href="/pl/tools/regex-tester.html" class="tag">Regex Tester</a>
+            <a href="/pl/tools/color-converter.html" class="tag">Color Converter</a>
+            <a href="/pl/tools/cron-explainer.html" class="tag">Cron Explainer</a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- PARTIAL:footer -->
+    <script src="/shared.js"></script>
+    <script src="/tools/jwt-decoder.js"></script>
+  </body>
+</html>

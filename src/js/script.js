@@ -1,3 +1,32 @@
+// ── Language detection & auto-redirect ────────────────────────
+// Uses setTimeout so the rest of the script still runs (language switcher, etc.)
+(function () {
+  const path = window.location.pathname;
+  const currentLang = path.startsWith('/de/') ? 'de' : path.startsWith('/pl/') ? 'pl' : 'en';
+  const stored = localStorage.getItem('preferredLang');
+
+  function redirect(lang) {
+    setTimeout(() => window.location.replace('/' + lang + path), 0);
+  }
+
+  if (!stored && currentLang === 'en') {
+    const browserLang = (navigator.language || '').slice(0, 2);
+    if (browserLang === 'de') {
+      localStorage.setItem('preferredLang', 'de');
+      redirect('de');
+    } else if (browserLang === 'pl') {
+      localStorage.setItem('preferredLang', 'pl');
+      redirect('pl');
+    }
+  }
+  if (stored && stored !== 'en' && stored !== currentLang && currentLang === 'en') {
+    redirect(stored);
+  }
+})();
+
+// ── Language helper ───────────────────────────────────────────
+const pageLang = document.documentElement.lang || 'en';
+
 // ── Footer year ───────────────────────────────────────────────
 document.querySelectorAll('.footer-year').forEach((el) => {
   el.textContent = new Date().getFullYear();
@@ -57,9 +86,11 @@ document.querySelectorAll('.mobile-menu-link').forEach((link) => {
 
 // ── Smooth scroll ──────────────────────────────────────────────
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  const href = anchor.getAttribute('href');
+  if (href.length <= 1) return; // skip bare "#" links (e.g. language switcher)
   anchor.addEventListener('click', function (e) {
     e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
+    const target = document.querySelector(href);
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -129,13 +160,30 @@ if (prefersReducedMotion) {
 
 // ── Typewriter ─────────────────────────────────────────────────
 const typewriterEl = document.getElementById('typewriter-text');
-const phrases = [
-  'Full-Stack Developer',
-  'CEO & Tech Solutions',
-  'Mobile App Creator',
-  'Database Architect',
-  'Available for Projects',
-];
+const phrasesByLang = {
+  en: [
+    'Full-Stack Developer',
+    'CEO & Tech Solutions',
+    'Mobile App Creator',
+    'Database Architect',
+    'Available for Projects',
+  ],
+  de: [
+    'Full-Stack-Entwickler',
+    'CEO & Tech-Lösungen',
+    'Mobile-App-Entwickler',
+    'Datenbank-Architekt',
+    'Verfügbar für Projekte',
+  ],
+  pl: [
+    'Full-Stack Developer',
+    'CEO & Rozwiązania IT',
+    'Twórca aplikacji mobilnych',
+    'Architekt baz danych',
+    'Dostępny na projekty',
+  ],
+};
+const phrases = phrasesByLang[pageLang] || phrasesByLang.en;
 let phraseIdx = 0;
 let charIdx = 0;
 let deleting = false;
@@ -225,18 +273,43 @@ contactForm.addEventListener('focusin', loadTurnstile, { once: true });
 contactForm.addEventListener('pointerenter', loadTurnstile, { once: true });
 
 // ── Contact form ───────────────────────────────────────────────
+const formMessages = {
+  en: {
+    sending: 'Sending...',
+    sent: 'Sent!',
+    captcha: 'Please complete the captcha',
+    network: 'Network error — check connection',
+    fallback: 'Error — try again',
+  },
+  de: {
+    sending: 'Wird gesendet...',
+    sent: 'Gesendet!',
+    captcha: 'Bitte Captcha ausfüllen',
+    network: 'Netzwerkfehler — Verbindung prüfen',
+    fallback: 'Fehler — erneut versuchen',
+  },
+  pl: {
+    sending: 'Wysyłanie...',
+    sent: 'Wysłano!',
+    captcha: 'Proszę uzupełnić captcha',
+    network: 'Błąd sieci — sprawdź połączenie',
+    fallback: 'Błąd — spróbuj ponownie',
+  },
+};
+const fm = formMessages[pageLang] || formMessages.en;
+
 document.getElementById('contact-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const form = e.target;
   const btn = form.querySelector('button[type="submit"]');
   const originalText = btn.textContent;
 
-  btn.textContent = 'Sending...';
+  btn.textContent = fm.sending;
   btn.disabled = true;
 
   const turnstileResponse = form.querySelector('[name="cf-turnstile-response"]')?.value;
   if (!turnstileResponse) {
-    btn.textContent = 'Please complete the captcha';
+    btn.textContent = fm.captcha;
     setTimeout(() => {
       btn.textContent = originalText;
       btn.disabled = false;
@@ -264,14 +337,12 @@ document.getElementById('contact-form').addEventListener('submit', async (e) => 
       throw new Error(body.error || 'Something went wrong.');
     }
 
-    btn.textContent = 'Sent!';
+    btn.textContent = fm.sent;
     form.reset();
     if (window.turnstile) turnstile.reset();
   } catch (err) {
     const isNetwork = err instanceof TypeError;
-    btn.textContent = isNetwork
-      ? 'Network error — check connection'
-      : err.message || 'Error — try again';
+    btn.textContent = isNetwork ? fm.network : err.message || fm.fallback;
     console.error('[Contact]', isNetwork ? 'Network error' : err.message);
   }
 
@@ -280,3 +351,37 @@ document.getElementById('contact-form').addEventListener('submit', async (e) => 
     btn.disabled = false;
   }, FORM_RESET_MS);
 });
+
+// ── Language switcher ─────────────────────────────────────────
+(function () {
+  function switchLang(targetLang) {
+    const path = window.location.pathname;
+    const currentLang = path.startsWith('/de/') ? 'de' : path.startsWith('/pl/') ? 'pl' : 'en';
+    let basePath = path;
+    if (currentLang === 'de') basePath = path.replace(/^\/de/, '') || '/';
+    if (currentLang === 'pl') basePath = path.replace(/^\/pl/, '') || '/';
+    const newPath = targetLang === 'en' ? basePath : '/' + targetLang + basePath;
+    localStorage.setItem('preferredLang', targetLang);
+    window.location.href = newPath;
+  }
+
+  document.querySelectorAll('[data-lang-switcher]').forEach((switcher) => {
+    const btn = switcher.querySelector('button');
+    const dropdown = switcher.querySelector('.lang-dropdown');
+    if (!btn || !dropdown) return;
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdown.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', () => dropdown.classList.add('hidden'));
+  });
+
+  document.querySelectorAll('[data-switch-lang]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchLang(link.dataset.switchLang);
+    });
+  });
+})();

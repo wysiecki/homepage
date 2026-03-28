@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="pl" class="scroll-smooth dark">
+  <head>
+    <!-- PARTIAL:head -->
+    <title>Color Converter — Darmowy konwerter kolorów HEX RGB HSL online | wysiecki.de</title>
+    <meta
+      name="description"
+      content="Konwertuj kolory między formatami HEX, RGB i HSL natychmiast. Podgląd kolorów na żywo, wyjście CSS i kopiowanie do schowka. Darmowy konwerter kolorów online, bez rejestracji."
+    />
+    <link rel="canonical" href="https://wysiecki.de/pl/tools/color-converter.html" />
+    <meta property="og:title" content="Color Converter — Darmowe narzędzie online" />
+    <meta
+      property="og:description"
+      content="Konwertuj między formatami kolorów HEX, RGB i HSL z podglądem na żywo i wyjściem CSS."
+    />
+    <meta property="og:url" content="https://wysiecki.de/pl/tools/color-converter.html" />
+    <meta property="og:type" content="website" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Color Converter",
+        "description": "Konwertuj kolory między formatami HEX, RGB i HSL z podglądem na żywo",
+        "url": "https://wysiecki.de/pl/tools/color-converter.html",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "offers": { "@type": "Offer", "price": "0" },
+        "author": {
+          "@type": "Person",
+          "name": "Martin von Wysiecki"
+        }
+      }
+    </script>
+  </head>
+  <body class="grain">
+    <!-- PARTIAL:nav -->
+
+    <main class="pt-32 pb-24">
+      <div class="max-w-5xl mx-auto px-6 lg:px-8">
+        <!-- Breadcrumb -->
+        <nav class="mb-8 reveal">
+          <ol class="flex items-center gap-2 font-mono text-xs text-on-surface/40">
+            <li><a href="/pl/" class="hover:text-primary transition-colors">Strona główna</a></li>
+            <li>/</li>
+            <li><a href="/pl/tools/" class="hover:text-primary transition-colors">Narzędzia</a></li>
+            <li>/</li>
+            <li class="text-primary">Color Converter</li>
+          </ol>
+        </nav>
+
+        <!-- Header -->
+        <div class="reveal mb-8">
+          <h1 class="section-heading mb-2">Color Converter</h1>
+          <p class="text-on-surface/50">
+            Konwertuj między formatami kolorów HEX, RGB i HSL. Wszystkie konwersje odbywają się w
+            czasie rzeczywistym w Twojej przeglądarce.
+          </p>
+        </div>
+
+        <!-- Tool UI -->
+        <div class="grid md:grid-cols-3 gap-6">
+          <!-- Color Preview -->
+          <div class="card p-6 reveal md:row-span-2 flex flex-col">
+            <h2 class="font-display text-sm font-semibold mb-3">Podgląd</h2>
+            <div
+              id="color-preview"
+              class="flex-1 min-h-[12rem] rounded-cyber border border-on-surface/10"
+              style="background-color: #5ba8e0"
+            ></div>
+          </div>
+
+          <!-- HEX Input -->
+          <div class="card p-6 reveal">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="font-display text-sm font-semibold text-primary">HEX</h2>
+              <button
+                class="color-copy-btn btn-ghost text-xs py-1 px-3"
+                data-format="hex"
+                title="Kopiuj wartość HEX"
+              >
+                Kopiuj
+              </button>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="font-mono text-on-surface/40 text-sm">#</span>
+              <input
+                id="hex-input"
+                type="text"
+                class="form-input flex-1 font-mono text-sm uppercase"
+                value="5BA8E0"
+                maxlength="6"
+                spellcheck="false"
+              />
+            </div>
+          </div>
+
+          <!-- RGB Input -->
+          <div class="card p-6 reveal">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="font-display text-sm font-semibold text-secondary">RGB</h2>
+              <button
+                class="color-copy-btn btn-ghost text-xs py-1 px-3"
+                data-format="rgb"
+                title="Kopiuj wartość RGB"
+              >
+                Kopiuj
+              </button>
+            </div>
+            <div class="grid grid-cols-3 gap-2">
+              <div>
+                <label class="block font-mono text-xs text-on-surface/40 mb-1">R</label>
+                <input
+                  id="rgb-r"
+                  type="number"
+                  class="form-input w-full font-mono text-sm"
+                  min="0"
+                  max="255"
+                  value="202"
+                />
+              </div>
+              <div>
+                <label class="block font-mono text-xs text-on-surface/40 mb-1">G</label>
+                <input
+                  id="rgb-g"
+                  type="number"
+                  class="form-input w-full font-mono text-sm"
+                  min="0"
+                  max="255"
+                  value="190"
+                />
+              </div>
+              <div>
+                <label class="block font-mono text-xs text-on-surface/40 mb-1">B</label>
+                <input
+                  id="rgb-b"
+                  type="number"
+                  class="form-input w-full font-mono text-sm"
+                  min="0"
+                  max="255"
+                  value="255"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- HSL Input -->
+          <div class="card p-6 reveal md:col-start-2">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="font-display text-sm font-semibold text-tertiary">HSL</h2>
+              <button
+                class="color-copy-btn btn-ghost text-xs py-1 px-3"
+                data-format="hsl"
+                title="Kopiuj wartość HSL"
+              >
+                Kopiuj
+              </button>
+            </div>
+            <div class="grid grid-cols-3 gap-2">
+              <div>
+                <label class="block font-mono text-xs text-on-surface/40 mb-1">H</label>
+                <input
+                  id="hsl-h"
+                  type="number"
+                  class="form-input w-full font-mono text-sm"
+                  min="0"
+                  max="360"
+                  value="251"
+                />
+              </div>
+              <div>
+                <label class="block font-mono text-xs text-on-surface/40 mb-1">S%</label>
+                <input
+                  id="hsl-s"
+                  type="number"
+                  class="form-input w-full font-mono text-sm"
+                  min="0"
+                  max="100"
+                  value="100"
+                />
+              </div>
+              <div>
+                <label class="block font-mono text-xs text-on-surface/40 mb-1">L%</label>
+                <input
+                  id="hsl-l"
+                  type="number"
+                  class="form-input w-full font-mono text-sm"
+                  min="0"
+                  max="100"
+                  value="87"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- CSS Output -->
+          <div class="card p-6 reveal md:col-start-3">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="font-display text-sm font-semibold">Wyjście CSS</h2>
+              <button
+                class="color-copy-btn btn-ghost text-xs py-1 px-3"
+                data-format="css"
+                title="Kopiuj wszystkie wartości CSS"
+              >
+                Kopiuj wszystko
+              </button>
+            </div>
+            <pre
+              id="css-output"
+              class="font-mono text-xs text-on-surface/70 whitespace-pre-wrap bg-surface-base/50 rounded-cyber p-3"
+            ></pre>
+          </div>
+        </div>
+
+        <!-- Error -->
+        <div id="color-error" class="card p-4 border border-red-500/30 mt-4 reveal hidden">
+          <p class="text-red-400 font-mono text-sm"></p>
+        </div>
+
+        <!-- How to use section -->
+        <section class="mt-16 reveal">
+          <h2 class="font-display text-2xl font-semibold mb-4">Jak używać</h2>
+          <div class="text-on-surface/60 space-y-3 text-sm leading-relaxed">
+            <p>
+              <strong class="text-on-surface/80">1. Wpisz kolor</strong> w dowolnym formacie — HEX,
+              RGB lub HSL. Wszystkie pozostałe pola aktualizują się automatycznie podczas pisania.
+            </p>
+            <p>
+              <strong class="text-on-surface/80">2. Podgląd koloru</strong> w dużej próbce po lewej
+              stronie. Podgląd aktualizuje się w czasie rzeczywistym z każdą zmianą.
+            </p>
+            <p>
+              <strong class="text-on-surface/80">3. Skopiuj wartość CSS</strong>, której
+              potrzebujesz, za pomocą przycisku Kopiuj na każdej karcie formatu lub użyj „Kopiuj
+              wszystko", aby skopiować wszystkie trzy formaty CSS naraz.
+            </p>
+            <p>
+              <strong class="text-on-surface/80">Obsługiwane formaty:</strong> 3- i 6-cyfrowy HEX
+              (np. <code class="font-mono text-primary/80">#FFF</code> lub
+              <code class="font-mono text-primary/80">#5BA8E0</code>), wartości RGB 0-255 oraz HSL z
+              odcieniem 0-360, nasyceniem i jasnością 0-100%.
+            </p>
+          </div>
+        </section>
+
+        <!-- Related tools -->
+        <section class="mt-12 reveal">
+          <h2 class="font-display text-xl font-semibold mb-4">Powiązane narzędzia</h2>
+          <div class="flex flex-wrap gap-3">
+            <a href="/pl/tools/json-formatter.html" class="tag">JSON Formatter</a>
+            <a href="/pl/tools/base64.html" class="tag">Base64 Encoder</a>
+            <a href="/pl/tools/regex-tester.html" class="tag">Regex Tester</a>
+            <a href="/pl/tools/jwt-decoder.html" class="tag">JWT Decoder</a>
+            <a href="/pl/tools/cron-explainer.html" class="tag">Cron Explainer</a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- PARTIAL:footer -->
+    <script src="/shared.js"></script>
+    <script src="/tools/color-converter.js"></script>
+  </body>
+</html>

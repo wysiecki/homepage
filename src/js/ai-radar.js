@@ -2,8 +2,55 @@
 // Fetches from HackerNews, Dev.to, GitHub (client-side)
 // arXiv goes through /api/ai-feed proxy (XML → JSON)
 
+const aiLang = document.documentElement.lang || 'en';
 const CACHE_TTL = 30 * 60 * 1000; // 30 minutes
 const ITEMS_PER_TAB = 15;
+
+const aiStrings = {
+  en: {
+    noStories: 'No stories found.',
+    noTutorials: 'No tutorials found.',
+    noPapers: 'No papers found.',
+    noRepos: 'No repos found.',
+    minRead: 'min read',
+    reactions: 'reactions',
+    comments: 'comments',
+    pts: 'pts',
+    forks: 'forks',
+  },
+  de: {
+    noStories: 'Keine Beiträge gefunden.',
+    noTutorials: 'Keine Tutorials gefunden.',
+    noPapers: 'Keine Paper gefunden.',
+    noRepos: 'Keine Repos gefunden.',
+    minRead: 'Min. Lesezeit',
+    reactions: 'Reaktionen',
+    comments: 'Kommentare',
+    pts: 'Pkt.',
+    forks: 'Forks',
+  },
+  pl: {
+    noStories: 'Nie znaleziono artykułów.',
+    noTutorials: 'Nie znaleziono poradników.',
+    noPapers: 'Nie znaleziono publikacji.',
+    noRepos: 'Nie znaleziono repozytoriów.',
+    minRead: 'min czytania',
+    reactions: 'reakcji',
+    comments: 'komentarzy',
+    pts: 'pkt.',
+    forks: 'forków',
+  },
+}[aiLang] || {
+  noStories: 'No stories found.',
+  noTutorials: 'No tutorials found.',
+  noPapers: 'No papers found.',
+  noRepos: 'No repos found.',
+  minRead: 'min read',
+  reactions: 'reactions',
+  comments: 'comments',
+  pts: 'pts',
+  forks: 'forks',
+};
 
 // ── Cache helpers ────────────────────────────────────────────────
 
@@ -199,7 +246,8 @@ async function fetchOpenSource() {
 // ── Renderers ────────────────────────────────────────────────────
 
 function renderTrending(items) {
-  if (!items.length) return '<p class="text-on-surface/40 text-center py-8">No stories found.</p>';
+  if (!items.length)
+    return `<p class="text-on-surface/40 text-center py-8">${aiStrings.noStories}</p>`;
 
   return items
     .map(
@@ -218,10 +266,10 @@ function renderTrending(items) {
           </div>
         </div>
         <div class="flex flex-col items-end gap-1 shrink-0 text-xs font-mono text-on-surface/40">
-          <span class="text-secondary" title="Points">${formatNumber(item.points)} pts</span>
+          <span class="text-secondary" title="Points">${formatNumber(item.points)} ${aiStrings.pts}</span>
           <a href="${escapeAttr(item.commentsUrl)}" target="_blank" rel="noopener noreferrer"
              class="hover:text-primary transition-colors" title="Comments">
-            ${formatNumber(item.comments)} comments
+            ${formatNumber(item.comments)} ${aiStrings.comments}
           </a>
         </div>
       </div>
@@ -232,7 +280,7 @@ function renderTrending(items) {
 
 function renderTutorials(items) {
   if (!items.length)
-    return '<p class="text-on-surface/40 text-center py-8">No tutorials found.</p>';
+    return `<p class="text-on-surface/40 text-center py-8">${aiStrings.noTutorials}</p>`;
 
   return items
     .map(
@@ -247,8 +295,8 @@ function renderTutorials(items) {
           <span class="text-secondary/60">Dev.to</span>
           <span>${timeAgo(item.date)}</span>
           ${item.author ? `<span>by ${escapeHtml(item.author)}</span>` : ''}
-          ${item.readingTime ? `<span>${item.readingTime} min read</span>` : ''}
-          ${item.reactions ? `<span class="text-tertiary/60">${formatNumber(item.reactions)} reactions</span>` : ''}
+          ${item.readingTime ? `<span>${item.readingTime} ${aiStrings.minRead}</span>` : ''}
+          ${item.reactions ? `<span class="text-tertiary/60">${formatNumber(item.reactions)} ${aiStrings.reactions}</span>` : ''}
         </div>
         ${
           item.tags?.length
@@ -262,7 +310,8 @@ function renderTutorials(items) {
 }
 
 function renderResearch(items) {
-  if (!items.length) return '<p class="text-on-surface/40 text-center py-8">No papers found.</p>';
+  if (!items.length)
+    return `<p class="text-on-surface/40 text-center py-8">${aiStrings.noPapers}</p>`;
 
   return items
     .map(
@@ -291,7 +340,8 @@ function renderResearch(items) {
 }
 
 function renderOpenSource(items) {
-  if (!items.length) return '<p class="text-on-surface/40 text-center py-8">No repos found.</p>';
+  if (!items.length)
+    return `<p class="text-on-surface/40 text-center py-8">${aiStrings.noRepos}</p>`;
 
   return items
     .map(
@@ -305,7 +355,7 @@ function renderOpenSource(items) {
         <div class="flex flex-wrap items-center gap-4 text-xs font-mono text-on-surface/40">
           <span class="text-secondary/60">GitHub</span>
           <span title="Stars">&#9733; ${formatNumber(item.stars)}</span>
-          <span title="Forks">${formatNumber(item.forks)} forks</span>
+          <span title="Forks">${formatNumber(item.forks)} ${aiStrings.forks}</span>
           ${item.language ? `<span class="text-tertiary/60">${escapeHtml(item.language)}</span>` : ''}
         </div>
         ${

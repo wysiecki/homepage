@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="pl" class="scroll-smooth dark">
+  <head>
+    <!-- PARTIAL:head -->
+    <title>Cron Explainer — Darmowy objaśniacz wyrażeń cron online | wysiecki.de</title>
+    <meta
+      name="description"
+      content="Darmowy objaśniacz i generator wyrażeń cron. Parsuj wyrażenia crontab na zrozumiałe opisy z następnymi zaplanowanymi czasami uruchomienia."
+    />
+    <link rel="canonical" href="https://wysiecki.de/pl/tools/cron-explainer.html" />
+    <meta property="og:title" content="Cron Explainer — Darmowe narzędzie online" />
+    <meta
+      property="og:description"
+      content="Parsuj wyrażenia cron na zrozumiały opis z następnymi czasami uruchomienia. Darmowe narzędzie crontab, bez rejestracji."
+    />
+    <meta property="og:url" content="https://wysiecki.de/pl/tools/cron-explainer.html" />
+    <meta property="og:type" content="website" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Cron Expression Explainer",
+        "description": "Darmowy parser wyrażeń cron generujący zrozumiałe opisy i obliczający następne czasy uruchomienia",
+        "url": "https://wysiecki.de/pl/tools/cron-explainer.html",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Martin von Wysiecki"
+        }
+      }
+    </script>
+  </head>
+  <body class="grain">
+    <!-- PARTIAL:nav -->
+
+    <main class="pt-32 pb-24">
+      <div class="max-w-5xl mx-auto px-6 lg:px-8">
+        <!-- Breadcrumb -->
+        <nav class="mb-8 reveal">
+          <ol class="flex items-center gap-2 font-mono text-xs text-on-surface/40">
+            <li><a href="/pl/" class="hover:text-primary transition-colors">Strona główna</a></li>
+            <li>/</li>
+            <li><a href="/pl/tools/" class="hover:text-primary transition-colors">Narzędzia</a></li>
+            <li>/</li>
+            <li class="text-primary">Cron Explainer</li>
+          </ol>
+        </nav>
+
+        <!-- Header -->
+        <div class="reveal mb-8">
+          <h1 class="section-heading mb-2">Cron Explainer</h1>
+          <p class="text-on-surface/50">
+            Parsuj wyrażenia cron na zrozumiałe opisy z następnymi zaplanowanymi czasami
+            uruchomienia.
+          </p>
+        </div>
+
+        <!-- Tool UI -->
+        <div class="space-y-6 reveal">
+          <!-- Cron input -->
+          <div class="card p-6">
+            <label class="block text-xs font-mono uppercase tracking-wider text-on-surface/50 mb-3"
+              >Wyrażenie cron</label
+            >
+            <div class="flex gap-3 items-center">
+              <input
+                type="text"
+                id="cron-input"
+                class="form-input font-mono flex-1 text-lg"
+                placeholder="* * * * *"
+                value="0 9 * * 1-5"
+                spellcheck="false"
+                autocomplete="off"
+              />
+            </div>
+
+            <!-- Field labels -->
+            <div class="grid grid-cols-5 gap-2 mt-4 text-center">
+              <div class="text-[10px] font-mono text-on-surface/30 uppercase tracking-wider">
+                Minuta
+              </div>
+              <div class="text-[10px] font-mono text-on-surface/30 uppercase tracking-wider">
+                Godzina
+              </div>
+              <div class="text-[10px] font-mono text-on-surface/30 uppercase tracking-wider">
+                Dzień (mies.)
+              </div>
+              <div class="text-[10px] font-mono text-on-surface/30 uppercase tracking-wider">
+                Miesiąc
+              </div>
+              <div class="text-[10px] font-mono text-on-surface/30 uppercase tracking-wider">
+                Dzień (tyg.)
+              </div>
+            </div>
+
+            <!-- Visual field breakdown -->
+            <div class="grid grid-cols-5 gap-2 mt-1" id="cron-fields">
+              <div
+                class="text-center py-2 rounded-cyber font-mono text-sm"
+                style="background: rgba(202, 190, 255, 0.1)"
+                id="cron-field-0"
+              >
+                0
+              </div>
+              <div
+                class="text-center py-2 rounded-cyber font-mono text-sm"
+                style="background: rgba(202, 190, 255, 0.1)"
+                id="cron-field-1"
+              >
+                9
+              </div>
+              <div
+                class="text-center py-2 rounded-cyber font-mono text-sm"
+                style="background: rgba(202, 190, 255, 0.1)"
+                id="cron-field-2"
+              >
+                *
+              </div>
+              <div
+                class="text-center py-2 rounded-cyber font-mono text-sm"
+                style="background: rgba(202, 190, 255, 0.1)"
+                id="cron-field-3"
+              >
+                *
+              </div>
+              <div
+                class="text-center py-2 rounded-cyber font-mono text-sm"
+                style="background: rgba(202, 190, 255, 0.1)"
+                id="cron-field-4"
+              >
+                1-5
+              </div>
+            </div>
+          </div>
+
+          <!-- Presets -->
+          <div class="card p-6">
+            <label class="block text-xs font-mono uppercase tracking-wider text-on-surface/50 mb-3"
+              >Popularne szablony</label
+            >
+            <div class="flex flex-wrap gap-2">
+              <button
+                class="tag cursor-pointer hover:text-secondary transition-colors"
+                data-cron="* * * * *"
+              >
+                Co minutę
+              </button>
+              <button
+                class="tag cursor-pointer hover:text-secondary transition-colors"
+                data-cron="0 * * * *"
+              >
+                Co godzinę
+              </button>
+              <button
+                class="tag cursor-pointer hover:text-secondary transition-colors"
+                data-cron="0 0 * * *"
+              >
+                Codziennie o północy
+              </button>
+              <button
+                class="tag cursor-pointer hover:text-secondary transition-colors"
+                data-cron="0 9 * * 1-5"
+              >
+                Dni robocze o 9:00
+              </button>
+              <button
+                class="tag cursor-pointer hover:text-secondary transition-colors"
+                data-cron="0 0 * * 0"
+              >
+                Co niedzielę
+              </button>
+              <button
+                class="tag cursor-pointer hover:text-secondary transition-colors"
+                data-cron="0 0 1 * *"
+              >
+                Miesięcznie 1-go
+              </button>
+              <button
+                class="tag cursor-pointer hover:text-secondary transition-colors"
+                data-cron="*/5 * * * *"
+              >
+                Co 5 minut
+              </button>
+              <button
+                class="tag cursor-pointer hover:text-secondary transition-colors"
+                data-cron="0 */2 * * *"
+              >
+                Co 2 godziny
+              </button>
+              <button
+                class="tag cursor-pointer hover:text-secondary transition-colors"
+                data-cron="30 4 1,15 * *"
+              >
+                1-go i 15-go o 4:30
+              </button>
+            </div>
+          </div>
+
+          <!-- Human-readable description -->
+          <div class="card p-6">
+            <label class="block text-xs font-mono uppercase tracking-wider text-on-surface/50 mb-3"
+              >Opis</label
+            >
+            <p id="cron-description" class="text-lg text-on-surface/80 leading-relaxed"></p>
+          </div>
+
+          <!-- Next run times -->
+          <div class="card p-6">
+            <label class="block text-xs font-mono uppercase tracking-wider text-on-surface/50 mb-3"
+              >Następne 5 zaplanowanych uruchomień</label
+            >
+            <div id="cron-next-runs" class="space-y-2"></div>
+          </div>
+
+          <!-- Error display -->
+          <div
+            id="cron-error"
+            class="card p-4 border-red-500/30 text-red-400 text-sm font-mono"
+            style="display: none"
+          ></div>
+        </div>
+
+        <!-- How to use section -->
+        <section class="mt-16 reveal">
+          <h2 class="font-display text-2xl font-semibold mb-4">Jak używać</h2>
+          <div class="space-y-4 text-on-surface/60 text-sm leading-relaxed">
+            <p>
+              <strong class="text-on-surface/80">1. Wpisz wyrażenie</strong> — Wpisz standardowe
+              5-polowe wyrażenie cron (minuta, godzina, dzień miesiąca, miesiąc, dzień tygodnia).
+            </p>
+            <p>
+              <strong class="text-on-surface/80">2. Lub wybierz szablon</strong> — Kliknij dowolny
+              przycisk szablonu, aby natychmiast wypełnić popularne harmonogramy.
+            </p>
+            <p>
+              <strong class="text-on-surface/80">3. Przeczytaj opis</strong> — Narzędzie tłumaczy
+              wyrażenie na zrozumiały język, abyś mógł zweryfikować, czy robi to, czego oczekujesz.
+            </p>
+            <p>
+              <strong class="text-on-surface/80">4. Sprawdź czasy uruchomienia</strong> — Następne 5
+              zaplanowanych uruchomień jest obliczanych na podstawie bieżącej daty i godziny.
+            </p>
+          </div>
+          <div class="mt-6 card p-4">
+            <p class="text-xs font-mono text-on-surface/40 mb-2">Referencja pól cron:</p>
+            <pre class="text-xs font-mono text-on-surface/50 leading-relaxed">
+*    *    *    *    *
+|    |    |    |    |
+|    |    |    |    +-- Dzień tygodnia  (0-7, Niedz=0 lub 7)
+|    |    |    +------- Miesiąc         (1-12)
+|    |    +------------ Dzień miesiąca  (1-31)
+|    +----------------- Godzina         (0-23)
++---------------------- Minuta          (0-59)
+
+Znaki specjalne: * (dowolny) , (lista) - (zakres) / (krok)</pre
+            >
+          </div>
+        </section>
+
+        <!-- Related tools -->
+        <section class="mt-12 reveal">
+          <h2 class="font-display text-xl font-semibold mb-4">Powiązane narzędzia</h2>
+          <div class="flex flex-wrap gap-3">
+            <a href="/pl/tools/json-formatter.html" class="tag hover:text-secondary"
+              >JSON Formatter</a
+            >
+            <a href="/pl/tools/regex-tester.html" class="tag hover:text-secondary">Regex Tester</a>
+            <a href="/pl/tools/base64.html" class="tag hover:text-secondary">Base64 Encoder</a>
+            <a href="/pl/tools/jwt-decoder.html" class="tag hover:text-secondary">JWT Decoder</a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- PARTIAL:footer -->
+    <script src="/shared.js"></script>
+    <script src="/tools/cron-explainer.js"></script>
+  </body>
+</html>

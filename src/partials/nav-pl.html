@@ -1,25 +1,25 @@
-<!-- Navigation -->
+<!-- Navigation (PL) -->
 <nav id="navbar" class="fixed top-0 w-full z-50 bg-surface-base/90 backdrop-blur-md">
   <div class="max-w-7xl mx-auto px-6 lg:px-8 py-5">
     <div class="flex justify-between items-center">
-      <a href="/" class="flex items-center">
+      <a href="/pl/" class="flex items-center">
         <img src="/assets/logo.png" alt="Martin von Wysiecki" class="h-12" />
       </a>
 
       <div class="hidden md:flex items-center gap-10">
-        <a href="/" class="nav-link" data-nav-page="/">Home</a>
-        <a href="/tools/" class="nav-link" data-nav-page="/tools">Tools</a>
-        <a href="/ai/" class="nav-link" data-nav-page="/ai">AI Radar</a>
-        <a href="/blog/" class="nav-link" data-nav-page="/blog">Blog</a>
-        <a href="/quiz/" class="nav-link" data-nav-page="/quiz">Quiz</a>
+        <a href="/pl/" class="nav-link" data-nav-page="/">Strona g&#322;&#243;wna</a>
+        <a href="/pl/tools/" class="nav-link" data-nav-page="/tools">Narz&#281;dzia</a>
+        <a href="/pl/ai/" class="nav-link" data-nav-page="/ai">Radar AI</a>
+        <a href="/pl/blog/" class="nav-link" data-nav-page="/blog">Blog</a>
+        <a href="/pl/quiz/" class="nav-link" data-nav-page="/quiz">Quiz</a>
 
         <!-- Language Switcher -->
         <div class="relative" data-lang-switcher>
           <button
             class="flex items-center gap-1.5 font-mono text-xs tracking-wide text-on-surface/50 hover:text-primary transition-colors cursor-pointer"
-            aria-label="Switch language"
+            aria-label="Zmie&#324; j&#281;zyk"
           >
-            <span>EN</span>
+            <span>PL</span>
             <svg
               class="w-3 h-3"
               fill="none"
@@ -36,7 +36,7 @@
             <a
               href="#"
               data-switch-lang="en"
-              class="block px-3 py-1.5 font-mono text-xs text-primary bg-surface-high transition-colors"
+              class="block px-3 py-1.5 font-mono text-xs text-on-surface/50 hover:text-primary hover:bg-surface-high transition-colors"
               >EN</a
             >
             <a
@@ -48,19 +48,19 @@
             <a
               href="#"
               data-switch-lang="pl"
-              class="block px-3 py-1.5 font-mono text-xs text-on-surface/50 hover:text-primary hover:bg-surface-high transition-colors"
+              class="block px-3 py-1.5 font-mono text-xs text-primary bg-surface-high transition-colors"
               >PL</a
             >
           </div>
         </div>
 
-        <a href="/#contact" class="btn-primary text-xs py-2.5 px-6">Let's Talk</a>
+        <a href="/pl/#contact" class="btn-primary text-xs py-2.5 px-6">Kontakt</a>
       </div>
 
       <button
         id="mobile-menu-btn"
         class="md:hidden p-2 cursor-pointer text-on-surface"
-        aria-label="Open menu"
+        aria-label="Otw&#243;rz menu"
       >
         <svg
           class="w-5 h-5"
@@ -81,57 +81,57 @@
   </div>
 </nav>
 
-<!-- Mobile Menu -->
+<!-- Mobile Menu (PL) -->
 <div
   id="mobile-menu"
   class="fixed inset-0 z-40 bg-surface-base transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:hidden"
 >
   <div class="flex flex-col items-center justify-center h-full gap-10">
     <a
-      href="/"
+      href="/pl/"
       class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
-      >Home</a
+      >Strona g&#322;&#243;wna</a
     >
     <a
-      href="/tools/"
+      href="/pl/tools/"
       class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
-      >Tools</a
+      >Narz&#281;dzia</a
     >
     <a
-      href="/ai/"
+      href="/pl/ai/"
       class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
-      >AI Radar</a
+      >Radar AI</a
     >
     <a
-      href="/blog/"
+      href="/pl/blog/"
       class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
       >Blog</a
     >
     <a
-      href="/quiz/"
+      href="/pl/quiz/"
       class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
       >Quiz</a
     >
     <a
-      href="/#contact"
+      href="/pl/#contact"
       class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
-      >Contact</a
+      >Kontakt</a
     >
     <!-- Mobile language switcher -->
     <div class="flex gap-4 mt-4">
-      <span class="font-mono text-sm text-primary">EN</span>
+      <a
+        href="#"
+        data-switch-lang="en"
+        class="font-mono text-sm text-on-surface/40 hover:text-primary transition-colors"
+        >EN</a
+      >
       <a
         href="#"
         data-switch-lang="de"
         class="font-mono text-sm text-on-surface/40 hover:text-primary transition-colors"
         >DE</a
       >
-      <a
-        href="#"
-        data-switch-lang="pl"
-        class="font-mono text-sm text-on-surface/40 hover:text-primary transition-colors"
-        >PL</a
-      >
+      <span class="font-mono text-sm text-primary">PL</span>
     </div>
   </div>
 </div>

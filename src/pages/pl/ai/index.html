@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pl" class="scroll-smooth dark">
+  <head>
+    <!-- PARTIAL:head -->
+    <title>Radar AI — Aktualności, badania i trendy AI na żywo | wysiecki.de</title>
+    <meta
+      name="description"
+      content="Bądź na bieżąco z najnowszymi wiadomościami o AI, artykułami naukowymi, poradnikami i popularnymi projektami open source. Dane z HackerNews, Dev.to, arXiv i GitHub."
+    />
+    <link rel="canonical" href="https://wysiecki.de/pl/ai/" />
+    <meta property="og:title" content="Radar AI — Aktualności i trendy AI na żywo" />
+    <meta
+      property="og:description"
+      content="Hub wiadomości AI na żywo: popularne artykuły, poradniki, prace badawcze i projekty open source."
+    />
+    <meta property="og:url" content="https://wysiecki.de/pl/ai/" />
+    <meta property="og:type" content="website" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Radar AI",
+        "description": "Agregator wiadomości AI na żywo z popularnymi artykułami, poradnikami, pracami badawczymi i projektami open source",
+        "url": "https://wysiecki.de/pl/ai/",
+        "applicationCategory": "NewsApplication",
+        "author": {
+          "@type": "Person",
+          "name": "Martin von Wysiecki"
+        }
+      }
+    </script>
+  </head>
+  <body class="grain">
+    <!-- PARTIAL:nav -->
+
+    <main class="pt-32 pb-24">
+      <div class="max-w-6xl mx-auto px-6 lg:px-8">
+        <!-- Header -->
+        <div class="reveal mb-10">
+          <p class="section-label">Radar AI</p>
+          <h1 class="section-heading mb-3">
+            Aktualności i trendy<br />
+            <span class="text-primary">AI na żywo</span>
+          </h1>
+          <p class="text-on-surface/50 text-lg max-w-xl">
+            Treści AI w czasie rzeczywistym z HackerNews, Dev.to, arXiv i GitHub. Aktualizowane przy
+            każdej wizycie.
+          </p>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="reveal mb-8">
+          <div class="flex flex-wrap gap-2 border-b border-outline-variant/20 pb-px" role="tablist">
+            <button class="ai-tab active" role="tab" aria-selected="true" data-tab="trending">
+              Popularne
+            </button>
+            <button class="ai-tab" role="tab" aria-selected="false" data-tab="tutorials">
+              Poradniki
+            </button>
+            <button class="ai-tab" role="tab" aria-selected="false" data-tab="research">
+              Badania
+            </button>
+            <button class="ai-tab" role="tab" aria-selected="false" data-tab="opensource">
+              Open Source
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab Content Panels -->
+
+        <!-- Trending (HackerNews) -->
+        <div id="panel-trending" class="ai-panel active" role="tabpanel">
+          <div id="trending-content" class="space-y-4">
+            <!-- Skeleton loaders -->
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+          </div>
+        </div>
+
+        <!-- Tutorials (Dev.to) -->
+        <div id="panel-tutorials" class="ai-panel" role="tabpanel" hidden>
+          <div id="tutorials-content" class="space-y-4">
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+          </div>
+        </div>
+
+        <!-- Research (arXiv via proxy) -->
+        <div id="panel-research" class="ai-panel" role="tabpanel" hidden>
+          <div id="research-content" class="space-y-4">
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+          </div>
+        </div>
+
+        <!-- Open Source (GitHub) -->
+        <div id="panel-opensource" class="ai-panel" role="tabpanel" hidden>
+          <div id="opensource-content" class="space-y-4">
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+          </div>
+        </div>
+
+        <!-- Error state (hidden by default) -->
+        <div id="ai-error" class="hidden mt-8 card p-8 text-center">
+          <p class="text-on-surface/50 mb-4">
+            Nie udało się załadować treści. Spróbuj ponownie później.
+          </p>
+          <button id="ai-retry" class="btn-ghost text-sm">Ponów</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- PARTIAL:footer -->
+    <script src="/shared.js"></script>
+    <script src="/ai-radar.js"></script>
+  </body>
+</html>
