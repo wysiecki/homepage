@@ -43,6 +43,9 @@ jobs:
             whyzzie/homepage-api:${{ github.sha }}
 
       - name: Deploy to production
-        run: |
-          curl -sf -X POST https://deploy.wysiecki.de/deploy \
-            -H "X-Deploy-Token: ${{ secrets.DEPLOY_WEBHOOK_SECRET }}"
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: /home/wysiecki/projects/homepage/deploy.sh

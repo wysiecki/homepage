@@ -193,4 +193,19 @@ app.listen(PORT, () => {
   if (!getTransporter()) {
     console.warn('SMTP not configured — set SMTP_HOST, SMTP_USER, SMTP_PASS env vars.');
   }
+
+  // Regenerate all published blog HTML on startup (ensures shared volume is populated)
+  try {
+    const db = require('./db');
+    const renderer = require('./blog-renderer');
+    const posts = db.getAllPosts('published');
+    if (posts.length) {
+      posts.forEach((p) => renderer.renderPost(p));
+      renderer.renderListing(posts);
+      renderer.renderFeed(posts);
+      console.log(`[BLOG] Regenerated ${posts.length} published posts on startup`);
+    }
+  } catch (err) {
+    console.warn('[BLOG] Startup regeneration failed:', err.message);
+  }
 });
