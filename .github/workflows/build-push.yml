@@ -1,4 +1,4 @@
-name: Build, Push and Deploy
+name: Build and Push
 
 on:
   push:
@@ -41,11 +41,3 @@ jobs:
           tags: |
             whyzzie/homepage-api:latest
             whyzzie/homepage-api:${{ github.sha }}
-
-      - name: Deploy to production
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.DEPLOY_HOST }}
-          username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
-          script: /home/wysiecki/projects/homepage/deploy.sh

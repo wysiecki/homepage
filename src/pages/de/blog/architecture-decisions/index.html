@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="de" class="scroll-smooth dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/dist/output.css?v=6" rel="stylesheet" />
+    <noscript
+      ><style>
+        .reveal {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style></noscript
+    >
+    <title>
+      30 Jahre IT: 5 Architekturentscheidungen, die ich heute anders treffen w&uuml;rde — Martin von
+      Wysiecki
+    </title>
+    <meta
+      name="description"
+      content="Nach drei Jahrzehnten Enterprise-Softwareentwicklung: Die Architekturentscheidungen, die ich r&uuml;ckg&auml;ngig machen w&uuml;rde &mdash; und was ich stattdessen tun w&uuml;rde."
+    />
+    <link rel="canonical" href="https://wysiecki.de/de/blog/architecture-decisions/" />
+    <link rel="alternate" type="application/rss+xml" title="Blog RSS" href="/feed.xml" />
+    <meta
+      property="og:title"
+      content="30 Jahre IT: 5 Architekturentscheidungen, die ich heute anders treffen w&uuml;rde"
+    />
+    <meta
+      property="og:description"
+      content="Nach drei Jahrzehnten Enterprise-Softwareentwicklung: Die Architekturentscheidungen, die ich r&uuml;ckg&auml;ngig machen w&uuml;rde &mdash; und was ich stattdessen tun w&uuml;rde."
+    />
+    <meta property="og:url" content="https://wysiecki.de/de/blog/architecture-decisions/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-03-28" />
+    <meta property="article:author" content="Martin von Wysiecki" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "30 Jahre IT: 5 Architekturentscheidungen, die ich heute anders treffen w\u00fcrde",
+        "description": "Nach drei Jahrzehnten Enterprise-Softwareentwicklung: Die Architekturentscheidungen, die ich r\u00fcckg\u00e4ngig machen w\u00fcrde \u2014 und was ich stattdessen tun w\u00fcrde.",
+        "datePublished": "2026-03-28",
+        "author": {
+          "@type": "Person",
+          "name": "Martin von Wysiecki",
+          "url": "https://wysiecki.de"
+        },
+        "publisher": {
+          "@type": "Person",
+          "name": "Martin von Wysiecki"
+        },
+        "url": "https://wysiecki.de/de/blog/architecture-decisions/"
+      }
+    </script>
+  </head>
+  <body class="grain">
+    <!-- Navigation (DE) -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 bg-surface-base/90 backdrop-blur-md">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 py-5">
+        <div class="flex justify-between items-center">
+          <a href="/de/" class="flex items-center">
+            <img src="/assets/logo.png" alt="Martin von Wysiecki" class="h-12" />
+          </a>
+
+          <div class="hidden md:flex items-center gap-10">
+            <a href="/de/" class="nav-link" data-nav-page="/">Startseite</a>
+            <a href="/de/tools/" class="nav-link" data-nav-page="/tools">Tools</a>
+            <a href="/de/ai/" class="nav-link" data-nav-page="/ai">KI-Radar</a>
+            <a href="/de/blog/" class="nav-link" data-nav-page="/blog">Blog</a>
+            <a href="/de/quiz/" class="nav-link" data-nav-page="/quiz">Quiz</a>
+
+            <!-- Language Switcher -->
+            <div class="relative" data-lang-switcher>
+              <button
+                class="flex items-center gap-1.5 font-mono text-xs tracking-wide text-on-surface/50 hover:text-primary transition-colors cursor-pointer"
+                aria-label="Sprache wechseln"
+              >
+                <span>DE</span>
+                <svg
+                  class="w-3 h-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div
+                class="lang-dropdown hidden absolute right-0 top-full mt-2 py-1 bg-surface-container border border-outline-variant/20 rounded-cyber shadow-lg min-w-[80px] z-50"
+              >
+                <a
+                  href="#"
+                  data-switch-lang="en"
+                  class="block px-3 py-1.5 font-mono text-xs text-on-surface/50 hover:text-primary hover:bg-surface-high transition-colors"
+                  >EN</a
+                >
+                <a
+                  href="#"
+                  data-switch-lang="de"
+                  class="block px-3 py-1.5 font-mono text-xs text-primary bg-surface-high transition-colors"
+                  >DE</a
+                >
+                <a
+                  href="#"
+                  data-switch-lang="pl"
+                  class="block px-3 py-1.5 font-mono text-xs text-on-surface/50 hover:text-primary hover:bg-surface-high transition-colors"
+                  >PL</a
+                >
+              </div>
+            </div>
+
+            <a href="/de/#contact" class="btn-primary text-xs py-2.5 px-6">Kontakt</a>
+          </div>
+
+          <button
+            id="mobile-menu-btn"
+            class="md:hidden p-2 cursor-pointer text-on-surface"
+            aria-label="Men&uuml; &ouml;ffnen"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu (DE) -->
+    <div
+      id="mobile-menu"
+      class="fixed inset-0 z-40 bg-surface-base transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:hidden"
+    >
+      <div class="flex flex-col items-center justify-center h-full gap-10">
+        <a
+          href="/de/"
+          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
+          >Startseite</a
+        >
+        <a
+          href="/de/tools/"
+          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
+          >Tools</a
+        >
+        <a
+          href="/de/ai/"
+          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
+          >KI-Radar</a
+        >
+        <a
+          href="/de/blog/"
+          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
+          >Blog</a
+        >
+        <a
+          href="/de/quiz/"
+          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
+          >Quiz</a
+        >
+        <a
+          href="/de/#contact"
+          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
+          >Kontakt</a
+        >
+        <!-- Mobile language switcher -->
+        <div class="flex gap-4 mt-4">
+          <a
+            href="#"
+            data-switch-lang="en"
+            class="font-mono text-sm text-on-surface/40 hover:text-primary transition-colors"
+            >EN</a
+          >
+          <span class="font-mono text-sm text-primary">DE</span>
+          <a
+            href="#"
+            data-switch-lang="pl"
+            class="font-mono text-sm text-on-surface/40 hover:text-primary transition-colors"
+            >PL</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <main class="pt-32 pb-24">
+      <div class="max-w-3xl mx-auto px-6 lg:px-8">
+        <!-- Breadcrumb -->
+        <nav class="mb-8 reveal">
+          <ol class="flex items-center gap-2 font-mono text-xs text-on-surface/40">
+            <li><a href="/de/" class="hover:text-primary transition-colors">Startseite</a></li>
+            <li>/</li>
+            <li><a href="/de/blog/" class="hover:text-primary transition-colors">Blog</a></li>
+            <li>/</li>
+            <li class="text-primary truncate max-w-[200px]">
+              30 Jahre IT: 5 Architekturentscheidungen, die ich heute anders treffen w&uuml;rde
+            </li>
+          </ol>
+        </nav>
+
+        <!-- Article Header -->
+        <header class="reveal mb-12">
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <span class="tag">architecture</span><span class="tag">career</span
+            ><span class="tag">lessons-learned</span>
+          </div>
+          <h1 class="font-display text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-4">
+            30 Jahre IT: 5 Architekturentscheidungen, die ich heute anders treffen w&uuml;rde
+          </h1>
+          <div class="flex items-center gap-4 text-sm font-mono text-on-surface/40">
+            <time datetime="2026-03-28">28. M&auml;rz 2026</time>
+            <span>&middot;</span>
+            <span>6 Min. Lesezeit</span>
+          </div>
+        </header>
+
+        <!-- Article Content -->
+        <article class="prose reveal">
+          <p>
+            Nach &uuml;ber 30 Jahren Softwareentwicklung &mdash; von fr&uuml;hen
+            Client-Server-Systemen bis hin zu modernen Cloud-Architekturen &mdash; habe ich einige
+            Narben angesammelt. Manche von Technologien, die sich nicht durchgesetzt haben. Andere
+            von Entscheidungen, die damals richtig erschienen, aber schlecht gealtert sind.
+          </p>
+
+          <p>
+            Hier sind f&uuml;nf Architekturentscheidungen, die ich anders treffen w&uuml;rde, wenn
+            ich die Zeit zur&uuml;ckdrehen k&ouml;nnte.
+          </p>
+
+          <h2>1. Ich h&auml;tte Event-Driven Architecture fr&uuml;her eingesetzt</h2>
+
+          <p>
+            Jahrelang habe ich Systeme mit synchronen Request-Response-Mustern &uuml;berall gebaut.
+            Service A ruft Service B auf, der Service C aufruft, und wenn irgendeiner davon langsam
+            oder offline ist, bricht die gesamte Kette zusammen.
+          </p>
+
+          <p>
+            Der Wendepunkt kam, als ich an einem System zur Verarbeitung pharmazeutischer Daten
+            arbeitete, das regulatorische Einreichungen abwickeln musste. Der synchrone Ansatz
+            erzeugte eine fragile Pipeline, in der ein einzelner langsamer Downstream-Service
+            kaskadierende Ausf&auml;lle im gesamten System verursachen konnte.
+          </p>
+
+          <p>
+            <strong>Was ich stattdessen tun w&uuml;rde:</strong> Von Tag eins auf Events und Message
+            Queues setzen. Nicht alles muss asynchron sein, aber ein Event-Backbone gibt einem
+            Resilienz, Auditierbarkeit und die M&ouml;glichkeit, neue Consumer hinzuzuf&uuml;gen,
+            ohne bestehenden Code anzufassen.
+          </p>
+
+          <p>
+            <strong>Die Lektion:</strong> Synchrone Kommunikation ist der Standard, sollte es aber
+            nicht sein. Setzt auf asynchron als Default und entscheidet euch bewusst f&uuml;r
+            synchron, wenn ihr eine sofortige Antwort braucht.
+          </p>
+
+          <h2>2. Ich h&auml;tte fr&uuml;her in Observability investiert</h2>
+
+          <p>
+            In den fr&uuml;hen 2000ern bedeutete &bdquo;Monitoring&ldquo;, zu pr&uuml;fen, ob der
+            Server l&auml;uft und vielleicht die CPU-Auslastung im Auge zu behalten. Logs waren
+            etwas, durch das man mit grep suchte, wenn etwas kaputtging.
+          </p>
+
+          <p>
+            Ich erinnere mich an einen Produktionsvorfall, bei dem ein subtiler
+            Datenkorruptionsfehler drei Wochen brauchte, bis er gefunden wurde &mdash; weil wir kein
+            strukturiertes Logging, kein Distributed Tracing und keine M&ouml;glichkeit hatten,
+            Events &uuml;ber Services hinweg zu korrelieren. Drei Wochen Kundenauswirkungen, weil
+            wir nicht sehen konnten, was unser System tat.
+          </p>
+
+          <p>
+            <strong>Was ich stattdessen tun w&uuml;rde:</strong> Observability als erstklassiges
+            Architekturanliegen behandeln. Strukturiertes Logging ab Tag eins. Distributed Tracing
+            &uuml;ber Service-Grenzen hinweg. Business-Level-Metriken, nicht nur
+            Infrastruktur-Metriken.
+          </p>
+
+          <p>
+            <strong>Die Lektion:</strong> Man kann nicht reparieren, was man nicht sehen kann. Und
+            wenn einem klar wird, dass man Observability braucht, steckt man bereits mitten in einem
+            Vorfall.
+          </p>
+
+          <h2>3. Ich h&auml;tte mich st&auml;rker gegen voreilige Microservices gewehrt</h2>
+
+          <p>
+            Um 2015 herum wurden Microservices zur Antwort auf jede Frage. Ich habe Projekte
+            beobachtet (und manchmal mitgemacht), die Monolithen in Dutzende Services aufgesplittet
+            haben, bevor das Team, die Tools oder die operative Reife daf&uuml;r vorhanden waren.
+          </p>
+
+          <p>
+            Ein Projekt, das ich beraten habe, hatte 23 Microservices, die von einem Team aus vier
+            Entwicklern verwaltet wurden. Sie verbrachten mehr Zeit mit dem Debugging von
+            Inter-Service-Kommunikation, dem Management von Deployments und dem Umgang mit
+            verteilten Transaktionen als mit dem Bauen von Features.
+          </p>
+
+          <p>
+            <strong>Was ich stattdessen tun w&uuml;rde:</strong> Mit einem gut strukturierten
+            Monolithen starten. Services erst dann extrahieren, wenn es einen klaren operativen
+            Grund gibt &mdash; unabh&auml;ngige Skalierung, unabh&auml;ngige Deployment-Zyklen oder
+            Team-Autonomie-Grenzen. Nicht, weil &bdquo;Microservices Best Practice sind&ldquo;.
+          </p>
+
+          <p>
+            <strong>Die Lektion:</strong> Microservices sind ein organisatorisches
+            Skalierungsmuster, kein technisches. Wenn euer Team in einen Raum passt, braucht ihr sie
+            wahrscheinlich nicht.
+          </p>
+
+          <h2>4. Ich h&auml;tte Datenbankdesign von Anfang an ernster genommen</h2>
+
+          <p>
+            Fr&uuml;h in meiner Karriere habe ich die Datenbank als dumme Speicherschicht behandelt.
+            Daten rein, Daten raus. Schemadesign war ein Nachgedanke, und Normalisierung etwas, das
+            ich &bdquo;sp&auml;ter fixen&ldquo; w&uuml;rde.
+          </p>
+
+          <p>
+            &bdquo;Sp&auml;ter&ldquo; kam nie. Ich habe Systeme gesehen, in denen eine einzige
+            schlecht entworfene Tabelle zum Flaschenhals der gesamten Anwendung wurde. Wo fehlende
+            Indizes eine 50-ms-Abfrage in einen 30-Sekunden-Albtraum verwandelten. Wo fehlende
+            referentielle Integrit&auml;t zu verwaisten Datens&auml;tzen f&uuml;hrte, die monatelang
+            Gesch&auml;ftsberichte verf&auml;lschten, bevor es jemand bemerkte.
+          </p>
+
+          <p>
+            <strong>Was ich stattdessen tun w&uuml;rde:</strong> Zeit in saubere Datenmodellierung
+            investieren. Query-Patterns verstehen, bevor man Schemas entwirft. Constraints und
+            referentielle Integrit&auml;t nutzen &mdash; sie sind nicht optional, sie sind das
+            Sicherheitsnetz.
+          </p>
+
+          <p>
+            <strong>Die Lektion:</strong> Euer Anwendungscode wird mehrfach umgeschrieben. Eure
+            Daten &uuml;berleben alles davon. Entwerft euer Datenmodell so, als w&auml;re es die
+            wichtigste Architekturentscheidung &mdash; denn das ist sie wahrscheinlich.
+          </p>
+
+          <h2>5. Ich h&auml;tte &ouml;fter &bdquo;Nein&ldquo; gesagt</h2>
+
+          <p>
+            Das ist keine technische Entscheidung, aber eine Architekturentscheidung im Verkleidung.
+            Jede Feature-Anforderung, die ein &bdquo;Ja&ldquo; bekommt, f&uuml;gt Komplexit&auml;t
+            hinzu. Jede Integration f&uuml;gt eine Abh&auml;ngigkeit hinzu. Jeder &bdquo;Quick
+            Hack&ldquo; wird zu permanenter Infrastruktur.
+          </p>
+
+          <p>
+            Ich habe Codebasen gesehen, deren Architektur nicht wegen schlechter technischer
+            Entscheidungen degradierte, sondern wegen einer Anh&auml;ufung von &bdquo;Ja&ldquo;. Ja
+            zur einmaligen Export-Funktion. Ja zur eigenen Reporting-Engine. Ja zur
+            Unterst&uuml;tzung dieses Legacy-Protokolls &bdquo;nur f&uuml;r diesen einen
+            Kunden&ldquo;.
+          </p>
+
+          <p>
+            <strong>Was ich stattdessen tun w&uuml;rde:</strong> Architektonische Einfachheit als
+            Feature behandeln. Jede Erweiterung muss ihren Komplexit&auml;tsaufwand rechtfertigen.
+            Die beste Architektur ist nicht die, die alles kann &mdash; sondern die, die die
+            richtigen Dinge gut macht.
+          </p>
+
+          <p>
+            <strong>Die Lektion:</strong> Das schwierigste Wort in der Softwarearchitektur ist
+            &bdquo;Nein&ldquo;. Aber es ist auch das wertvollste.
+          </p>
+
+          <h2>Die Meta-Lektion</h2>
+
+          <p>
+            R&uuml;ckblickend haben diese f&uuml;nf Entscheidungen ein gemeinsames Thema:
+            <strong>Sie alle handeln davon, Komplexit&auml;t zu widerstehen.</strong> Event-Driven
+            Architecture reduziert Kopplungskomplexit&auml;t. Observability reduziert
+            Debugging-Komplexit&auml;t. Der Verzicht auf voreilige Microservices reduziert operative
+            Komplexit&auml;t. Gutes Datenbankdesign reduziert Datenkomplexit&auml;t.
+            &bdquo;Nein&ldquo; sagen reduziert Feature-Komplexit&auml;t.
+          </p>
+
+          <p>
+            Nach 30 Jahren ist das Wichtigste, was ich gelernt habe:
+            <strong
+              >Das Ziel ist nicht, das ausgekl&uuml;geltste System zu bauen. Es ist, das einfachste
+              System zu bauen, das das Problem l&ouml;st.</strong
+            >
+          </p>
+
+          <p>Alles andere ist Ego.</p>
+        </article>
+
+        <!-- Back to blog -->
+        <div class="mt-16 pt-8 reveal" style="border-top: 1px solid rgba(72, 69, 83, 0.15)">
+          <a
+            href="/de/blog/"
+            class="inline-flex items-center gap-2 text-sm font-mono text-on-surface/40 hover:text-primary transition-colors"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+              />
+            </svg>
+            Zur&uuml;ck zu allen Beitr&auml;gen
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer (DE) -->
+    <footer class="py-10" style="border-top: 1px solid rgba(72, 69, 83, 0.15)">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+          <div class="flex items-center gap-8">
+            <a href="/de/">
+              <img src="/assets/logo.png" alt="Martin von Wysiecki" class="h-6" />
+            </a>
+            <div class="flex gap-5">
+              <a
+                href="mailto:info@wysiecki.de"
+                class="text-on-surface/40 hover:text-primary transition-colors"
+                aria-label="E-Mail"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://github.com/wysiecki"
+                class="text-on-surface/40 hover:text-primary transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+              >
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/martin-von-wysiecki-08a657b/"
+                class="text-on-surface/40 hover:text-primary transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+              >
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="flex items-center gap-6">
+            <p class="font-mono text-xs text-on-surface/30 tracking-wide">
+              &copy; <span class="footer-year"></span> Martin von Wysiecki
+            </p>
+            <a
+              href="/de/impressum.html"
+              class="font-mono text-xs text-on-surface/30 hover:text-primary transition-colors cursor-pointer tracking-wide"
+              >Impressum</a
+            >
+            <a
+              href="/de/datenschutz.html"
+              class="font-mono text-xs text-on-surface/30 hover:text-primary transition-colors cursor-pointer tracking-wide"
+              >Datenschutz</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="/shared.js"></script>
+  </body>
+</html>

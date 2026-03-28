@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="pl" class="scroll-smooth dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/dist/output.css?v=6" rel="stylesheet" />
+    <noscript
+      ><style>
+        .reveal {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style></noscript
+    >
+    <title>
+      30 lat w IT: 5 decyzji architektonicznych, które podjąłbym inaczej — Martin von Wysiecki
+    </title>
+    <meta
+      name="description"
+      content="Po trzech dekadach tworzenia oprogramowania dla przedsiębiorstw, oto decyzje architektoniczne, które zmieniłbym, gdybym mógł cofnąć czas — i co zrobiłbym zamiast tego."
+    />
+    <link rel="canonical" href="https://wysiecki.de/pl/blog/architecture-decisions/" />
+    <link rel="alternate" type="application/rss+xml" title="Blog RSS" href="/feed.xml" />
+    <meta
+      property="og:title"
+      content="30 lat w IT: 5 decyzji architektonicznych, które podjąłbym inaczej"
+    />
+    <meta
+      property="og:description"
+      content="Po trzech dekadach tworzenia oprogramowania dla przedsiębiorstw, oto decyzje architektoniczne, które zmieniłbym, gdybym mógł cofnąć czas — i co zrobiłbym zamiast tego."
+    />
+    <meta property="og:url" content="https://wysiecki.de/pl/blog/architecture-decisions/" />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content="2026-03-28" />
+    <meta property="article:author" content="Martin von Wysiecki" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "30 lat w IT: 5 decyzji architektonicznych, które podjąłbym inaczej",
+        "description": "Po trzech dekadach tworzenia oprogramowania dla przedsiębiorstw, oto decyzje architektoniczne, które zmieniłbym, gdybym mógł cofnąć czas — i co zrobiłbym zamiast tego.",
+        "datePublished": "2026-03-28",
+        "author": {
+          "@type": "Person",
+          "name": "Martin von Wysiecki",
+          "url": "https://wysiecki.de"
+        },
+        "publisher": {
+          "@type": "Person",
+          "name": "Martin von Wysiecki"
+        },
+        "url": "https://wysiecki.de/pl/blog/architecture-decisions/"
+      }
+    </script>
+  </head>
+  <body class="grain">
+    <!-- Navigation (PL) -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 bg-surface-base/90 backdrop-blur-md">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 py-5">
+        <div class="flex justify-between items-center">
+          <a href="/pl/" class="flex items-center">
+            <img src="/assets/logo.png" alt="Martin von Wysiecki" class="h-12" />
+          </a>
+
+          <div class="hidden md:flex items-center gap-10">
+            <a href="/pl/" class="nav-link" data-nav-page="/">Strona g&#322;&#243;wna</a>
+            <a href="/pl/tools/" class="nav-link" data-nav-page="/tools">Narz&#281;dzia</a>
+            <a href="/pl/ai/" class="nav-link" data-nav-page="/ai">Radar AI</a>
+            <a href="/pl/blog/" class="nav-link" data-nav-page="/blog">Blog</a>
+            <a href="/pl/quiz/" class="nav-link" data-nav-page="/quiz">Quiz</a>
+
+            <!-- Language Switcher -->
+            <div class="relative" data-lang-switcher>
+              <button
+                class="flex items-center gap-1.5 font-mono text-xs tracking-wide text-on-surface/50 hover:text-primary transition-colors cursor-pointer"
+                aria-label="Zmie&#324; j&#281;zyk"
+              >
+                <span>PL</span>
+                <svg
+                  class="w-3 h-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div
+                class="lang-dropdown hidden absolute right-0 top-full mt-2 py-1 bg-surface-container border border-outline-variant/20 rounded-cyber shadow-lg min-w-[80px] z-50"
+              >
+                <a
+                  href="#"
+                  data-switch-lang="en"
+                  class="block px-3 py-1.5 font-mono text-xs text-on-surface/50 hover:text-primary hover:bg-surface-high transition-colors"
+                  >EN</a
+                >
+                <a
+                  href="#"
+                  data-switch-lang="de"
+                  class="block px-3 py-1.5 font-mono text-xs text-on-surface/50 hover:text-primary hover:bg-surface-high transition-colors"
+                  >DE</a
+                >
+                <a
+                  href="#"
+                  data-switch-lang="pl"
+                  class="block px-3 py-1.5 font-mono text-xs text-primary bg-surface-high transition-colors"
+                  >PL</a
+                >
+              </div>
+            </div>
+
+            <a href="/pl/#contact" class="btn-primary text-xs py-2.5 px-6">Kontakt</a>
+          </div>
+
+          <button
+            id="mobile-menu-btn"
+            class="md:hidden p-2 cursor-pointer text-on-surface"
+            aria-label="Otw&#243;rz menu"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu (PL) -->
+    <div
+      id="mobile-menu"
+      class="fixed inset-0 z-40 bg-surface-base transform translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:hidden"
+    >
+      <div class="flex flex-col items-center justify-center h-full gap-10">
+        <a
+          href="/pl/"
+          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
+          >Strona g&#322;&#243;wna</a
+        >
+        <a
+          href="/pl/tools/"
+          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
+          >Narz&#281;dzia</a
+        >
+        <a
+          href="/pl/ai/"
+          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
+          >Radar AI</a
+        >
+        <a
+          href="/pl/blog/"
+          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
+          >Blog</a
+        >
+        <a
+          href="/pl/quiz/"
+          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
+          >Quiz</a
+        >
+        <a
+          href="/pl/#contact"
+          class="font-display text-3xl text-on-surface hover:text-primary transition-colors mobile-menu-link cursor-pointer"
+          >Kontakt</a
+        >
+        <!-- Mobile language switcher -->
+        <div class="flex gap-4 mt-4">
+          <a
+            href="#"
+            data-switch-lang="en"
+            class="font-mono text-sm text-on-surface/40 hover:text-primary transition-colors"
+            >EN</a
+          >
+          <a
+            href="#"
+            data-switch-lang="de"
+            class="font-mono text-sm text-on-surface/40 hover:text-primary transition-colors"
+            >DE</a
+          >
+          <span class="font-mono text-sm text-primary">PL</span>
+        </div>
+      </div>
+    </div>
+
+    <main class="pt-32 pb-24">
+      <div class="max-w-3xl mx-auto px-6 lg:px-8">
+        <!-- Breadcrumb -->
+        <nav class="mb-8 reveal">
+          <ol class="flex items-center gap-2 font-mono text-xs text-on-surface/40">
+            <li><a href="/pl/" class="hover:text-primary transition-colors">Strona główna</a></li>
+            <li>/</li>
+            <li><a href="/pl/blog/" class="hover:text-primary transition-colors">Blog</a></li>
+            <li>/</li>
+            <li class="text-primary truncate max-w-[200px]">
+              30 lat w IT: 5 decyzji architektonicznych, które podjąłbym inaczej
+            </li>
+          </ol>
+        </nav>
+
+        <!-- Article Header -->
+        <header class="reveal mb-12">
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <span class="tag">architecture</span><span class="tag">career</span
+            ><span class="tag">lessons-learned</span>
+          </div>
+          <h1 class="font-display text-3xl md:text-5xl font-bold tracking-tight leading-tight mb-4">
+            30 lat w IT: 5 decyzji architektonicznych, które podjąłbym inaczej
+          </h1>
+          <div class="flex items-center gap-4 text-sm font-mono text-on-surface/40">
+            <time datetime="2026-03-28">28 marca 2026</time>
+            <span>&middot;</span>
+            <span>7 min czytania</span>
+          </div>
+        </header>
+
+        <!-- Article Content -->
+        <article class="prose reveal">
+          <p>
+            Po ponad 30 latach tworzenia oprogramowania — od wczesnych systemów klient-serwer po
+            nowoczesne architektury chmurowe — nazbierałem sporo blizn. Niektóre od technologii,
+            które się nie sprawdziły. Inne od decyzji, które w swoim czasie wydawały się słuszne,
+            ale źle się zestarzały.
+          </p>
+
+          <p>
+            Oto pięć decyzji architektonicznych, które podjąłbym inaczej, gdybym mógł cofnąć czas.
+          </p>
+
+          <h2>1. Wcześniej postawiłbym na architekturę zdarzeniową</h2>
+
+          <p>
+            Przez lata budowałem systemy z synchronicznymi wzorcami żądanie-odpowiedź wszędzie.
+            Serwis A wywołuje Serwis B, który wywołuje Serwis C, a jeśli którykolwiek z nich jest
+            wolny lub niedostępny, cały łańcuch się rozpada.
+          </p>
+
+          <p>
+            Punkt zwrotny nastąpił, gdy pracowałem nad systemem przetwarzania danych
+            farmaceutycznych, który musiał obsługiwać zgłoszenia regulacyjne. Podejście
+            synchroniczne tworzyło kruchy pipeline, w którym pojedynczy wolny serwis mógł kaskadowo
+            powodować awarie w całym systemie.
+          </p>
+
+          <p>
+            <strong>Co zrobiłbym inaczej:</strong> Zacząłbym od zdarzeń i kolejek komunikatów od
+            pierwszego dnia. Nie wszystko musi być asynchroniczne, ale posiadanie szkieletu
+            zdarzeniowego daje odporność, audytowalność i możliwość dodawania nowych konsumentów bez
+            ingerencji w istniejący kod.
+          </p>
+
+          <p>
+            <strong>Lekcja:</strong> Komunikacja synchroniczna jest domyślna, ale nie powinna być.
+            Domyślnie wybieraj async i przechodź na synchroniczność tylko wtedy, gdy potrzebujesz
+            natychmiastowej odpowiedzi.
+          </p>
+
+          <h2>2. Zainwestowałbym w obserwowalność, zanim stała się modna</h2>
+
+          <p>
+            Na początku lat 2000. „monitoring" oznaczał sprawdzenie, czy serwer działa, i
+            ewentualnie obserwowanie zużycia CPU. Logi to było coś, przez co przeszukiwałeś grepem,
+            gdy coś się zepsuło.
+          </p>
+
+          <p>
+            Pamiętam incydent produkcyjny, w którym subtelny błąd korupcji danych zajął trzy
+            tygodnie do wyśledzenia, ponieważ nie mieliśmy ustrukturyzowanego logowania,
+            rozproszonego śledzenia ani żadnego sposobu na korelację zdarzeń między serwisami. Trzy
+            tygodnie wpływu na klientów, bo nie widzieliśmy, co nasz system robi.
+          </p>
+
+          <p>
+            <strong>Co zrobiłbym inaczej:</strong> Traktowałbym obserwowalność jako pierwszorzędny
+            aspekt architektury. Ustrukturyzowane logowanie od pierwszego dnia. Rozproszone
+            śledzenie na granicach serwisów. Metryki biznesowe, nie tylko metryki infrastrukturalne.
+          </p>
+
+          <p>
+            <strong>Lekcja:</strong> Nie naprawisz tego, czego nie widzisz. A kiedy uświadamiasz
+            sobie, że potrzebujesz obserwowalności, zwykle jesteś już w trakcie incydentu.
+          </p>
+
+          <h2>3. Walczyłbym mocniej przeciwko przedwczesnym mikroserwis om</h2>
+
+          <p>
+            Około 2015 roku mikroserwisy stały się odpowiedzią na każde pytanie. Obserwowałem (i
+            czasem uczestniczyłem w) projektach, które rozbiły monolity na dziesiątki serwisów,
+            zanim miały zespół, narzędzia czy dojrzałość operacyjną, by nimi zarządzać.
+          </p>
+
+          <p>
+            Jeden z projektów, przy którym doradzałem, miał 23 mikroserwisy zarządzane przez zespół
+            czterech programistów. Spędzali więcej czasu na debugowaniu komunikacji między
+            serwisami, zarządzaniu deploymentami i radzeniu sobie z transakcjami rozproszonymi niż
+            na tworzeniu funkcjonalności.
+          </p>
+
+          <p>
+            <strong>Co zrobiłbym inaczej:</strong> Zacząłbym od dobrze ustrukturyzowanego monolitu.
+            Wydzielałbym serwisy tylko wtedy, gdy jest ku temu wyraźny powód operacyjny — niezależne
+            skalowanie, niezależna częstotliwość deploymentów lub granice autonomii zespołów. Nie
+            dlatego, że „mikroserwisy to best practice".
+          </p>
+
+          <p>
+            <strong>Lekcja:</strong> Mikroserwisy to wzorzec skalowania organizacyjnego, nie
+            technicznego. Jeśli twój zespół mieści się w jednym pokoju, prawdopodobnie ich nie
+            potrzebujesz.
+          </p>
+
+          <h2>4. Od początku poważniej potraktowałbym projektowanie baz danych</h2>
+
+          <p>
+            Na początku kariery traktowałem bazę danych jak głupią warstwę przechowywania. Wrzuć
+            dane, wyciągnij dane. Projekt schematu był sprawą drugorzędną, a normalizacja czymś, co
+            „poprawię później".
+          </p>
+
+          <p>
+            „Później" nigdy nie nadeszło. Widziałem systemy, w których jedna źle zaprojektowana
+            tabela stała się wąskim gardłem całej aplikacji. Gdzie brakujące indeksy zamieniały
+            zapytanie trwające 50 ms w 30-sekundowy koszmar. Gdzie brak integralności referencyjnej
+            prowadził do osieroconych rekordów, które przez miesiące fałszowały raporty biznesowe,
+            zanim ktokolwiek to zauważył.
+          </p>
+
+          <p>
+            <strong>Co zrobiłbym inaczej:</strong> Zainwestowałbym czas w porządne modelowanie
+            danych na starcie. Zrozum swoje wzorce zapytań, zanim zaprojektujesz schematy. Używaj
+            ograniczeń i integralności referencyjnej — to nie opcja, to twoja siatka bezpieczeństwa.
+          </p>
+
+          <p>
+            <strong>Lekcja:</strong> Kod twojej aplikacji zostanie przepisany wielokrotnie. Twoje
+            dane przeżyją je wszystkie. Projektuj model danych tak, jakby to była najważniejsza
+            decyzja architektoniczna, jaką podejmiesz — bo prawdopodobnie tak jest.
+          </p>
+
+          <h2>5. Częściej mówiłbym „nie"</h2>
+
+          <p>
+            To nie jest decyzja techniczna, ale w gruncie rzeczy jest decyzją architektoniczną w
+            przebraniu. Każde żądanie funkcjonalności, na które pada „tak", dodaje złożoność. Każda
+            integracja dodaje zależność. Każdy „szybki hack" staje się stałą infrastrukturą.
+          </p>
+
+          <p>
+            Widziałem bazy kodu, w których architektura degradowała się nie z powodu złych decyzji
+            technicznych, ale z powodu nagromadzenia „tak". Tak dla jednorazowej funkcji eksportu.
+            Tak dla niestandardowego silnika raportowego. Tak dla obsługi tego przestarzałego
+            protokołu „tylko dla tego jednego klienta".
+          </p>
+
+          <p>
+            <strong>Co zrobiłbym inaczej:</strong> Traktowałbym prostotę architektoniczną jako
+            feature. Każdy dodatek powinien uzasadnić swój koszt złożoności. Najlepsza architektura
+            to nie ta, która potrafi wszystko — to ta, która robi właściwe rzeczy dobrze.
+          </p>
+
+          <p>
+            <strong>Lekcja:</strong> Najtrudniejsze słowo w architekturze oprogramowania to „nie".
+            Ale jest też najcenniejsze.
+          </p>
+
+          <h2>Metalekcja</h2>
+
+          <p>
+            Patrząc wstecz, te pięć decyzji łączy wspólny wątek:
+            <strong>wszystkie dotyczą opierania się złożoności.</strong> Architektura zdarzeniowa
+            redukuje złożoność powiązań. Obserwowalność redukuje złożoność debugowania. Unikanie
+            przedwczesnych mikroserwisów redukuje złożoność operacyjną. Dobre projektowanie baz
+            danych redukuje złożoność danych. Mówienie „nie" redukuje złożoność funkcjonalną.
+          </p>
+
+          <p>
+            Po 30 latach najważniejsza rzecz, jakiej się nauczyłem, to:
+            <strong
+              >celem nie jest zbudowanie najbardziej wyrafinowanego systemu. Celem jest zbudowanie
+              najprostszego systemu, który rozwiązuje problem.</strong
+            >
+          </p>
+
+          <p>Wszystko inne to ego.</p>
+        </article>
+
+        <!-- Back to blog -->
+        <div class="mt-16 pt-8 reveal" style="border-top: 1px solid rgba(72, 69, 83, 0.15)">
+          <a
+            href="/pl/blog/"
+            class="inline-flex items-center gap-2 text-sm font-mono text-on-surface/40 hover:text-primary transition-colors"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+              />
+            </svg>
+            Wróć do wszystkich wpisów
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer (PL) -->
+    <footer class="py-10" style="border-top: 1px solid rgba(72, 69, 83, 0.15)">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+          <div class="flex items-center gap-8">
+            <a href="/pl/">
+              <img src="/assets/logo.png" alt="Martin von Wysiecki" class="h-6" />
+            </a>
+            <div class="flex gap-5">
+              <a
+                href="mailto:info@wysiecki.de"
+                class="text-on-surface/40 hover:text-primary transition-colors"
+                aria-label="E-mail"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://github.com/wysiecki"
+                class="text-on-surface/40 hover:text-primary transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+              >
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/martin-von-wysiecki-08a657b/"
+                class="text-on-surface/40 hover:text-primary transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+              >
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="flex items-center gap-6">
+            <p class="font-mono text-xs text-on-surface/30 tracking-wide">
+              &copy; <span class="footer-year"></span> Martin von Wysiecki
+            </p>
+            <a
+              href="/pl/impressum.html"
+              class="font-mono text-xs text-on-surface/30 hover:text-primary transition-colors cursor-pointer tracking-wide"
+              >Impressum</a
+            >
+            <a
+              href="/pl/datenschutz.html"
+              class="font-mono text-xs text-on-surface/30 hover:text-primary transition-colors cursor-pointer tracking-wide"
+              >Polityka prywatno&#347;ci</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="/shared.js"></script>
+  </body>
+</html>

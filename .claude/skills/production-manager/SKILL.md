@@ -40,7 +40,9 @@ When the user asks for a production action, identify which one they need and fol
 
 Deploy local changes to production. This is the most common action — trigger it when the user says things like "deploy", "push to prod", "ship it", or "update production".
 
-The deployment flow is: push to main → GitHub Actions builds amd64 images → push to Docker Hub → pull on server.
+The deployment flow is: push to main → GitHub Actions builds amd64 images and pushes to Docker Hub → deploy from local machine via SSH.
+
+**Note:** GitHub Actions only builds and pushes images. Deployment (pulling images on the server) is triggered locally via SSH because the production server's firewall does not allow inbound SSH from GitHub Actions runners.
 
 ```bash
 # Step 1: Ensure local changes are committed and pushed
@@ -52,7 +54,7 @@ git push origin main
 gh run list --limit 1  # Check latest run status
 gh run watch           # Watch it complete (or poll with gh run view)
 
-# Step 3: Run deploy script on server (pulls images, restarts, health checks)
+# Step 3: Deploy from local machine via SSH (pulls images, restarts, health checks)
 ssh dockerhost "/home/wysiecki/projects/homepage/deploy.sh"
 ```
 
