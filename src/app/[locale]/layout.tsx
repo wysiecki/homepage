@@ -17,14 +17,14 @@ export default async function LocaleLayout({ children }: { children: React.React
     <html lang={locale} className="scroll-smooth dark">
       <body className="grain bg-surface-base text-on-surface antialiased">
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-K32GHRYHTG"
+          src="https://www.googletagmanager.com/gtag/js?id=G-4SR4Y42LJE"
           strategy="afterInteractive"
         />
         <Script id="gtag-init" strategy="afterInteractive">
           {`window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', 'G-K32GHRYHTG');`}
+          gtag('config', 'G-4SR4Y42LJE');`}
         </Script>
         <NextIntlClientProvider messages={messages}>
           <Navbar />
