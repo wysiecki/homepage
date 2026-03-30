@@ -5,8 +5,6 @@ services:
     ports:
       - "3004:3000"
     environment:
-      - ANALYTICS_TOKEN=${ANALYTICS_TOKEN:-test-local-key}
-      - ANALYTICS_SALT=${ANALYTICS_SALT:-this-is-a-local-dev-salt-for-testing-only}
       - BLOG_API_KEY=${BLOG_API_KEY:-test-local-key}
 
 networks:

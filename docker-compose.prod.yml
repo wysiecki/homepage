@@ -14,16 +14,13 @@ services:
       - MAIL_TO=${MAIL_TO:-info@wysiecki.de}
       - MAIL_FROM=${MAIL_FROM:-}
       - TURNSTILE_SECRET=${TURNSTILE_SECRET:-}
-      - NEXT_PUBLIC_TURNSTILE_SITE_KEY=${NEXT_PUBLIC_TURNSTILE_SITE_KEY:-}
-      - ANALYTICS_TOKEN=${ANALYTICS_TOKEN:-}
-      - ANALYTICS_SALT=${ANALYTICS_SALT:-}
-      - ANALYTICS_DB_PATH=/data/analytics.db
+      - TURNSTILE_SITE_KEY=${TURNSTILE_SITE_KEY:-}
       - BLOG_API_KEY=${BLOG_API_KEY:-}
       - BLOG_DB_PATH=/data/blog.db
     volumes:
       - homepage-data:/data
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:3000/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
