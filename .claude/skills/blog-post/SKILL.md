@@ -90,80 +90,39 @@ Present the complete post to the user with:
 - A brief copyright compliance note confirming: original title, no reproduced passages, source attributed
 - Ask if they want to edit anything before saving
 
-### 5. Save via API (English version)
+### 5. Save as MDX file
 
-After the user approves (or edits), create the English post via the blog API:
+After the user approves (or edits), save the English blog post as an MDX file:
 
-```bash
-curl -s -X POST http://localhost:8002/api/blog \
-  -H "Authorization: Bearer $BLOG_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "...",
-    "slug": "...",
-    "description": "...",
-    "content": "...",
-    "tags": [...],
-    "source_url": "...",
-    "status": "draft"
-  }'
+Write the file to `content/blog/{slug}.mdx` with this format:
+
+```mdx
+---
+title: "The post title"
+slug: the-post-slug
+date: 2026-03-28
+description: "1-2 sentence description"
+tags:
+  - tag1
+  - tag2
+source_url: https://original-article-url.com
+---
+
+The markdown content goes here...
 ```
 
-Read the `BLOG_API_KEY` from the environment variable. If not set, ask the user for it.
+The Next.js dev server picks up new MDX files immediately — no build or API call needed.
 
-### 6. Save German and Polish versions as static files
+Note: DE/PL translations are handled automatically by next-intl. The blog content itself is in English only (matching the original site behavior). The page chrome (headings, labels, navigation) switches language via the translation JSON files.
 
-The DE/PL blog posts are saved as compiled HTML files directly into the source pages directory. The build system will copy them to the build output.
+### 6. Offer to publish
 
-For each language (DE and PL), create the blog post HTML file by:
+After saving, tell the user:
+- The post is live in dev mode at `http://localhost:3004/blog/{slug}`
+- For production: commit the MDX file and deploy (the post will be statically generated at build time)
+- All 3 language versions are available: `/blog/{slug}`, `/de/blog/{slug}`, `/pl/blog/{slug}`
 
-1. Read the post template from `src/pages/blog/post-template.html`
-2. Fill in the template variables with the translated content:
-   - `{{TITLE}}` → translated title
-   - `{{DESCRIPTION}}` → translated description
-   - `{{SLUG}}` → same slug as English (shared across languages)
-   - `{{DATE_ISO}}` → ISO date string
-   - `{{DATE_DISPLAY}}` → formatted date in target language (German: `toLocaleDateString('de-DE', ...)`, Polish: `toLocaleDateString('pl-PL', ...)`)
-   - `{{READING_TIME}}` → calculated reading time
-   - `{{TAGS_HTML}}` → same tags HTML
-   - `{{CONTENT}}` → translated content compiled from markdown to HTML
-3. Replace the language-specific chrome:
-   - Change `lang="en"` to `lang="de"` or `lang="pl"`
-   - Update canonical URL: `https://wysiecki.de/de/blog/{{SLUG}}/` or `/pl/blog/...`
-   - Update og:url similarly
-   - Update breadcrumb: "Home" → "Startseite" (DE) / "Strona główna" (PL), "Blog" stays "Blog"
-   - Update "min read" → "Min. Lesezeit" (DE) / "min czytania" (PL)
-   - Update "Back to all posts" → "Zurück zu allen Beiträgen" (DE) / "Wróć do wszystkich wpisów" (PL)
-   - Update breadcrumb links: `href="/"` → `href="/de/"` (DE) / `href="/pl/"` (PL), `href="/blog/"` → `href="/de/blog/"` / `href="/pl/blog/"`
-   - Update "Back to blog" link: `href="/blog/"` → `href="/de/blog/"` / `href="/pl/blog/"`
-4. Replace `<!-- PARTIAL:nav -->` with the content of `src/partials/nav-de.html` (DE) or `src/partials/nav-pl.html` (PL)
-5. Replace `<!-- PARTIAL:footer -->` with the content of `src/partials/footer-de.html` (DE) or `src/partials/footer-pl.html` (PL)
-6. Replace `<!-- PARTIAL:head -->` with the content of `src/partials/head.html`
-
-Write the files to:
-- `src/pages/de/blog/{slug}/index.html`
-- `src/pages/pl/blog/{slug}/index.html`
-
-Then rebuild the site:
-```bash
-npm run build
-```
-
-### 7. Offer to publish
-
-After creating the draft, ask the user if they want to publish it immediately:
-
-```bash
-curl -s -X PATCH http://localhost:8002/api/blog/{slug}/publish \
-  -H "Authorization: Bearer $BLOG_API_KEY"
-```
-
-After publishing, rebuild the site so the DE/PL versions are included in the build output:
-```bash
-npm run build
-```
-
-Report the result: draft URL or published URL, plus the DE/PL URLs.
+Report the dev URL for the user to preview.
 
 ## Important
 
@@ -172,7 +131,6 @@ Report the result: draft URL or published URL, plus the DE/PL URLs.
 - **NO DISPLACEMENT**: The post must not serve as a substitute for reading the original article.
 - **QUOTES**: Maximum one short quote (<15 words) per post, in quotation marks with attribution.
 - **VOICE**: Match Martin's tone — experienced, pragmatic, slightly opinionated. The post should read like Martin's blog, not like a news aggregator.
-- **3 LANGUAGES**: Every blog post MUST be created in EN, DE, and PL. The English version goes through the API. The DE and PL versions are written as static HTML files.
-- **API FALLBACK**: If the API is not reachable, fall back to writing the markdown file to `src/blog/posts/` with proper frontmatter, plus the DE/PL HTML files as described above.
-- **PRODUCTION API**: For production deploys, use `https://wysiecki.de/api/blog` with `BLOG_API_KEY` from env. For local testing, use `http://localhost:8002/api/blog`.
-- **REBUILD**: Always run `npm run build` after creating posts so DE/PL versions appear in the build output.
+- **MDX FILE**: Save English blog post as `content/blog/{slug}.mdx`. Next.js picks it up automatically — no API call or rebuild needed in dev.
+- **I18N**: Page chrome (nav, labels, "min read", etc.) is translated via next-intl. Blog content is English only.
+- **PRODUCTION**: Commit the MDX file and deploy. The post is statically generated at build time via `generateStaticParams`.

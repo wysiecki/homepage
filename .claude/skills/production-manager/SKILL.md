@@ -24,12 +24,10 @@ Manage the production deployment of Martin von Wysiecki's portfolio homepage.
 
 | Container | Image | Role | Port |
 |-----------|-------|------|------|
-| `wysiecki-homepage` | Built from `./Dockerfile` | nginx serving static site | 80 (internal) |
-| `wysiecki-api` | Built from `./server/Dockerfile` | Express + Nodemailer email API | 3000 (internal) |
+| `wysiecki-homepage` | `whyzzie/homepage-next` | Next.js standalone app | 3000 (internal) |
 
 ### Health Endpoints
 
-- **Site**: `https://wysiecki.de/health` — should return `healthy`
 - **API**: `https://wysiecki.de/api/health` — should return `{"status":"ok","smtp":...}`
 
 ## Actions
@@ -40,7 +38,7 @@ When the user asks for a production action, identify which one they need and fol
 
 Deploy local changes to production. This is the most common action — trigger it when the user says things like "deploy", "push to prod", "ship it", or "update production".
 
-The deployment flow is: push to main → GitHub Actions builds amd64 images and pushes to Docker Hub → deploy from local machine via SSH.
+The deployment flow is: push to main → GitHub Actions builds amd64 image and pushes to Docker Hub → deploy from local machine via SSH.
 
 **Note:** GitHub Actions only builds and pushes images. Deployment (pulling images on the server) is triggered locally via SSH because the production server's firewall does not allow inbound SSH from GitHub Actions runners.
 
@@ -88,14 +86,11 @@ Report results in a concise summary. Flag anything unhealthy.
 Show recent container logs. Default to last 50 lines unless the user asks for more.
 
 ```bash
-# Homepage (nginx) logs
+# Homepage (Next.js) logs
 ssh dockerhost "docker logs wysiecki-homepage --tail 50"
-
-# API logs
-ssh dockerhost "docker logs wysiecki-api --tail 50"
 ```
 
-If the user asks about a specific service, only show that one. If they mention "errors", add `2>&1 | grep -i error` to filter.
+If the user mentions "errors", add `2>&1 | grep -i error` to filter.
 
 ### 4. Rollback
 
@@ -127,8 +122,8 @@ ssh dockerhost "cat /home/wysiecki/projects/homepage/.env" | sed 's/\(SMTP_PASS=
 # Update a variable (confirm with user first!)
 ssh dockerhost "sed -i 's|^SMTP_HOST=.*|SMTP_HOST=smtp.example.com|' /home/wysiecki/projects/homepage/.env"
 
-# After env changes, restart the API container to pick up new values
-ssh dockerhost "cd /home/wysiecki/projects/homepage && docker compose up -d api"
+# After env changes, restart the container to pick up new values
+ssh dockerhost "cd /home/wysiecki/projects/homepage && docker compose up -d"
 ```
 
 The `.env` variables are:

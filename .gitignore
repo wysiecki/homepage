@@ -4,9 +4,17 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Production build
-dist/
-build/
+# Next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Data
+data/
+
+# Old site backup
+_old/
 
 # Environment variables
 .env

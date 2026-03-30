@@ -1,9 +1,9 @@
 ---
 name: dev
-description: Start the local development environment — installs deps if needed, starts Tailwind watcher and local server
+description: Start the local development environment — Next.js dev server on port 3004
 ---
 
-Start the local development environment with build, serve, and log analysis.
+Start the local development environment.
 
 ## 1. Install dependencies (if needed)
 Check if `node_modules` exists. If not:
@@ -11,51 +11,31 @@ Check if `node_modules` exists. If not:
 npm install
 ```
 
-## 2. Run initial build
-Build the site (partials + blog + sitemap + CSS):
+## 2. Start dev server
+Run the local startup script (kills stale process on port 3004, sets env vars, starts Next.js):
 ```bash
-npm run build
-```
-Copy CSS to the build directory so it's servable:
-```bash
-mkdir -p build/dist && cp dist/output.css build/dist/output.css
+./local.sh
 ```
 
-## 3. Start Tailwind CSS watcher
-Run in background:
-```bash
-npm run dev
-```
-This watches for changes and rebuilds `dist/output.css`. After each rebuild, CSS needs to be copied to `build/dist/`.
+This sets: `ANALYTICS_SALT`, `ANALYTICS_DB_PATH`, `BLOG_DB_PATH`, `BLOG_API_KEY`
 
-## 4. Start local server
-Serve the built site from `build/` directory on port 3004:
-```bash
-cd build && python3 -m http.server 3004
-```
-Run this in the background. Site is available at http://localhost:3004
+Site is available at http://localhost:3004
 
-## 5. Verify all pages load
-Run HTTP status checks against all major routes:
+Note: First page load triggers compilation (~10-15s), subsequent loads are fast.
+
+## 3. Verify
 ```bash
-for path in "/" "/tools/" "/ai/" "/blog/" "/quiz/" "/tools/json-formatter.html" "/sitemap.xml"; do
-  code=$(/usr/bin/curl -s -o /dev/null -w "%{http_code}" "http://localhost:3004${path}")
+for path in "/" "/tools" "/ai" "/blog" "/quiz" "/api/health"; do
+  code=$(/usr/bin/curl -s --max-time 60 -o /dev/null -w "%{http_code}" "http://localhost:3004${path}")
   echo "$code $path"
 done
 ```
-Report any non-200 status codes.
+All should return 200 (or 301 for trailing slash redirects).
 
-## 6. Report to user
+## 4. Report to user
 Tell the user:
-- Both processes are running (Tailwind watcher + HTTP server)
-- Site URL: http://localhost:3004
-- Available sections: Home, Tools (6), AI Radar, Blog, Quiz
-- Note: After editing source files, re-run `node scripts/build.js` to rebuild pages, then refresh browser
-- To stop: kill the background processes
-
-## 7. Log analysis (if requested)
-If the user mentions logs or errors:
-- Check the Python server output for HTTP request logs (404s, 500s)
-- Check browser console errors by asking user to open DevTools
-- Check Tailwind watcher output for CSS build errors
-- If Docker is running: `docker compose logs -f homepage` for nginx logs, `docker compose logs -f api` for API logs
+- Dev server running at http://localhost:3004
+- Available pages: Home, Tools (6), AI Radar, Blog, Quiz
+- i18n: EN (default), DE at `/de/`, PL at `/pl/`
+- To stop: Ctrl+C or kill the process
+- To restart after sleep/wake: `./local.sh`

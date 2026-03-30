@@ -1,0 +1,352 @@
+{
+  "Nav": {
+    "home": "Home",
+    "tools": "Tools",
+    "aiRadar": "AI Radar",
+    "blog": "Blog",
+    "quiz": "Quiz",
+    "contact": "Let's Talk",
+    "switchLang": "Switch language",
+    "openMenu": "Open menu"
+  },
+  "Hero": {
+    "label": "// FULL_STACK_DEVELOPER",
+    "heading1": "Full-Stack",
+    "heading2": "Developer",
+    "heading3": "& Tech Solutions",
+    "typewriterPhrases": [
+      "Full-Stack Developer",
+      "CEO & Tech Solutions",
+      "Mobile App Creator",
+      "Database Architect",
+      "Available for Projects"
+    ],
+    "subtitle": "Building scalable web applications, mobile apps, and database solutions for startups and enterprises worldwide.",
+    "ctaWork": "View Selected Work",
+    "ctaContact": "Get In Touch"
+  },
+  "Services": {
+    "label": "Services & Expertise",
+    "heading1": "What I",
+    "heading2": "build",
+    "web": {
+      "title": "Web Applications",
+      "description": "Custom web applications built with React, Node.js, and modern frameworks. Scalable, secure, and user-focused solutions.",
+      "tags": [
+        "React",
+        "Node.js",
+        "PHP",
+        "TypeScript"
+      ]
+    },
+    "database": {
+      "title": "Database Solutions",
+      "description": "Database architecture, optimization, and integration with MySQL and MariaDB. Robust data management for enterprise applications.",
+      "tags": [
+        "MySQL",
+        "MariaDB",
+        "Python",
+        "API Design"
+      ]
+    },
+    "mobile": {
+      "title": "Mobile Development",
+      "description": "Native iOS applications with Swift and cross-platform solutions. Performance-optimized apps for modern mobile experiences.",
+      "tags": [
+        "Swift",
+        "iOS",
+        "React Native"
+      ]
+    }
+  },
+  "About": {
+    "label": "Beyond the Screen",
+    "heading1": "A decade of crafting",
+    "heading2": "digital experiences",
+    "bio1": "CEO and Full-Stack Developer with expertise in modern web technologies, mobile development, and database architecture.",
+    "bio2": "From building pharmaceutical web applications to community-driven knowledge platforms, I deliver scalable solutions for startups and enterprises worldwide.",
+    "statYears": "Years",
+    "statProjects": "Projects",
+    "statSatisfaction": "Satisfaction",
+    "terminalTitle": "wysiecki ~ profile",
+    "terminalRole": "CEO & Full-Stack Developer",
+    "terminalLocation": "Mannheim, Germany"
+  },
+  "Work": {
+    "label": "Featured Deployments",
+    "heading1": "Selected",
+    "heading2": "projects",
+    "mspharm": {
+      "title": "MSPharm.eu",
+      "description": "Pharmaceutical industry web application with complex data management and regulatory compliance features.",
+      "tags": [
+        "PHP",
+        "MySQL",
+        "JavaScript"
+      ]
+    },
+    "waidwiki": {
+      "title": "WaidWiki.de",
+      "description": "Community-driven knowledge platform with advanced search capabilities and user-generated content management.",
+      "tags": [
+        "React",
+        "Node.js",
+        "MariaDB"
+      ]
+    }
+  },
+  "CTA": {
+    "heading1": "LET'S BUILD",
+    "heading2": "SOMETHING",
+    "heading3": "AMAZING",
+    "subtitle": "Have a project in mind? Let's make it happen.",
+    "button": "Start a Conversation"
+  },
+  "Contact": {
+    "label": "Contact",
+    "heading1": "Get in",
+    "heading2": "touch",
+    "subtitle": "Ready to discuss your next project? Let's talk about how we can bring your ideas to life.",
+    "location": "Mannheim, Germany",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send Message",
+    "sending": "Sending...",
+    "sent": "Sent!",
+    "captcha": "Please complete the captcha",
+    "network": "Network error — check connection",
+    "fallback": "Error — try again"
+  },
+  "Footer": {
+    "impressum": "Impressum",
+    "datenschutz": "Datenschutz"
+  },
+  "AiRadar": {
+    "title": "AI Radar",
+    "subtitle": "Latest AI news, tutorials, research papers, and trending open source projects — updated in real time.",
+    "tabs": {
+      "trending": "Trending",
+      "tutorials": "Tutorials",
+      "research": "Research",
+      "openSource": "Open Source"
+    },
+    "noStories": "No stories found.",
+    "noTutorials": "No tutorials found.",
+    "noPapers": "No papers found.",
+    "noRepos": "No repos found.",
+    "minRead": "min read",
+    "reactions": "reactions",
+    "comments": "comments",
+    "pts": "pts",
+    "forks": "forks",
+    "heading1": "Live AI",
+    "heading2": "News & Trends",
+    "error": "Failed to load content. Please try again later.",
+    "retry": "Retry",
+    "by": "by",
+    "justNow": "just now",
+    "mAgo": "m ago",
+    "hAgo": "h ago",
+    "dAgo": "d ago"
+  },
+  "Quiz": {
+    "title": "Tech Stack Quiz",
+    "subtitle": "Answer 5 questions and get a personalized tech stack recommendation for your next project.",
+    "questions": [
+      {
+        "question": "What type of project are you building?",
+        "options": [
+          "SaaS / Web App",
+          "E-commerce / Marketplace",
+          "Internal Tool / Admin Dashboard",
+          "API / Backend Service",
+          "Content Site / Blog / Portfolio"
+        ]
+      },
+      {
+        "question": "How big is your team?",
+        "options": [
+          "Solo developer",
+          "Small team (2-5)",
+          "Medium team (6-15)",
+          "Large / Enterprise (15+)"
+        ]
+      },
+      {
+        "question": "What matters most for this project?",
+        "options": [
+          "Ship fast — MVP in weeks",
+          "Performance — every millisecond counts",
+          "Scalability — millions of users",
+          "Maintainability — long-term codebase"
+        ]
+      },
+      {
+        "question": "How do you feel about DevOps complexity?",
+        "options": [
+          "Keep it simple — minimal ops",
+          "Some ops is fine — I know Docker",
+          "Full control — Kubernetes, CI/CD, everything"
+        ]
+      },
+      {
+        "question": "Which language ecosystem do you prefer?",
+        "options": [
+          "JavaScript / TypeScript",
+          "Python",
+          "Go",
+          "PHP",
+          "No preference — pick the best"
+        ]
+      }
+    ],
+    "archetypes": {
+      "lean-startup": {
+        "name": "The Lean Startup Stack",
+        "subtitle": "Ship fast, iterate faster",
+        "stack": [
+          "Next.js",
+          "TypeScript",
+          "PostgreSQL",
+          "Vercel",
+          "Tailwind CSS"
+        ]
+      },
+      "enterprise": {
+        "name": "The Enterprise Monolith",
+        "subtitle": "Built to last, designed for teams",
+        "stack": [
+          "Java/Spring",
+          "PostgreSQL",
+          "Redis",
+          "Docker",
+          "Kubernetes"
+        ]
+      },
+      "performance": {
+        "name": "The Performance Machine",
+        "subtitle": "When every millisecond counts",
+        "stack": [
+          "Go",
+          "PostgreSQL",
+          "Redis",
+          "gRPC",
+          "Docker"
+        ]
+      },
+      "python": {
+        "name": "The Python Powerhouse",
+        "subtitle": "Data-driven and pragmatic",
+        "stack": [
+          "FastAPI",
+          "Python",
+          "PostgreSQL",
+          "Redis",
+          "Docker"
+        ]
+      },
+      "php": {
+        "name": "The PHP Pragmatist",
+        "subtitle": "Proven, practical, gets it done",
+        "stack": [
+          "Laravel",
+          "PHP 8",
+          "MySQL",
+          "Redis",
+          "Forge/Docker"
+        ]
+      },
+      "static": {
+        "name": "The Static Speed Demon",
+        "subtitle": "Simple, fast, nearly free to host",
+        "stack": [
+          "Astro/11ty",
+          "Tailwind",
+          "Markdown",
+          "Cloudflare Pages"
+        ]
+      },
+      "scale": {
+        "name": "The Scale-Ready Architecture",
+        "subtitle": "Built for millions from day one",
+        "stack": [
+          "Node.js/TS",
+          "PostgreSQL",
+          "Redis",
+          "Kafka",
+          "Kubernetes"
+        ]
+      },
+      "fullstack": {
+        "name": "The Full-Stack JavaScript",
+        "subtitle": "One language to rule them all",
+        "stack": [
+          "Next.js",
+          "TypeScript",
+          "PostgreSQL",
+          "Prisma",
+          "Docker"
+        ]
+      }
+    },
+    "ui": {
+      "next": "Next",
+      "back": "Back",
+      "getResult": "Get My Result",
+      "startOver": "Start Over",
+      "yourStack": "Your recommended stack",
+      "copied": "Copied!",
+      "share": "Share Result",
+      "got": "I got"
+    }
+  },
+  "Tools": {
+    "title": "Developer Tools",
+    "subtitle": "Free, privacy-friendly developer utilities. Everything runs in your browser — no data leaves your device.",
+    "jsonFormatter": {
+      "title": "JSON Formatter",
+      "description": "Format, minify, and validate JSON with syntax highlighting and error detection."
+    },
+    "base64": {
+      "title": "Base64 Encoder/Decoder",
+      "description": "Encode and decode Base64 strings with full UTF-8 support."
+    },
+    "regexTester": {
+      "title": "Regex Tester",
+      "description": "Test regular expressions with real-time match highlighting."
+    },
+    "cronExplainer": {
+      "title": "Cron Explainer",
+      "description": "Translate cron expressions into human-readable schedules."
+    },
+    "jwtDecoder": {
+      "title": "JWT Decoder",
+      "description": "Decode JWT tokens and inspect header, payload, and claims."
+    },
+    "colorConverter": {
+      "title": "Color Converter",
+      "description": "Convert between HEX, RGB, and HSL color formats."
+    }
+  },
+  "Blog": {
+    "metaTitle": "Blog — IT Insights & Tech Leadership",
+    "metaDescription": "Insights from 30+ years in IT: architecture decisions, tech leadership, and lessons learned building enterprise software.",
+    "label": "Blog",
+    "heading1": "Thoughts on",
+    "heading2": "Technology",
+    "subtitle": "Insights from 30+ years building software. Architecture, leadership, and lessons learned.",
+    "noPosts": "No posts yet.",
+    "minRead": "min read",
+    "backToAll": "Back to all posts"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "back": "Back to Home"
+  },
+  "Metadata": {
+    "title": "Martin von Wysiecki — Full-Stack Developer & Tech Solutions",
+    "description": "Martin von Wysiecki — Full-Stack Developer & Tech Solutions. Building scalable web applications, mobile apps, and database solutions for startups and enterprises worldwide."
+  }
+}

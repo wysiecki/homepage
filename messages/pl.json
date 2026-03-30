@@ -1,0 +1,352 @@
+{
+  "Nav": {
+    "home": "Strona główna",
+    "tools": "Narzędzia",
+    "aiRadar": "Radar AI",
+    "blog": "Blog",
+    "quiz": "Quiz",
+    "contact": "Kontakt",
+    "switchLang": "Zmień język",
+    "openMenu": "Otwórz menu"
+  },
+  "Hero": {
+    "label": "// FULL_STACK_DEVELOPER",
+    "heading1": "Full-Stack",
+    "heading2": "Developer",
+    "heading3": "& Rozwiązania IT",
+    "typewriterPhrases": [
+      "Full-Stack Developer",
+      "CEO & Rozwiązania IT",
+      "Twórca aplikacji mobilnych",
+      "Architekt baz danych",
+      "Dostępny na projekty"
+    ],
+    "subtitle": "Tworzenie skalowalnych aplikacji webowych, mobilnych i rozwiązań bazodanowych dla startupów i przedsiębiorstw na całym świecie.",
+    "ctaWork": "Zobacz wybrane projekty",
+    "ctaContact": "Skontaktuj się"
+  },
+  "Services": {
+    "label": "Usługi i specjalizacja",
+    "heading1": "Co",
+    "heading2": "tworzę",
+    "web": {
+      "title": "Aplikacje webowe",
+      "description": "Niestandardowe aplikacje webowe tworzone w React, Node.js i nowoczesnych frameworkach. Skalowalne, bezpieczne i zorientowane na użytkownika rozwiązania.",
+      "tags": [
+        "React",
+        "Node.js",
+        "PHP",
+        "TypeScript"
+      ]
+    },
+    "database": {
+      "title": "Rozwiązania bazodanowe",
+      "description": "Architektura baz danych, optymalizacja i integracja z MySQL i MariaDB. Solidne zarządzanie danymi dla aplikacji korporacyjnych.",
+      "tags": [
+        "MySQL",
+        "MariaDB",
+        "Python",
+        "API Design"
+      ]
+    },
+    "mobile": {
+      "title": "Aplikacje mobilne",
+      "description": "Natywne aplikacje iOS w Swift i rozwiązania wieloplatformowe. Zoptymalizowane pod kątem wydajności aplikacje na nowoczesne urządzenia mobilne.",
+      "tags": [
+        "Swift",
+        "iOS",
+        "React Native"
+      ]
+    }
+  },
+  "About": {
+    "label": "Za ekranem",
+    "heading1": "Trzy dekady tworzenia",
+    "heading2": "cyfrowych doświadczeń",
+    "bio1": "CEO i Full-Stack Developer ze specjalizacją w nowoczesnych technologiach webowych, rozwoju aplikacji mobilnych i architekturze baz danych.",
+    "bio2": "Od tworzenia aplikacji webowych dla branży farmaceutycznej po platformy wiedzy oparte na społeczności — dostarczam skalowalne rozwiązania dla startupów i przedsiębiorstw na całym świecie.",
+    "statYears": "Lat",
+    "statProjects": "Projektów",
+    "statSatisfaction": "Zadowolenia",
+    "terminalTitle": "wysiecki ~ profil",
+    "terminalRole": "CEO & Full-Stack Developer",
+    "terminalLocation": "Mannheim, Niemcy"
+  },
+  "Work": {
+    "label": "Wybrane wdrożenia",
+    "heading1": "Wybrane",
+    "heading2": "projekty",
+    "mspharm": {
+      "title": "MSPharm.eu",
+      "description": "Aplikacja webowa dla branży farmaceutycznej ze złożonym zarządzaniem danymi i funkcjami zgodności z przepisami.",
+      "tags": [
+        "PHP",
+        "MySQL",
+        "JavaScript"
+      ]
+    },
+    "waidwiki": {
+      "title": "WaidWiki.de",
+      "description": "Platforma wiedzy oparta na społeczności z zaawansowanymi możliwościami wyszukiwania i zarządzaniem treścią tworzoną przez użytkowników.",
+      "tags": [
+        "React",
+        "Node.js",
+        "MariaDB"
+      ]
+    }
+  },
+  "CTA": {
+    "heading1": "STWÓRZMY",
+    "heading2": "COŚ",
+    "heading3": "WSPANIAŁEGO",
+    "subtitle": "Masz pomysł na projekt? Zrealizujmy go razem.",
+    "button": "Rozpocznij rozmowę"
+  },
+  "Contact": {
+    "label": "Kontakt",
+    "heading1": "Skontaktuj",
+    "heading2": "się",
+    "subtitle": "Chcesz omówić swój następny projekt? Porozmawiajmy o tym, jak możemy ożywić Twoje pomysły.",
+    "location": "Mannheim, Niemcy",
+    "name": "Imię",
+    "email": "E-mail",
+    "message": "Wiadomość",
+    "send": "Wyślij wiadomość",
+    "sending": "Wysyłanie...",
+    "sent": "Wysłano!",
+    "captcha": "Proszę uzupełnić captcha",
+    "network": "Błąd sieci — sprawdź połączenie",
+    "fallback": "Błąd — spróbuj ponownie"
+  },
+  "Footer": {
+    "impressum": "Impressum",
+    "datenschutz": "Polityka prywatności"
+  },
+  "AiRadar": {
+    "title": "Radar AI",
+    "subtitle": "Najnowsze wiadomości o AI, poradniki, publikacje naukowe i popularne projekty open source — aktualizowane w czasie rzeczywistym.",
+    "tabs": {
+      "trending": "Popularne",
+      "tutorials": "Poradniki",
+      "research": "Badania",
+      "openSource": "Open Source"
+    },
+    "noStories": "Nie znaleziono artykułów.",
+    "noTutorials": "Nie znaleziono poradników.",
+    "noPapers": "Nie znaleziono publikacji.",
+    "noRepos": "Nie znaleziono repozytoriów.",
+    "minRead": "min czytania",
+    "reactions": "reakcji",
+    "comments": "komentarzy",
+    "pts": "pkt.",
+    "forks": "forków",
+    "heading1": "Live AI",
+    "heading2": "News i trendy",
+    "error": "Nie udało się załadować treści. Spróbuj ponownie później.",
+    "retry": "Ponów",
+    "by": "autor:",
+    "justNow": "właśnie",
+    "mAgo": "min temu",
+    "hAgo": "godz. temu",
+    "dAgo": "dni temu"
+  },
+  "Quiz": {
+    "title": "Quiz Tech Stack",
+    "subtitle": "Odpowiedz na 5 pytań i otrzymaj spersonalizowaną rekomendację tech stacku dla Twojego następnego projektu.",
+    "questions": [
+      {
+        "question": "Jaki typ projektu tworzysz?",
+        "options": [
+          "SaaS / Aplikacja webowa",
+          "E-commerce / Marketplace",
+          "Narzędzie wewnętrzne / Panel admina",
+          "API / Usługa backendowa",
+          "Strona z treścią / Blog / Portfolio"
+        ]
+      },
+      {
+        "question": "Jak duży jest Twój zespół?",
+        "options": [
+          "Samodzielny deweloper",
+          "Mały zespół (2–5)",
+          "Średni zespół (6–15)",
+          "Duży / Enterprise (15+)"
+        ]
+      },
+      {
+        "question": "Co jest najważniejsze w tym projekcie?",
+        "options": [
+          "Szybka dostawa — MVP w tygodnie",
+          "Wydajność — liczy się każda milisekunda",
+          "Skalowalność — miliony użytkowników",
+          "Utrzymywalność — długoterminowa baza kodu"
+        ]
+      },
+      {
+        "question": "Jak podchodzisz do złożoności DevOps?",
+        "options": [
+          "Prosto — minimalna obsługa",
+          "Trochę ops jest ok — znam Dockera",
+          "Pełna kontrola — Kubernetes, CI/CD, wszystko"
+        ]
+      },
+      {
+        "question": "Który ekosystem językowy preferujesz?",
+        "options": [
+          "JavaScript / TypeScript",
+          "Python",
+          "Go",
+          "PHP",
+          "Bez preferencji — wybierz najlepszy"
+        ]
+      }
+    ],
+    "archetypes": {
+      "lean-startup": {
+        "name": "The Lean Startup Stack",
+        "subtitle": "Ship fast, iterate faster",
+        "stack": [
+          "Next.js",
+          "TypeScript",
+          "PostgreSQL",
+          "Vercel",
+          "Tailwind CSS"
+        ]
+      },
+      "enterprise": {
+        "name": "The Enterprise Monolith",
+        "subtitle": "Built to last, designed for teams",
+        "stack": [
+          "Java/Spring",
+          "PostgreSQL",
+          "Redis",
+          "Docker",
+          "Kubernetes"
+        ]
+      },
+      "performance": {
+        "name": "The Performance Machine",
+        "subtitle": "When every millisecond counts",
+        "stack": [
+          "Go",
+          "PostgreSQL",
+          "Redis",
+          "gRPC",
+          "Docker"
+        ]
+      },
+      "python": {
+        "name": "The Python Powerhouse",
+        "subtitle": "Data-driven and pragmatic",
+        "stack": [
+          "FastAPI",
+          "Python",
+          "PostgreSQL",
+          "Redis",
+          "Docker"
+        ]
+      },
+      "php": {
+        "name": "The PHP Pragmatist",
+        "subtitle": "Proven, practical, gets it done",
+        "stack": [
+          "Laravel",
+          "PHP 8",
+          "MySQL",
+          "Redis",
+          "Forge/Docker"
+        ]
+      },
+      "static": {
+        "name": "The Static Speed Demon",
+        "subtitle": "Simple, fast, nearly free to host",
+        "stack": [
+          "Astro/11ty",
+          "Tailwind",
+          "Markdown",
+          "Cloudflare Pages"
+        ]
+      },
+      "scale": {
+        "name": "The Scale-Ready Architecture",
+        "subtitle": "Built for millions from day one",
+        "stack": [
+          "Node.js/TS",
+          "PostgreSQL",
+          "Redis",
+          "Kafka",
+          "Kubernetes"
+        ]
+      },
+      "fullstack": {
+        "name": "The Full-Stack JavaScript",
+        "subtitle": "One language to rule them all",
+        "stack": [
+          "Next.js",
+          "TypeScript",
+          "PostgreSQL",
+          "Prisma",
+          "Docker"
+        ]
+      }
+    },
+    "ui": {
+      "next": "Dalej",
+      "back": "Wstecz",
+      "getResult": "Pokaż wynik",
+      "startOver": "Od nowa",
+      "yourStack": "Twój zalecany stack",
+      "copied": "Skopiowano!",
+      "share": "Udostępnij wynik",
+      "got": "Mój wynik"
+    }
+  },
+  "Tools": {
+    "title": "Narzędzia deweloperskie",
+    "subtitle": "Darmowe, przyjazne prywatności narzędzia deweloperskie. Wszystko działa w przeglądarce — żadne dane nie opuszczają Twojego urządzenia.",
+    "jsonFormatter": {
+      "title": "Formater JSON",
+      "description": "Formatuj, minifikuj i waliduj JSON z podświetlaniem składni i wykrywaniem błędów."
+    },
+    "base64": {
+      "title": "Koder/Dekoder Base64",
+      "description": "Koduj i dekoduj ciągi Base64 z pełną obsługą UTF-8."
+    },
+    "regexTester": {
+      "title": "Tester Regex",
+      "description": "Testuj wyrażenia regularne z podświetlaniem dopasowań w czasie rzeczywistym."
+    },
+    "cronExplainer": {
+      "title": "Wyjaśniacz Cron",
+      "description": "Tłumacz wyrażenia cron na czytelne harmonogramy."
+    },
+    "jwtDecoder": {
+      "title": "Dekoder JWT",
+      "description": "Dekoduj tokeny JWT i sprawdź nagłówek, payload i claims."
+    },
+    "colorConverter": {
+      "title": "Konwerter kolorów",
+      "description": "Konwertuj między formatami HEX, RGB i HSL."
+    }
+  },
+  "Blog": {
+    "metaTitle": "Blog — IT i przywództwo technologiczne",
+    "metaDescription": "Spostrzeżenia z ponad 30 lat w IT: decyzje architektoniczne, przywództwo technologiczne i lekcje wyniesione z budowania oprogramowania korporacyjnego.",
+    "label": "Blog",
+    "heading1": "Przemyślenia o",
+    "heading2": "technologii",
+    "subtitle": "Spostrzeżenia z 30+ lat tworzenia oprogramowania. Architektura, przywództwo i wyciągnięte wnioski.",
+    "noPosts": "Brak wpisów.",
+    "minRead": "min czytania",
+    "backToAll": "Wróć do wszystkich wpisów"
+  },
+  "NotFound": {
+    "title": "Strona nie znaleziona",
+    "description": "Strona, której szukasz, nie istnieje lub została przeniesiona.",
+    "back": "Wróć do strony głównej"
+  },
+  "Metadata": {
+    "title": "Martin von Wysiecki — Full-Stack Developer & Rozwiązania IT",
+    "description": "Martin von Wysiecki — Full-Stack Developer & Rozwiązania IT. Tworzenie skalowalnych aplikacji webowych, mobilnych i rozwiązań bazodanowych dla startupów i przedsiębiorstw na całym świecie."
+  }
+}
