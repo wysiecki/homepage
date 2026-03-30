@@ -41,6 +41,6 @@
 
 ## Security & Configuration Tips
 - CSP and security headers are configured in `next.config.ts`. Dev mode adds `'unsafe-eval'` for HMR; production does not.
-- API routes in `src/app/api/` handle server-side logic. Analytics requires `ANALYTICS_SALT` env var (32+ chars).
+- API routes in `src/app/api/` handle server-side logic.
 - SQLite databases in `data/` are gitignored — do not commit them.
 - Local dev port: 3004. See README.md for full port table.

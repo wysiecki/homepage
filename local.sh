@@ -70,9 +70,6 @@ fi
 mkdir -p "$DIR/data"
 
 # Dev environment defaults
-export ANALYTICS_SALT="${ANALYTICS_SALT:-local-dev-salt-value-must-be-32-chars-long}"
-export ANALYTICS_TOKEN="${ANALYTICS_TOKEN:-test-local-key}"
-export ANALYTICS_DB_PATH="${ANALYTICS_DB_PATH:-$DIR/data/analytics.db}"
 export BLOG_DB_PATH="${BLOG_DB_PATH:-$DIR/data/blog.db}"
 export BLOG_API_KEY="${BLOG_API_KEY:-dev-blog-key}"
 

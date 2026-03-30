@@ -16,9 +16,6 @@ services:
       - MAIL_FROM=${MAIL_FROM:-}
       - TURNSTILE_SECRET=${TURNSTILE_SECRET:-}
       - NEXT_PUBLIC_TURNSTILE_SITE_KEY=${NEXT_PUBLIC_TURNSTILE_SITE_KEY:-}
-      - ANALYTICS_TOKEN=${ANALYTICS_TOKEN:-}
-      - ANALYTICS_SALT=${ANALYTICS_SALT:-}
-      - ANALYTICS_DB_PATH=/data/analytics.db
       - BLOG_API_KEY=${BLOG_API_KEY:-}
       - BLOG_DB_PATH=/data/blog.db
     volumes:

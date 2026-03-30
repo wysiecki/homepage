@@ -25,7 +25,7 @@ The `local.sh` script manages the local development environment:
 | `./local.sh docker` | Build Docker image and run container on port 3004 |
 | `./local.sh docker stop` | Stop the Docker container |
 
-The script automatically sets dev defaults for `ANALYTICS_SALT`, `ANALYTICS_DB_PATH`, `BLOG_DB_PATH`, and `BLOG_API_KEY`.
+The script automatically sets dev defaults for `BLOG_DB_PATH` and `BLOG_API_KEY`.
 
 ## Development
 
@@ -76,35 +76,6 @@ homepage/
 └── package.json
 ```
 
-## Analytics
-
-Self-hosted, privacy-friendly analytics — no cookies, no fingerprinting, no third-party services. All data stays on your server.
-
-### Setup
-
-Set these environment variables before starting (or use `./local.sh` which sets dev defaults):
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `ANALYTICS_TOKEN` | Yes | Secret token to access the dashboard and data API |
-| `ANALYTICS_SALT` | Yes | Random string (32+ chars) for visitor hashing. Analytics returns 503 if unset. |
-| `ANALYTICS_DB_PATH` | No | SQLite database path (default: `/data/analytics.db`) |
-| `ANALYTICS_RETENTION_DAYS` | No | Auto-delete data older than N days (default: 730 = 2 years) |
-
-### Accessing the Dashboard
-
-```
-https://your-domain/api/analytics/dashboard?token=YOUR_TOKEN
-```
-
-### How It Works
-
-1. A lightweight tracker component sends a `POST /api/analytics/pageview` beacon on each page load
-2. The server stores pageviews in SQLite with: path, referrer, screen size, browser, OS, country, and a daily visitor hash
-3. **Privacy**: unique visitors counted via `SHA-256(IP + date + salt)` — rotates daily, cannot be reversed. Raw IPs never stored. DNT respected.
-4. **Rate limiting**: 10 requests/minute per IP
-5. **Data retention**: records older than `ANALYTICS_RETENTION_DAYS` auto-deleted
-
 ## Environment Variables
 
 | Variable | Description |
@@ -117,9 +88,6 @@ https://your-domain/api/analytics/dashboard?token=YOUR_TOKEN
 | `MAIL_FROM` | Sender address (default: SMTP_USER) |
 | `TURNSTILE_SECRET` | Cloudflare Turnstile secret key |
 | `TURNSTILE_SITE_KEY` | Cloudflare Turnstile site key |
-| `ANALYTICS_TOKEN` | Dashboard access token |
-| `ANALYTICS_SALT` | Visitor hash salt (32+ chars, required) |
-| `ANALYTICS_DB_PATH` | SQLite path (default: /data/analytics.db) |
 | `BLOG_API_KEY` | Blog CRUD API auth token |
 | `BLOG_DB_PATH` | Blog SQLite path (default: /data/blog.db) |
 
@@ -130,8 +98,6 @@ https://your-domain/api/analytics/dashboard?token=YOUR_TOKEN
 | `POST` | `/api/contact` | Turnstile | Submit contact form |
 | `GET` | `/api/config` | — | Public config (Turnstile site key) |
 | `GET` | `/api/health` | — | Health check (`{ status, smtp }`) |
-| `POST` | `/api/analytics/pageview` | — | Record a page view |
-| `GET` | `/api/analytics/data` | Bearer token | Aggregated analytics JSON |
 | `GET` | `/api/ai-feed` | — | arXiv proxy with cache |
 | `GET/POST` | `/api/blog` | Bearer token (POST) | List / create blog posts |
 | `GET/PUT/DELETE` | `/api/blog/[slug]` | Bearer token (PUT/DELETE) | Single post CRUD |

@@ -37,7 +37,7 @@ curl http://localhost:3004/api/health
 - Custom component CSS MUST be inside `@layer components` to avoid tree-shaking
 - i18n: `localePrefix: 'as-needed'` — EN has no prefix, DE/PL get `/de/`, `/pl/`
 - Blog posts are MDX files in `content/blog/`
-- API routes at `src/app/api/` — analytics needs `ANALYTICS_SALT` env var (32+ chars)
+- API routes at `src/app/api/`
 - SQLite DBs stored in `data/` directory (gitignored)
 - Dark mode only (`class="dark"` on html)
 

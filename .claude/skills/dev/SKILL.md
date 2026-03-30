@@ -17,7 +17,7 @@ Run the local startup script (kills stale process on port 3004, sets env vars, s
 ./local.sh
 ```
 
-This sets: `ANALYTICS_SALT`, `ANALYTICS_DB_PATH`, `BLOG_DB_PATH`, `BLOG_API_KEY`
+This sets: `BLOG_DB_PATH`, `BLOG_API_KEY`
 
 Site is available at http://localhost:3004
 
