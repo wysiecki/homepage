@@ -1,0 +1,70 @@
+---
+title: "30 lat w IT: 5 decyzji architektonicznych, które podjąłbym inaczej"
+slug: architecture-decisions
+date: 2026-03-28
+lang: pl
+description: "Po trzech dekadach budowania oprogramowania enterprise — oto decyzje architektoniczne, które zmieniłbym, gdybym mógł cofnąć czas."
+tags: [architecture, career, lessons-learned]
+---
+
+Po ponad 30 latach budowania oprogramowania — od wczesnych systemów klient-serwer po nowoczesne architektury chmurowe — zebrałem sporo blizn. Niektóre od technologii, które się nie sprawdziły. Inne od decyzji, które wtedy wydawały się słuszne, ale źle się zestarzały.
+
+Oto pięć decyzji architektonicznych, które podjąłbym inaczej, gdybym mógł cofnąć czas.
+
+## 1. Wcześniej przyjąłbym architekturę sterowaną zdarzeniami
+
+Przez lata budowałem systemy z synchronicznymi wzorcami request-response wszędzie. Serwis A wywołuje Serwis B, który wywołuje Serwis C, a jeśli którykolwiek z nich jest wolny lub niedostępny, cały łańcuch się rozpada.
+
+Punkt zwrotny nastąpił podczas pracy nad systemem przetwarzania danych farmaceutycznych, który musiał obsługiwać zgłoszenia regulacyjne. Podejście synchroniczne stworzyło kruchą pipeline, gdzie pojedynczy wolny serwis downstream mógł wywołać kaskadę awarii w całym systemie.
+
+**Co zrobiłbym inaczej:** Od pierwszego dnia stawiać na eventy i kolejki wiadomości. Nie wszystko musi być asynchroniczne, ale posiadanie event backbone'u daje ci odporność, audytowalność i możliwość dodawania nowych konsumentów bez dotykania istniejącego kodu.
+
+**Lekcja:** Komunikacja synchroniczna jest domyślna, ale nie powinna być. Ustaw async jako domyślny i świadomie wybieraj synchroniczność tylko wtedy, gdy potrzebujesz natychmiastowej odpowiedzi.
+
+## 2. Wcześniej zainwestowałbym w obserwowalność
+
+Na początku lat 2000. „monitoring" oznaczał sprawdzenie, czy serwer działa, i może obserwowanie zużycia CPU. Logi były czymś, co przeszukiwało się grepem, gdy coś się zepsuło.
+
+Pamiętam incydent produkcyjny, gdzie subtelny błąd korupcji danych zajął trzy tygodnie na wyśledzenie — bo nie mieliśmy strukturalnego logowania, rozproszonego tracingu ani sposobu na korelację zdarzeń między serwisami. Trzy tygodnie wpływu na klientów, bo nie mogliśmy zobaczyć, co nasz system robi.
+
+**Co zrobiłbym inaczej:** Traktować obserwowalność jako pierwszorzędne wymaganie architektoniczne. Strukturalne logowanie od pierwszego dnia. Rozproszony tracing przez granice serwisów. Metryki na poziomie biznesowym, nie tylko infrastrukturalnym.
+
+**Lekcja:** Nie możesz naprawić tego, czego nie widzisz. A kiedy zdasz sobie sprawę, że potrzebujesz obserwowalności, już jesteś w środku incydentu.
+
+## 3. Mocniej walczyłbym z przedwczesnymi mikroserwisami
+
+Około 2015 roku mikroserwisy stały się odpowiedzią na każde pytanie. Obserwowałem (i czasem uczestniczyłem w) projektach, które dzieliły monolity na dziesiątki serwisów, zanim miały zespół, narzędzia lub dojrzałość operacyjną, by nimi zarządzać.
+
+Jeden projekt, który konsultowałem, miał 23 mikroserwisy zarządzane przez zespół czterech programistów. Spędzali więcej czasu na debugowaniu komunikacji między serwisami, zarządzaniu wdrożeniami i radzeniu sobie z rozproszonymi transakcjami niż na budowaniu funkcjonalności.
+
+**Co zrobiłbym inaczej:** Zacząć od dobrze zorganizowanego monolitu. Wyodrębniać serwisy tylko wtedy, gdy jest ku temu jasny powód operacyjny — niezależne skalowanie, niezależny rytm wdrożeń lub granice autonomii zespołów. Nie dlatego, że „mikroserwisy to best practice."
+
+**Lekcja:** Mikroserwisy to wzorzec skalowania organizacyjnego, nie techniczny. Jeśli twój zespół mieści się w jednym pokoju, prawdopodobnie ich nie potrzebujesz.
+
+## 4. Od początku poważniej podszedłbym do projektowania baz danych
+
+Na początku mojej kariery traktowałem bazę danych jako głupią warstwę przechowywania. Wrzuć dane, wyciągnij dane. Projektowanie schematu było myślą wtórną, a normalizacja czymś, co „naprawię później."
+
+„Później" nigdy nie nadeszło. Widziałem systemy, gdzie jedna źle zaprojektowana tabela stała się wąskim gardłem całej aplikacji. Gdzie brakujące indeksy zamieniały zapytanie 50ms w 30-sekundowy koszmar. Gdzie brak integralności referencyjnej prowadził do osieroconych rekordów, które fałszowały raporty biznesowe przez miesiące, zanim ktokolwiek to zauważył.
+
+**Co zrobiłbym inaczej:** Zainwestować czas w porządne modelowanie danych na początku. Zrozumieć wzorce zapytań przed projektowaniem schematów. Używać constraintów i integralności referencyjnej — to nie opcja, to twoja siatka bezpieczeństwa.
+
+**Lekcja:** Twój kod aplikacji będzie przepisywany wielokrotnie. Twoje dane przeżyją wszystko. Projektuj swój model danych tak, jakby to była najważniejsza decyzja architektoniczna — bo prawdopodobnie nią jest.
+
+## 5. Częściej mówiłbym „nie"
+
+To nie jest decyzja techniczna, ale to decyzja architektoniczna w przebraniu. Każde żądanie funkcjonalności, które dostaje „tak", dodaje złożoność. Każda integracja dodaje zależność. Każdy „szybki hack" staje się permanentną infrastrukturą.
+
+Widziałem bazy kodu, gdzie architektura degradowała nie z powodu złych decyzji technicznych, ale z powodu nagromadzenia „tak". Tak dla jednorazowej funkcji eksportu. Tak dla własnego silnika raportowania. Tak dla obsługi tego legacy protokołu „tylko dla tego jednego klienta."
+
+**Co zrobiłbym inaczej:** Traktować architektoniczną prostotę jako funkcjonalność. Każdy dodatek powinien uzasadniać swój koszt złożoności. Najlepsza architektura to nie ta, która potrafi wszystko — ale ta, która robi właściwe rzeczy dobrze.
+
+**Lekcja:** Najtrudniejsze słowo w architekturze oprogramowania to „nie." Ale jest też najbardziej wartościowe.
+
+## Meta-lekcja
+
+Patrząc wstecz, te pięć decyzji łączy wspólny temat: **zawsze chodzi o opieranie się złożoności.** Architektura sterowana zdarzeniami redukuje złożoność sprzężeń. Obserwowalność redukuje złożoność debugowania. Unikanie przedwczesnych mikroserwisów redukuje złożoność operacyjną. Dobre projektowanie baz danych redukuje złożoność danych. Mówienie „nie" redukuje złożoność funkcjonalności.
+
+Po 30 latach najważniejsza rzecz, jakiej się nauczyłem, to: **celem nie jest zbudowanie najbardziej wyrafinowanego systemu. Celem jest zbudowanie najprostszego systemu, który rozwiązuje problem.**
+
+Cała reszta to ego.

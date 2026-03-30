@@ -19,7 +19,8 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const locale = await getLocale();
+  const post = getPostBySlug(slug, locale);
   if (!post) return {};
 
   return {
@@ -49,7 +50,8 @@ async function formatDate(iso: string): Promise<string> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const locale = await getLocale();
+  const post = getPostBySlug(slug, locale);
   if (!post) notFound();
 
   const { content } = await compileMDX({ source: post.content });

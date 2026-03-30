@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import { getAllPosts } from '@/lib/blog/posts';
 import { BlogCard } from '@/components/blog/BlogCard';
@@ -22,7 +22,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function BlogPage() {
   const t = useTranslations('Blog');
-  const posts = getAllPosts();
+  const locale = useLocale();
+  const posts = getAllPosts(locale);
 
   return (
     <main className="pt-32 pb-24">

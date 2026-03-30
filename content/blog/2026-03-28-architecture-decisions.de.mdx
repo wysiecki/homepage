@@ -1,0 +1,70 @@
+---
+title: "30 Jahre in der IT: 5 Architekturentscheidungen, die ich heute anders treffen würde"
+slug: architecture-decisions
+date: 2026-03-28
+lang: de
+description: "Nach drei Jahrzehnten Enterprise-Software-Entwicklung — hier sind die Architekturentscheidungen, die ich rückblickend ändern würde."
+tags: [architecture, career, lessons-learned]
+---
+
+Nach über 30 Jahren Softwareentwicklung — von frühen Client-Server-Systemen bis zu modernen Cloud-Architekturen — habe ich einige Narben angesammelt. Manche von Technologien, die sich nicht bewährt haben. Andere von Entscheidungen, die damals richtig erschienen, aber schlecht gealtert sind.
+
+Hier sind fünf Architekturentscheidungen, die ich anders treffen würde, wenn ich die Zeit zurückdrehen könnte.
+
+## 1. Ich hätte Event-Driven Architecture früher eingesetzt
+
+Jahrelang habe ich Systeme mit synchronen Request-Response-Mustern gebaut. Service A ruft Service B auf, der Service C aufruft, und wenn einer davon langsam ist oder ausfällt, bricht die ganze Kette zusammen.
+
+Der Wendepunkt kam bei einem pharmazeutischen Datenverarbeitungssystem, das regulatorische Einreichungen verarbeiten musste. Der synchrone Ansatz erzeugte eine fragile Pipeline, in der ein einzelner langsamer Downstream-Service Ausfälle im gesamten System kaskadieren konnte.
+
+**Was ich stattdessen tun würde:** Von Anfang an auf Events und Message Queues setzen. Nicht alles muss asynchron sein, aber ein Event-Backbone gibt dir Resilienz, Nachvollziehbarkeit und die Möglichkeit, neue Consumer hinzuzufügen, ohne bestehenden Code anzufassen.
+
+**Die Lektion:** Synchrone Kommunikation ist der Standard, aber sie sollte es nicht sein. Setze auf Async als Default und entscheide dich bewusst für Synchron, wenn du eine sofortige Antwort brauchst.
+
+## 2. Ich hätte früher in Observability investiert
+
+In den frühen 2000ern bedeutete „Monitoring", zu prüfen, ob der Server läuft, und vielleicht die CPU-Auslastung zu beobachten. Logs waren etwas, das man durchgreppte, wenn etwas kaputtging.
+
+Ich erinnere mich an einen Produktionsvorfall, bei dem ein subtiler Datenkorruptionsbug drei Wochen brauchte, um aufgespürt zu werden — weil wir kein strukturiertes Logging, kein Distributed Tracing und keine Möglichkeit hatten, Events über Services hinweg zu korrelieren. Drei Wochen Kundenauswirkung, weil wir nicht sehen konnten, was unser System tat.
+
+**Was ich stattdessen tun würde:** Observability als erstklassige architektonische Anforderung behandeln. Strukturiertes Logging von Tag eins. Distributed Tracing über Service-Grenzen hinweg. Business-Level-Metriken, nicht nur Infrastruktur-Metriken.
+
+**Die Lektion:** Du kannst nicht reparieren, was du nicht sehen kannst. Und wenn du merkst, dass du Observability brauchst, steckst du bereits mitten in einem Vorfall.
+
+## 3. Ich hätte mich stärker gegen voreilige Microservices gewehrt
+
+Um 2015 herum wurden Microservices zur Antwort auf jede Frage. Ich habe Projekte beobachtet (und manchmal mitgemacht), die Monolithen in Dutzende Services aufgeteilt haben, bevor sie das Team, das Tooling oder die operative Reife hatten, um sie zu verwalten.
+
+Ein Projekt, das ich beraten habe, hatte 23 Microservices, die von einem Team aus vier Entwicklern verwaltet wurden. Sie verbrachten mehr Zeit mit dem Debugging von Inter-Service-Kommunikation, dem Management von Deployments und dem Umgang mit verteilten Transaktionen als mit dem Bauen von Features.
+
+**Was ich stattdessen tun würde:** Mit einem gut strukturierten Monolithen starten. Services nur extrahieren, wenn es einen klaren operativen Grund gibt — unabhängige Skalierung, unabhängiger Deployment-Rhythmus oder Team-Autonomie-Grenzen. Nicht, weil „Microservices Best Practice sind."
+
+**Die Lektion:** Microservices sind ein organisatorisches Skalierungsmuster, kein technisches. Wenn dein Team in einen Raum passt, brauchst du sie wahrscheinlich nicht.
+
+## 4. Ich hätte Datenbankdesign von Anfang an ernster genommen
+
+Früh in meiner Karriere habe ich die Datenbank als dumpe Speicherschicht behandelt. Daten rein, Daten raus. Schemadesign war ein Nachgedanke, und Normalisierung war etwas, das ich „später fixen" wollte.
+
+„Später" kam nie. Ich habe Systeme gesehen, in denen eine einzige schlecht designte Tabelle zum Flaschenhals der gesamten Anwendung wurde. Wo fehlende Indizes eine 50ms-Abfrage in einen 30-Sekunden-Albtraum verwandelten. Wo fehlende referentielle Integrität zu verwaisten Datensätzen führte, die Geschäftsberichte monatelang verfälschten, bevor es jemandem auffiel.
+
+**Was ich stattdessen tun würde:** Zeit in ordentliche Datenmodellierung investieren. Deine Abfragemuster verstehen, bevor du Schemas entwirfst. Constraints und referentielle Integrität nutzen — sie sind nicht optional, sie sind dein Sicherheitsnetz.
+
+**Die Lektion:** Dein Anwendungscode wird mehrfach umgeschrieben. Deine Daten werden alles überleben. Designe dein Datenmodell, als wäre es die wichtigste Architekturentscheidung — denn das ist sie wahrscheinlich.
+
+## 5. Ich hätte öfter „Nein" gesagt
+
+Das ist keine technische Entscheidung, aber eine Architekturentscheidung in Verkleidung. Jede Feature-Anfrage, die ein „Ja" bekommt, fügt Komplexität hinzu. Jede Integration fügt eine Abhängigkeit hinzu. Jeder „schnelle Hack" wird zur permanenten Infrastruktur.
+
+Ich habe Codebasen gesehen, in denen die Architektur nicht wegen schlechter technischer Entscheidungen degradierte, sondern wegen einer Anhäufung von „Ja". Ja zum einmaligen Export-Feature. Ja zur eigenen Reporting-Engine. Ja zur Unterstützung dieses Legacy-Protokolls „nur für diesen einen Kunden."
+
+**Was ich stattdessen tun würde:** Architektonische Einfachheit als Feature behandeln. Jede Ergänzung sollte ihre Komplexitätskosten rechtfertigen. Die beste Architektur ist nicht die, die alles kann — sondern die, die die richtigen Dinge gut macht.
+
+**Die Lektion:** Das schwierigste Wort in der Software-Architektur ist „Nein." Aber es ist auch das wertvollste.
+
+## Die Meta-Lektion
+
+Rückblickend teilen diese fünf Entscheidungen ein gemeinsames Thema: **Es geht immer darum, Komplexität zu widerstehen.** Event-Driven Architecture reduziert Kopplungskomplexität. Observability reduziert Debugging-Komplexität. Das Vermeiden voreiliger Microservices reduziert operative Komplexität. Gutes Datenbankdesign reduziert Datenkomplexität. „Nein" sagen reduziert Feature-Komplexität.
+
+Nach 30 Jahren ist das Wichtigste, was ich gelernt habe: **Das Ziel ist nicht, das ausgeklügeltste System zu bauen. Es ist, das einfachste System zu bauen, das das Problem löst.**
+
+Alles andere ist Ego.
